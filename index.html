@@ -6,6 +6,8 @@
     <title>VI Classroom Insights - Ocular Vision Assessment</title>
     <meta name="description" content="VI Classroom Insights: Educational ocular vision assessment tool for QTVIs">
     <link rel="stylesheet" href="styles.css">
+    <!-- jsPDF Library for PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -1093,6 +1095,10 @@
         <button class="bottom-nav-btn" data-scroll-to="reading-test-section" aria-label="Go to Reading Test section">
             <span class="nav-icon">📖</span>
             <span class="nav-text">Reading</span>
+        </button>
+        <button class="bottom-nav-btn reset-btn" id="reset-assessment-btn" aria-label="Reset assessment">
+            <span class="nav-icon">🔄</span>
+            <span class="nav-text">Reset</span>
         </button>
     </nav>
 

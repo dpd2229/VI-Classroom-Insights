@@ -478,17 +478,9 @@ class AssessmentManager {
             });
         });
 
-        // Generate Report button (placeholder for future)
+        // Generate Report button
         document.getElementById('generate-report-btn').addEventListener('click', () => {
-            alert('📄 PDF Report Generation\n\n' +
-                  'This feature is coming in Phase 2!\n\n' +
-                  'The report will include:\n' +
-                  '• Student information and assessment summary\n' +
-                  '• All ocular assessment results (See It, Find It, Use It)\n' +
-                  '• Reading test comparison data (if completed)\n' +
-                  '• Professional recommendations for classroom strategies\n' +
-                  '• Exportable PDF format for educational records\n\n' +
-                  'For now, all your data is auto-saved in your browser.');
+            this.generatePDFReport();
         });
     }
 
@@ -972,6 +964,564 @@ class AssessmentManager {
         console.error(message);
         alert(message);
     }
+
+    generatePDFReport() {
+        try {
+            // Access jsPDF from window
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const margin = 20;
+            const contentWidth = pageWidth - (margin * 2);
+            let yPos = margin;
+
+            // Helper function to add new page if needed
+            const checkPageBreak = (requiredSpace) => {
+                if (yPos + requiredSpace > pageHeight - margin) {
+                    doc.addPage();
+                    yPos = margin;
+                    return true;
+                }
+                return false;
+            };
+
+            // Helper function to add wrapped text
+            const addWrappedText = (text, x, y, maxWidth, lineHeight = 6) => {
+                const lines = doc.splitTextToSize(text, maxWidth);
+                doc.text(lines, x, y);
+                return lines.length * lineHeight;
+            };
+
+            // ===== HEADER =====
+            doc.setFillColor(30, 64, 175); // Primary color
+            doc.rect(0, 0, pageWidth, 40, 'F');
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(24);
+            doc.setFont(undefined, 'bold');
+            doc.text('VI Classroom Insights', margin, 20);
+
+            doc.setFontSize(12);
+            doc.setFont(undefined, 'normal');
+            doc.text('Ocular Vision Assessment Report', margin, 30);
+
+            doc.setTextColor(0, 0, 0);
+            yPos = 50;
+
+            // ===== STUDENT INFORMATION =====
+            checkPageBreak(40);
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(30, 64, 175);
+            doc.text('Student Information', margin, yPos);
+            yPos += 8;
+
+            doc.setDrawColor(30, 64, 175);
+            doc.setLineWidth(0.5);
+            doc.line(margin, yPos, pageWidth - margin, yPos);
+            yPos += 8;
+
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'normal');
+            doc.setTextColor(0, 0, 0);
+
+            const studentInfo = [
+                `Name: ${this.state.studentInfo.studentName || 'Not provided'}`,
+                `Date of Birth: ${this.state.studentInfo.dateOfBirth || 'Not provided'}`,
+                `Year Group: ${this.state.studentInfo.yearGroup || 'Not provided'}`,
+                `Assessment Date: ${this.state.studentInfo.assessmentDate || 'Not provided'}`,
+                `Assessed By: ${this.state.studentInfo.assessedBy || 'Not provided'}`
+            ];
+
+            studentInfo.forEach(info => {
+                doc.text(info, margin, yPos);
+                yPos += 6;
+            });
+
+            yPos += 8;
+
+            // ===== SEE IT SECTION =====
+            checkPageBreak(50);
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(30, 64, 175);
+            doc.text('See It - Visual Acuity Assessment', margin, yPos);
+            yPos += 8;
+
+            doc.setLineWidth(0.5);
+            doc.line(margin, yPos, pageWidth - margin, yPos);
+            yPos += 8;
+
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Distance Acuity:', margin, yPos);
+            doc.setFont(undefined, 'normal');
+            doc.text(this.state.seeIt.distanceAcuity || 'Not assessed', margin + 40, yPos);
+            yPos += 6;
+
+            if (this.state.seeIt.distanceAcuityNotes) {
+                doc.setFontSize(10);
+                doc.setTextColor(80, 80, 80);
+                yPos += addWrappedText(`Notes: ${this.state.seeIt.distanceAcuityNotes}`, margin + 5, yPos, contentWidth - 5);
+                yPos += 2;
+            }
+
+            checkPageBreak(15);
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Near Acuity:', margin, yPos);
+            doc.setFont(undefined, 'normal');
+            doc.text(this.state.seeIt.nearAcuity || 'Not assessed', margin + 40, yPos);
+            yPos += 6;
+
+            if (this.state.seeIt.nearDistance) {
+                doc.text(`Distance: ${this.state.seeIt.nearDistance}`, margin + 5, yPos);
+                yPos += 6;
+            }
+
+            if (this.state.seeIt.nearAcuityNotes) {
+                doc.setFontSize(10);
+                doc.setTextColor(80, 80, 80);
+                yPos += addWrappedText(`Notes: ${this.state.seeIt.nearAcuityNotes}`, margin + 5, yPos, contentWidth - 5);
+                yPos += 2;
+            }
+
+            checkPageBreak(15);
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Contrast Sensitivity:', margin, yPos);
+            doc.setFont(undefined, 'normal');
+            doc.text(this.state.seeIt.contrastSensitivity || 'Not assessed', margin + 45, yPos);
+            yPos += 6;
+
+            if (this.state.seeIt.contrastSensitivityNotes) {
+                doc.setFontSize(10);
+                doc.setTextColor(80, 80, 80);
+                yPos += addWrappedText(`Notes: ${this.state.seeIt.contrastSensitivityNotes}`, margin + 5, yPos, contentWidth - 5);
+                yPos += 2;
+            }
+
+            checkPageBreak(15);
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Light Sensitivity:', margin, yPos);
+            yPos += 6;
+            doc.setFont(undefined, 'normal');
+
+            if (this.state.seeIt.lightSensitivity.length > 0) {
+                this.state.seeIt.lightSensitivity.forEach(item => {
+                    checkPageBreak(8);
+                    doc.text(`• ${item}`, margin + 5, yPos);
+                    yPos += 5;
+                });
+            } else {
+                doc.text('Not assessed', margin + 5, yPos);
+                yPos += 6;
+            }
+
+            if (this.state.seeIt.lightSensitivityNotes) {
+                doc.setFontSize(10);
+                doc.setTextColor(80, 80, 80);
+                yPos += addWrappedText(`Notes: ${this.state.seeIt.lightSensitivityNotes}`, margin + 5, yPos, contentWidth - 5);
+                yPos += 2;
+            }
+
+            if (this.state.seeIt.additionalNotes) {
+                checkPageBreak(15);
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(0, 0, 0);
+                doc.text('Additional Notes:', margin, yPos);
+                yPos += 6;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(10);
+                doc.setTextColor(80, 80, 80);
+                yPos += addWrappedText(this.state.seeIt.additionalNotes, margin + 5, yPos, contentWidth - 5);
+            }
+
+            yPos += 10;
+
+            // ===== FIND IT SECTION =====
+            checkPageBreak(50);
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(30, 64, 175);
+            doc.text('Find It - Visual Field & Scanning', margin, yPos);
+            yPos += 8;
+
+            doc.setLineWidth(0.5);
+            doc.line(margin, yPos, pageWidth - margin, yPos);
+            yPos += 8;
+
+            const findItAssessments = [
+                { label: 'Visual Fields', value: this.state.findIt.visualFields, notes: this.state.findIt.visualFieldsNotes },
+                { label: 'Scanning Pattern', value: this.state.findIt.scanningPattern, notes: this.state.findIt.scanningPatternNotes },
+                { label: 'Tracking', value: this.state.findIt.tracking, notes: this.state.findIt.trackingNotes },
+                { label: 'Reading Position', value: this.state.findIt.readingPosition, notes: this.state.findIt.readingPositionNotes }
+            ];
+
+            findItAssessments.forEach(assessment => {
+                checkPageBreak(20);
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(0, 0, 0);
+                doc.text(`${assessment.label}:`, margin, yPos);
+                doc.setFont(undefined, 'normal');
+                doc.text(assessment.value || 'Not assessed', margin + 45, yPos);
+                yPos += 6;
+
+                if (assessment.notes) {
+                    doc.setFontSize(10);
+                    doc.setTextColor(80, 80, 80);
+                    yPos += addWrappedText(`Notes: ${assessment.notes}`, margin + 5, yPos, contentWidth - 5);
+                    yPos += 2;
+                }
+            });
+
+            if (this.state.findIt.additionalNotes) {
+                checkPageBreak(15);
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(0, 0, 0);
+                doc.text('Additional Notes:', margin, yPos);
+                yPos += 6;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(10);
+                doc.setTextColor(80, 80, 80);
+                yPos += addWrappedText(this.state.findIt.additionalNotes, margin + 5, yPos, contentWidth - 5);
+            }
+
+            yPos += 10;
+
+            // ===== USE IT SECTION =====
+            checkPageBreak(50);
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(30, 64, 175);
+            doc.text('Use It - Functional Vision', margin, yPos);
+            yPos += 8;
+
+            doc.setLineWidth(0.5);
+            doc.line(margin, yPos, pageWidth - margin, yPos);
+            yPos += 8;
+
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Color Vision:', margin, yPos);
+            doc.setFont(undefined, 'normal');
+            doc.text(this.state.useIt.colorVision || 'Not assessed', margin + 40, yPos);
+            yPos += 6;
+
+            if (this.state.useIt.colorVisionNotes) {
+                doc.setFontSize(10);
+                doc.setTextColor(80, 80, 80);
+                yPos += addWrappedText(`Notes: ${this.state.useIt.colorVisionNotes}`, margin + 5, yPos, contentWidth - 5);
+                yPos += 2;
+            }
+
+            checkPageBreak(15);
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Functional Vision Skills:', margin, yPos);
+            yPos += 6;
+            doc.setFont(undefined, 'normal');
+
+            if (this.state.useIt.functionalVision.length > 0) {
+                this.state.useIt.functionalVision.forEach(item => {
+                    checkPageBreak(8);
+                    doc.text(`• ${item}`, margin + 5, yPos);
+                    yPos += 5;
+                });
+            } else {
+                doc.text('Not assessed', margin + 5, yPos);
+                yPos += 6;
+            }
+
+            if (this.state.useIt.functionalVisionNotes) {
+                doc.setFontSize(10);
+                doc.setTextColor(80, 80, 80);
+                yPos += addWrappedText(`Notes: ${this.state.useIt.functionalVisionNotes}`, margin + 5, yPos, contentWidth - 5);
+                yPos += 2;
+            }
+
+            checkPageBreak(15);
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Environmental Needs:', margin, yPos);
+            yPos += 6;
+            doc.setFont(undefined, 'normal');
+
+            if (this.state.useIt.environmental.length > 0) {
+                this.state.useIt.environmental.forEach(item => {
+                    checkPageBreak(8);
+                    doc.text(`• ${item}`, margin + 5, yPos);
+                    yPos += 5;
+                });
+            } else {
+                doc.text('Not assessed', margin + 5, yPos);
+                yPos += 6;
+            }
+
+            if (this.state.useIt.environmentalNotes) {
+                doc.setFontSize(10);
+                doc.setTextColor(80, 80, 80);
+                yPos += addWrappedText(`Notes: ${this.state.useIt.environmentalNotes}`, margin + 5, yPos, contentWidth - 5);
+                yPos += 2;
+            }
+
+            if (this.state.useIt.additionalNotes) {
+                checkPageBreak(15);
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(0, 0, 0);
+                doc.text('Additional Notes:', margin, yPos);
+                yPos += 6;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(10);
+                doc.setTextColor(80, 80, 80);
+                yPos += addWrappedText(this.state.useIt.additionalNotes, margin + 5, yPos, contentWidth - 5);
+            }
+
+            yPos += 10;
+
+            // ===== READING TEST RESULTS (if available) =====
+            if (window.readingTestManager && (window.readingTestManager.results.standard || window.readingTestManager.results.modified)) {
+                checkPageBreak(50);
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(30, 64, 175);
+                doc.text('Reading Assessment Results', margin, yPos);
+                yPos += 8;
+
+                doc.setLineWidth(0.5);
+                doc.line(margin, yPos, pageWidth - margin, yPos);
+                yPos += 8;
+
+                const results = window.readingTestManager.results;
+
+                if (results.standard) {
+                    checkPageBreak(25);
+                    doc.setFontSize(12);
+                    doc.setFont(undefined, 'bold');
+                    doc.setTextColor(0, 0, 0);
+                    doc.text('Standard Text Results:', margin, yPos);
+                    yPos += 7;
+
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'normal');
+                    const standardInfo = [
+                        `Time: ${Math.floor(results.standard.time / 60)}m ${results.standard.time % 60}s`,
+                        `Reading Speed: ${results.standard.wpm} words per minute`,
+                        `Comprehension Errors: ${results.standard.errors}`,
+                        `Accuracy: ${results.standard.accuracy}%`
+                    ];
+                    standardInfo.forEach(info => {
+                        doc.text(info, margin + 5, yPos);
+                        yPos += 6;
+                    });
+                    yPos += 3;
+                }
+
+                if (results.modified) {
+                    checkPageBreak(25);
+                    doc.setFontSize(12);
+                    doc.setFont(undefined, 'bold');
+                    doc.setTextColor(0, 0, 0);
+                    doc.text('Modified Text Results:', margin, yPos);
+                    yPos += 7;
+
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'normal');
+                    const modifiedInfo = [
+                        `Time: ${Math.floor(results.modified.time / 60)}m ${results.modified.time % 60}s`,
+                        `Reading Speed: ${results.modified.wpm} words per minute`,
+                        `Comprehension Errors: ${results.modified.errors}`,
+                        `Accuracy: ${results.modified.accuracy}%`
+                    ];
+                    modifiedInfo.forEach(info => {
+                        doc.text(info, margin + 5, yPos);
+                        yPos += 6;
+                    });
+                    yPos += 3;
+                }
+
+                if (results.standard && results.modified) {
+                    checkPageBreak(30);
+                    doc.setFontSize(12);
+                    doc.setFont(undefined, 'bold');
+                    doc.setTextColor(0, 0, 0);
+                    doc.text('Comparison Analysis:', margin, yPos);
+                    yPos += 7;
+
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'normal');
+
+                    const timeDiff = results.standard.time - results.modified.time;
+                    const wpmDiff = results.modified.wpm - results.standard.wpm;
+                    const errorDiff = results.standard.errors - results.modified.errors;
+                    const accuracyDiff = results.modified.accuracy - results.standard.accuracy;
+
+                    const comparison = [
+                        `Time Difference: ${timeDiff > 0 ? timeDiff + 's faster' : Math.abs(timeDiff) + 's slower'} with modified text`,
+                        `Speed Change: ${wpmDiff > 0 ? '+' + wpmDiff : wpmDiff} WPM`,
+                        `Error Reduction: ${errorDiff > 0 ? errorDiff + ' fewer errors' : Math.abs(errorDiff) + ' more errors'}`,
+                        `Accuracy Change: ${accuracyDiff > 0 ? '+' + accuracyDiff : accuracyDiff}%`
+                    ];
+
+                    comparison.forEach(info => {
+                        checkPageBreak(8);
+                        doc.text(info, margin + 5, yPos);
+                        yPos += 6;
+                    });
+                }
+            }
+
+            // ===== FOOTER =====
+            const totalPages = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= totalPages; i++) {
+                doc.setPage(i);
+                doc.setFontSize(9);
+                doc.setTextColor(128, 128, 128);
+                doc.text(
+                    `© D.Downes 2025 - VI Classroom Insights - For Educational Use Only`,
+                    pageWidth / 2,
+                    pageHeight - 10,
+                    { align: 'center' }
+                );
+                doc.text(
+                    `Page ${i} of ${totalPages}`,
+                    pageWidth - margin,
+                    pageHeight - 10,
+                    { align: 'right' }
+                );
+                doc.text(
+                    `Generated: ${new Date().toLocaleDateString()}`,
+                    margin,
+                    pageHeight - 10
+                );
+            }
+
+            // Save the PDF
+            const fileName = `VI-Assessment-${this.state.studentInfo.studentName.replace(/\s+/g, '-') || 'Report'}-${new Date().toISOString().split('T')[0]}.pdf`;
+            doc.save(fileName);
+
+            alert('✓ PDF Report Generated Successfully!\n\nThe report has been downloaded to your device.');
+            console.log('PDF report generated successfully');
+
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('Error generating PDF report. Please ensure all required sections are complete and try again.');
+        }
+    }
+
+    async resetAssessment() {
+        const confirmReset = confirm(
+            '⚠️ Reset Assessment\n\n' +
+            'Are you sure you want to reset all assessment data?\n\n' +
+            'This will permanently delete:\n' +
+            '• Student information\n' +
+            '• All See It, Find It, and Use It assessments\n' +
+            '• Reading test results\n\n' +
+            'This action cannot be undone.'
+        );
+
+        if (!confirmReset) {
+            return;
+        }
+
+        // Double confirmation for safety
+        const doubleConfirm = confirm(
+            'Final Confirmation\n\n' +
+            'This will delete ALL assessment data. Are you absolutely sure?'
+        );
+
+        if (!doubleConfirm) {
+            return;
+        }
+
+        try {
+            // Reset state to initial values
+            this.state = {
+                studentInfo: {
+                    studentName: '',
+                    dateOfBirth: '',
+                    yearGroup: '',
+                    assessmentDate: this.getTodayDate(),
+                    assessedBy: ''
+                },
+                seeIt: {
+                    distanceAcuity: '',
+                    distanceAcuityNotes: '',
+                    nearAcuity: '',
+                    nearDistance: '',
+                    nearAcuityNotes: '',
+                    contrastSensitivity: '',
+                    contrastSensitivityNotes: '',
+                    lightSensitivity: [],
+                    lightSensitivityNotes: '',
+                    additionalNotes: ''
+                },
+                findIt: {
+                    visualFields: '',
+                    visualFieldsNotes: '',
+                    scanningPattern: '',
+                    scanningPatternNotes: '',
+                    tracking: '',
+                    trackingNotes: '',
+                    readingPosition: '',
+                    readingPositionNotes: '',
+                    additionalNotes: ''
+                },
+                useIt: {
+                    colorVision: '',
+                    colorVisionNotes: '',
+                    functionalVision: [],
+                    functionalVisionNotes: '',
+                    environmental: [],
+                    environmentalNotes: '',
+                    additionalNotes: ''
+                }
+            };
+
+            // Clear reading test results if exists
+            if (window.readingTestManager) {
+                window.readingTestManager.results = {
+                    standard: null,
+                    modified: null
+                };
+                window.readingTestManager.displayResults();
+            }
+
+            // Save empty state to database
+            await this.save();
+
+            // Clear all form fields
+            this.populateForm();
+
+            // Update UI
+            this.updateUI();
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Show success message
+            alert('✓ Assessment Reset Complete\n\nAll data has been cleared. You can now start a new assessment.');
+
+            console.log('Assessment reset successfully');
+        } catch (error) {
+            console.error('Error resetting assessment:', error);
+            alert('Error resetting assessment. Please try again.');
+        }
+    }
 }
 
 // ===================================
@@ -1020,7 +1570,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Bottom navigation click handlers
-    document.querySelectorAll('.bottom-nav-btn').forEach(btn => {
+    document.querySelectorAll('.bottom-nav-btn:not(.reset-btn)').forEach(btn => {
         btn.addEventListener('click', () => {
             const targetId = btn.dataset.scrollTo;
             const targetSection = document.getElementById(targetId);
@@ -1040,6 +1590,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Reset assessment button handler
+    const resetBtn = document.getElementById('reset-assessment-btn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', async () => {
+            if (window.assessmentManager) {
+                await window.assessmentManager.resetAssessment();
+            }
+        });
+    }
 
     // Update bottom nav active state on scroll
     let scrollTimeout;
