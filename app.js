@@ -1028,6 +1028,7 @@ class AssessmentManager {
         this.saveDelay = 500; // Debounce delay in ms
         this.recommendationEngine = new RecommendationEngine();
         this.activeRecommendations = [];
+        this.currentField = null; // Track which field is currently active for recommendations
     }
 
     getTodayDate() {
@@ -1124,8 +1125,8 @@ class AssessmentManager {
         document.querySelector('[name="environmentalNotes"]').value = this.state.useIt.environmentalNotes || '';
         document.getElementById('use-it-notes').value = this.state.useIt.additionalNotes || '';
 
-        // Update recommendations based on loaded data
-        this.updateRecommendations();
+        // Don't show recommendations automatically on load
+        // User will click on a field to see recommendations
     }
 
     setupEventListeners() {
@@ -1161,7 +1162,11 @@ class AssessmentManager {
         });
 
         // See It section listeners
-        document.getElementById('distance-acuity').addEventListener('change', (e) => {
+        const distanceAcuitySelect = document.getElementById('distance-acuity');
+        distanceAcuitySelect.addEventListener('focus', () => {
+            this.showRecommendationsFor('distanceAcuity', this.state.seeIt.distanceAcuity, 'Distance Acuity');
+        });
+        distanceAcuitySelect.addEventListener('change', (e) => {
             this.state.seeIt.distanceAcuity = e.target.value;
             this.debouncedSave();
             this.updateCheckIndicators();
@@ -1174,7 +1179,11 @@ class AssessmentManager {
             this.debouncedSave();
         });
 
-        document.getElementById('near-acuity').addEventListener('change', (e) => {
+        const nearAcuitySelect = document.getElementById('near-acuity');
+        nearAcuitySelect.addEventListener('focus', () => {
+            this.showRecommendationsFor('nearAcuity', this.state.seeIt.nearAcuity, 'Near Acuity');
+        });
+        nearAcuitySelect.addEventListener('change', (e) => {
             this.state.seeIt.nearAcuity = e.target.value;
             this.debouncedSave();
             this.updateCheckIndicators();
@@ -1192,7 +1201,11 @@ class AssessmentManager {
             this.debouncedSave();
         });
 
-        document.getElementById('contrast-sensitivity').addEventListener('change', (e) => {
+        const contrastSelect = document.getElementById('contrast-sensitivity');
+        contrastSelect.addEventListener('focus', () => {
+            this.showRecommendationsFor('contrastSensitivity', this.state.seeIt.contrastSensitivity, 'Contrast Sensitivity');
+        });
+        contrastSelect.addEventListener('change', (e) => {
             this.state.seeIt.contrastSensitivity = e.target.value;
             this.debouncedSave();
             this.updateCheckIndicators();
@@ -1232,7 +1245,11 @@ class AssessmentManager {
         });
 
         // FIND IT section listeners
-        document.getElementById('visual-fields').addEventListener('change', (e) => {
+        const visualFieldsSelect = document.getElementById('visual-fields');
+        visualFieldsSelect.addEventListener('focus', () => {
+            this.showRecommendationsFor('visualFields', this.state.findIt.visualFields, 'Visual Fields');
+        });
+        visualFieldsSelect.addEventListener('change', (e) => {
             this.state.findIt.visualFields = e.target.value;
             this.debouncedSave();
             this.updateCheckIndicators();
@@ -1245,7 +1262,11 @@ class AssessmentManager {
             this.debouncedSave();
         });
 
-        document.getElementById('scanning-pattern').addEventListener('change', (e) => {
+        const scanningPatternSelect = document.getElementById('scanning-pattern');
+        scanningPatternSelect.addEventListener('focus', () => {
+            this.showRecommendationsFor('scanningPattern', this.state.findIt.scanningPattern, 'Scanning Pattern');
+        });
+        scanningPatternSelect.addEventListener('change', (e) => {
             this.state.findIt.scanningPattern = e.target.value;
             this.debouncedSave();
             this.updateCheckIndicators();
@@ -1288,7 +1309,11 @@ class AssessmentManager {
         });
 
         // USE IT section listeners
-        document.getElementById('color-vision').addEventListener('change', (e) => {
+        const colorVisionSelect = document.getElementById('color-vision');
+        colorVisionSelect.addEventListener('focus', () => {
+            this.showRecommendationsFor('colorVision', this.state.useIt.colorVision, 'Colour Vision');
+        });
+        colorVisionSelect.addEventListener('change', (e) => {
             this.state.useIt.colorVision = e.target.value;
             this.debouncedSave();
             this.updateCheckIndicators();
@@ -1416,56 +1441,65 @@ class AssessmentManager {
         }
     }
 
-    updateRecommendations() {
-        // Gather recommendations based on current state
+    // Show recommendations for a specific field
+    showRecommendationsFor(fieldType, fieldValue, fieldLabel) {
+        this.currentField = { type: fieldType, value: fieldValue, label: fieldLabel };
+
         let recommendations = [];
-
-        // Distance Acuity (from seeIt section)
-        if (this.state.seeIt.distanceAcuity && this.state.seeIt.distanceAcuity !== 'Not assessed') {
-            const recs = this.recommendationEngine.getRecommendations('distanceAcuity', this.state.seeIt.distanceAcuity);
-            recommendations = recommendations.concat(recs);
-        }
-
-        // Near Acuity (from seeIt section)
-        if (this.state.seeIt.nearAcuity && this.state.seeIt.nearAcuity !== 'Not assessed') {
-            const recs = this.recommendationEngine.getRecommendations('nearAcuity', this.state.seeIt.nearAcuity);
-            recommendations = recommendations.concat(recs);
-        }
-
-        // Contrast Sensitivity (from seeIt section)
-        if (this.state.seeIt.contrastSensitivity && this.state.seeIt.contrastSensitivity !== 'Not assessed') {
-            const recs = this.recommendationEngine.getRecommendations('contrastSensitivity', this.state.seeIt.contrastSensitivity);
-            recommendations = recommendations.concat(recs);
-        }
-
-        // Visual Fields (from findIt section)
-        if (this.state.findIt.visualFields && this.state.findIt.visualFields !== 'Not assessed') {
-            const recs = this.recommendationEngine.getRecommendations('visualFields', this.state.findIt.visualFields);
-            recommendations = recommendations.concat(recs);
-        }
-
-        // Scanning Pattern (from findIt section)
-        if (this.state.findIt.scanningPattern && this.state.findIt.scanningPattern !== 'Not assessed') {
-            const recs = this.recommendationEngine.getRecommendations('scanningPattern', this.state.findIt.scanningPattern);
-            recommendations = recommendations.concat(recs);
-        }
-
-        // Color Vision (from useIt section)
-        if (this.state.useIt.colorVision && this.state.useIt.colorVision !== 'Not assessed') {
-            const recs = this.recommendationEngine.getRecommendations('colorVision', this.state.useIt.colorVision);
-            recommendations = recommendations.concat(recs);
+        if (fieldValue && fieldValue !== 'Not assessed') {
+            recommendations = this.recommendationEngine.getRecommendations(fieldType, fieldValue);
         }
 
         this.activeRecommendations = recommendations;
         this.updateRecommendationsUI();
     }
 
+    // Clear recommendations when no field is active
+    clearRecommendations() {
+        this.currentField = null;
+        this.activeRecommendations = [];
+        this.updateRecommendationsUI();
+    }
+
+    updateRecommendations() {
+        // If a field is currently active, update its recommendations
+        if (this.currentField) {
+            // Get the current value for this field
+            let currentValue = null;
+            const { type } = this.currentField;
+
+            if (type === 'distanceAcuity') currentValue = this.state.seeIt.distanceAcuity;
+            else if (type === 'nearAcuity') currentValue = this.state.seeIt.nearAcuity;
+            else if (type === 'contrastSensitivity') currentValue = this.state.seeIt.contrastSensitivity;
+            else if (type === 'visualFields') currentValue = this.state.findIt.visualFields;
+            else if (type === 'scanningPattern') currentValue = this.state.findIt.scanningPattern;
+            else if (type === 'colorVision') currentValue = this.state.useIt.colorVision;
+
+            this.showRecommendationsFor(type, currentValue, this.currentField.label);
+        }
+    }
+
     updateRecommendationsUI() {
         const container = document.getElementById('recommendations-container');
         const placeholder = document.querySelector('.recommendations-panel .preview-placeholder');
         const actions = document.getElementById('recommendations-actions');
+        const heading = document.querySelector('.recommendations-section .preview-heading');
 
         if (!container) return;
+
+        // Update heading to show which field is active
+        if (this.currentField && this.currentField.label) {
+            heading.textContent = `Recommendations: ${this.currentField.label}`;
+        } else {
+            heading.textContent = 'Recommended Strategies';
+        }
+
+        // Update placeholder text
+        if (this.currentField) {
+            placeholder.textContent = `No recommendations available for this ${this.currentField.label} value`;
+        } else {
+            placeholder.textContent = 'Click on an assessment field to see recommendation options';
+        }
 
         if (this.activeRecommendations.length === 0) {
             container.classList.add('hidden');
@@ -2510,7 +2544,7 @@ class AssessmentManager {
 
         } catch (error) {
             console.error('Error generating PDF:', error);
-            alert('Error generating PDF report. Please ensure all required sections are complete and try again.');
+            alert('Error generating PDF report. Please try again or contact support if the problem persists.');
         }
     }
 
