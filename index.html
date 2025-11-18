@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ocular Vision Assessment - Educational Tool</title>
-    <meta name="description" content="Educational ocular vision assessment tool for QTVIs">
+    <title>VI Classroom Insights - Ocular Vision Assessment</title>
+    <meta name="description" content="VI Classroom Insights: Educational ocular vision assessment tool for QTVIs">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,12 +12,17 @@
     <header class="app-header">
         <div class="container">
             <div class="header-content">
-                <div>
-                    <h1 class="app-title">Ocular Vision Assessment</h1>
-                    <p class="app-subtitle">Educational Assessment Tool for QTVIs</p>
+                <div class="header-left">
+                    <div class="logo-section">
+                        <span class="logo-icon">👁️</span>
+                        <div>
+                            <h1 class="app-title">VI Classroom Insights</h1>
+                            <p class="app-subtitle">Ocular Vision Assessment for QTVIs</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="copyright-notice">
-                    © D.Downes 2025 - VI Classroom Insights<br>
+                    © D.Downes 2025<br>
                     <span class="copyright-subtext">For Educational use only</span>
                 </div>
             </div>
@@ -810,10 +815,167 @@
                         </div>
                     </section>
 
-                    <section class="card disabled" id="reading-test-section">
+                    <!-- READING TEST Section -->
+                    <section class="card" id="reading-test-section">
                         <div class="card-header">
                             <h2 class="card-title">Reading Test (Optional)</h2>
-                            <span class="badge-coming-soon">Coming Soon</span>
+                            <span class="completion-badge" id="reading-test-badge"></span>
+                        </div>
+                        <div class="card-body">
+                            <p class="section-description">
+                                This optional test compares reading performance with standard text versus modified text.
+                                Use the fullscreen mode for an immersive testing environment.
+                            </p>
+
+                            <!-- Test Configuration -->
+                            <div class="test-config">
+                                <h3 class="subsection-title">Test Configuration</h3>
+
+                                <div class="form-group">
+                                    <label for="passage-select" class="form-label">Select Reading Passage</label>
+                                    <select id="passage-select" class="form-select">
+                                        <option value="passage1">Passage 1: The Forest Adventure (Age 7-9)</option>
+                                        <option value="passage2">Passage 2: The Solar System (Age 10-12)</option>
+                                        <option value="passage3">Passage 3: Historical Events (Age 13+)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Modified Text Settings</label>
+                                    <div class="settings-grid">
+                                        <div class="setting-item">
+                                            <label for="text-size" class="form-label-inline">Font Size:</label>
+                                            <select id="text-size" class="form-select-inline">
+                                                <option value="18">18pt</option>
+                                                <option value="24" selected>24pt</option>
+                                                <option value="32">32pt</option>
+                                                <option value="48">48pt</option>
+                                            </select>
+                                        </div>
+                                        <div class="setting-item">
+                                            <label for="line-spacing" class="form-label-inline">Line Spacing:</label>
+                                            <select id="line-spacing" class="form-select-inline">
+                                                <option value="1.5">1.5</option>
+                                                <option value="2" selected>2.0</option>
+                                                <option value="2.5">2.5</option>
+                                            </select>
+                                        </div>
+                                        <div class="setting-item">
+                                            <label for="text-color" class="form-label-inline">Text Color:</label>
+                                            <select id="text-color" class="form-select-inline">
+                                                <option value="black" selected>Black on White</option>
+                                                <option value="yellow">Black on Yellow</option>
+                                                <option value="blue">White on Blue</option>
+                                                <option value="high-contrast">High Contrast</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Test Buttons -->
+                            <div class="test-buttons">
+                                <button type="button" id="start-standard-test-btn" class="btn btn-secondary">
+                                    <span class="btn-icon">📖</span>
+                                    Start Standard Test
+                                </button>
+                                <button type="button" id="start-modified-test-btn" class="btn btn-primary">
+                                    <span class="btn-icon">✨</span>
+                                    Start Modified Test
+                                </button>
+                            </div>
+
+                            <!-- Test Results Summary -->
+                            <div id="test-results-summary" class="test-results-summary hidden">
+                                <h3 class="subsection-title">Test Results Comparison</h3>
+
+                                <div class="results-grid">
+                                    <!-- Standard Test Results -->
+                                    <div class="result-card">
+                                        <h4 class="result-title">Standard Text</h4>
+                                        <div class="result-metrics">
+                                            <div class="metric">
+                                                <span class="metric-label">Time:</span>
+                                                <span class="metric-value" id="standard-time">--</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">Words per Minute:</span>
+                                                <span class="metric-value" id="standard-wpm">--</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">Errors:</span>
+                                                <span class="metric-value" id="standard-errors">--</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">Accuracy:</span>
+                                                <span class="metric-value" id="standard-accuracy">--</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modified Test Results -->
+                                    <div class="result-card result-card-modified">
+                                        <h4 class="result-title">Modified Text</h4>
+                                        <div class="result-metrics">
+                                            <div class="metric">
+                                                <span class="metric-label">Time:</span>
+                                                <span class="metric-value" id="modified-time">--</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">Words per Minute:</span>
+                                                <span class="metric-value" id="modified-wpm">--</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">Errors:</span>
+                                                <span class="metric-value" id="modified-errors">--</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">Accuracy:</span>
+                                                <span class="metric-value" id="modified-accuracy">--</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Comparison -->
+                                    <div class="result-card result-card-comparison">
+                                        <h4 class="result-title">Improvement</h4>
+                                        <div class="result-metrics">
+                                            <div class="metric">
+                                                <span class="metric-label">Time Difference:</span>
+                                                <span class="metric-value" id="comparison-time">--</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">WPM Change:</span>
+                                                <span class="metric-value" id="comparison-wpm">--</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">Error Reduction:</span>
+                                                <span class="metric-value" id="comparison-errors">--</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">Accuracy Gain:</span>
+                                                <span class="metric-value" id="comparison-accuracy">--</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Observations -->
+                                <div class="additional-notes-section" style="margin-top: var(--spacing-lg);">
+                                    <label for="reading-test-notes" class="form-label section-notes-label">
+                                        <span class="notes-icon">📝</span>
+                                        Observations & Recommendations
+                                    </label>
+                                    <textarea
+                                        id="reading-test-notes"
+                                        name="readingTestNotes"
+                                        class="form-textarea section-notes"
+                                        placeholder="Note any observations about reading performance, preferences, or recommended modifications..."
+                                        rows="4"
+                                    ></textarea>
+                                </div>
+                            </div>
+
                         </div>
                     </section>
 
@@ -875,11 +1037,15 @@
                                     class="btn btn-primary btn-block"
                                     disabled
                                     aria-label="Generate educational report"
+                                    title="Complete all required sections to enable"
                                 >
                                     <span class="btn-icon">📄</span>
                                     Generate Report
                                 </button>
-                                <p class="help-text">Complete required fields to enable</p>
+                                <p class="help-text" id="report-status-text">
+                                    <strong>Required to enable:</strong><br>
+                                    <span id="report-requirements">Complete Student Info, See It, Find It, and Use It sections</span>
+                                </p>
                             </div>
 
                             <!-- Auto-save Indicator -->
@@ -929,6 +1095,54 @@
             <span class="nav-text">Reading</span>
         </button>
     </nav>
+
+    <!-- Fullscreen Reading Test Modal -->
+    <div id="reading-test-modal" class="reading-modal hidden">
+        <div class="modal-header">
+            <div class="modal-title-section">
+                <h2 id="modal-test-title">Reading Test</h2>
+                <span id="modal-timer" class="timer">00:00</span>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="finish-test-btn" class="btn btn-success">
+                    ✓ Finish Test
+                </button>
+                <button type="button" id="close-modal-btn" class="btn btn-secondary">
+                    ✕ Close
+                </button>
+            </div>
+        </div>
+
+        <div class="modal-content">
+            <div id="reading-passage-container" class="reading-passage">
+                <!-- Reading passage will be inserted here -->
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div class="test-instructions">
+                <p><strong>Instructions:</strong> Read the passage carefully. When finished, click "Finish Test" and answer the comprehension questions.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comprehension Questions Modal -->
+    <div id="questions-modal" class="reading-modal hidden">
+        <div class="modal-header">
+            <h2>Comprehension Questions</h2>
+            <div class="modal-actions">
+                <button type="button" id="submit-questions-btn" class="btn btn-success">
+                    Submit Answers
+                </button>
+            </div>
+        </div>
+
+        <div class="modal-content">
+            <div id="questions-container" class="questions-container">
+                <!-- Questions will be inserted here -->
+            </div>
+        </div>
+    </div>
 
     <!-- JavaScript -->
     <script src="app.js"></script>
