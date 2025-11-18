@@ -1,32 +1,41 @@
 /* ===================================
    OCULAR VISION ASSESSMENT - CSS
-   Professional card-based design
+   Premium Modern Design - 2025
    =================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 /* ===================================
    CSS VARIABLES
    =================================== */
 :root {
-    /* Colors - Enhanced for Maximum Contrast */
-    --color-background: #F5F7FA;
-    --color-card-bg: #FFFFFF;
-    --color-primary: #1E40AF;
-    --color-primary-dark: #1E3A8A;
-    --color-primary-light: #3B82F6;
+    /* Colors - Premium Modern Palette */
+    --color-background: linear-gradient(180deg, #faf9f6 0%, #f5f3ed 100%);
+    --color-card-bg: rgba(255, 255, 255, 0.98);
+    --color-primary: #3b82f6;
+    --color-primary-dark: #2563eb;
+    --color-primary-light: #60a5fa;
     --color-accent: #0891B2;
     --color-accent-dark: #0E7490;
-    --color-success: #047857;
-    --color-success-light: #059669;
-    --color-warning: #D97706;
-    --color-warning-light: #F59E0B;
-    --color-critical: #DC2626;
-    --color-critical-light: #EF4444;
-    --color-text-dark: #111827;
-    --color-text-body: #1F2937;
-    --color-text-light: #6B7280;
-    --color-border: #D1D5DB;
-    --color-border-light: #E5E7EB;
-    --color-border-focus: #0891B2;
+    --color-success: #10b981;
+    --color-success-dark: #059669;
+    --color-warning: #f59e0b;
+    --color-warning-dark: #d97706;
+    --color-critical: #ef4444;
+    --color-critical-dark: #dc2626;
+    --color-text-dark: #1f2937;
+    --color-text-body: #4b5563;
+    --color-text-light: #6b7280;
+    --color-border: #e5e7eb;
+    --color-border-light: #f3f4f6;
+    --color-border-focus: #3b82f6;
+
+    /* Premium Gradients */
+    --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    --gradient-accent: linear-gradient(135deg, #0891B2 0%, #0E7490 100%);
+    --gradient-card: linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(255, 255, 255, 1) 100%);
 
     /* Spacing */
     --spacing-xs: 8px;
@@ -34,21 +43,26 @@
     --spacing-md: 16px;
     --spacing-lg: 24px;
     --spacing-xl: 32px;
+    --spacing-2xl: 40px;
 
-    /* Border radius */
-    --radius-sm: 6px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
+    /* Border radius - Larger for modern feel */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
 
-    /* Enhanced Shadows for Professional Depth */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
-    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
-    --shadow-xl: 0 10px 20px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Premium Shadows with Multiple Layers */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(0, 0, 0, 0.1);
+    --shadow-2xl: 0 30px 80px rgba(0, 0, 0, 0.2), 0 12px 30px rgba(0, 0, 0, 0.12);
     --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+    --shadow-button: 0 8px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    --shadow-button-hover: 0 12px 32px rgba(0, 0, 0, 0.25), 0 6px 12px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 
-    /* Typography */
-    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    /* Typography - Poppins */
+    --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --font-size-sm: 14px;
     --font-size-base: 16px;
     --font-size-lg: 18px;
@@ -58,6 +72,66 @@
     --line-height-tight: 1.25;
     --line-height-normal: 1.5;
     --line-height-relaxed: 1.6;
+
+    /* Transitions */
+    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===================================
+   ANIMATIONS
+   =================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.05);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
 }
 
 /* ===================================
@@ -74,9 +148,26 @@ body {
     font-size: var(--font-size-base);
     line-height: var(--line-height-relaxed);
     color: var(--color-text-body);
-    background-color: var(--color-background);
+    background: linear-gradient(180deg, #faf9f6 0%, #f5f3ed 100%);
+    min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    position: relative;
+}
+
+/* Subtle texture overlay for premium depth */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -106,16 +197,22 @@ button {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 var(--spacing-lg);
+    position: relative;
+    z-index: 1;
 }
 
 /* ===================================
    HEADER
    =================================== */
 .app-header {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    background: var(--gradient-primary);
     color: white;
     padding: var(--spacing-xl) 0;
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-xl);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    animation: fadeInUp 0.6s ease-out;
 }
 
 .header-content {
@@ -276,13 +373,15 @@ button {
    =================================== */
 .card {
     background: var(--color-card-bg);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow-lg);
-    border: 2px solid var(--color-border-light);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: var(--transition-base);
     margin-bottom: var(--spacing-xl);
     position: relative;
+    animation: scaleIn 0.5s ease-out backwards;
 }
 
 .card::before {
@@ -292,16 +391,16 @@ button {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    opacity: 0;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    opacity: 1;
     transition: opacity 0.3s ease;
 }
 
 .card:hover {
-    box-shadow: var(--shadow-xl);
-    transform: translateY(-4px);
-    border-color: var(--color-border);
+    box-shadow: var(--shadow-2xl);
+    transform: translateY(-2px);
+    border-color: rgba(0, 0, 0, 0.12);
 }
 
 .card:hover::before {
@@ -391,28 +490,30 @@ button {
     width: 100%;
     padding: 12px 16px;
     font-size: var(--font-size-base);
-    border: 2px solid var(--color-border);
+    border: 2px solid var(--color-border-light);
     border-radius: var(--radius-md);
     background: white;
     color: var(--color-text-dark);
-    transition: all 0.2s ease;
+    transition: var(--transition-base);
     font-family: var(--font-family);
-    box-shadow: var(--shadow-inner);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .form-input:hover,
 .form-select:hover,
 .form-textarea:hover {
-    border-color: var(--color-text-light);
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
     outline: none;
-    border-color: var(--color-border-focus);
-    box-shadow: 0 0 0 4px rgba(8, 145, 178, 0.15), var(--shadow-sm);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15), 0 4px 12px rgba(59, 130, 246, 0.1);
     background: white;
+    transform: translateY(-1px);
 }
 
 .form-input::placeholder,
@@ -578,6 +679,9 @@ button {
 .preview-panel {
     position: sticky;
     top: 80px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .preview-section {
@@ -704,26 +808,56 @@ button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-xs);
-    padding: 12px 24px;
+    gap: var(--spacing-sm);
+    padding: 18px 36px;
     font-size: var(--font-size-base);
     font-weight: 600;
+    font-family: var(--font-family);
     border: none;
-    border-radius: var(--radius-md);
-    transition: all 0.2s ease;
-    min-height: 44px;
-    min-width: 44px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: var(--transition-base);
+    min-height: 48px;
+    min-width: 48px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-button);
+}
+
+/* Shimmer effect on hover */
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--shadow-button-hover);
+}
+
+.btn:active {
+    transform: translateY(-1px);
 }
 
 .btn-primary {
-    background: var(--color-primary);
+    background: var(--gradient-primary);
     color: white;
+    border: 2px solid rgba(37, 99, 235, 0.3);
 }
 
 .btn-primary:hover:not(:disabled) {
-    background: var(--color-primary-dark);
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, #7c3aed 100%);
+    box-shadow: 0 12px 32px rgba(59, 130, 246, 0.4), 0 6px 12px rgba(59, 130, 246, 0.2);
 }
 
 .btn-primary:disabled {
@@ -731,6 +865,7 @@ button {
     color: var(--color-text-light);
     cursor: not-allowed;
     opacity: 0.6;
+    transform: none !important;
 }
 
 .btn-block {

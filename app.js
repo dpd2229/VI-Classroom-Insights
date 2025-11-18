@@ -598,8 +598,8 @@ class RecommendationEngine {
                         description: 'Prioritize digital materials with adjustable contrast settings for optimal access.'
                     },
                     {
-                        title: 'Color Overlays or Tinted Paper',
-                        description: 'Trial color overlays or tinted paper - different colors may enhance contrast for individual pupils.'
+                        title: 'Colour Overlays or Tinted Paper',
+                        description: 'Trial colour overlays or tinted paper - different colors may enhance contrast for individual pupils.'
                     },
                     {
                         title: 'Reduce Visual Clutter',
@@ -614,7 +614,7 @@ class RecommendationEngine {
                         description: 'Ensure optimal lighting - not too bright (causing glare) or too dim. Adjustable lighting essential.'
                     },
                     {
-                        title: 'Alternative Color Schemes',
+                        title: 'Alternative Colour Schemes',
                         description: 'Consider yellow-on-black or white-on-black for some tasks if more effective than standard contrast.'
                     },
                     {
@@ -700,8 +700,8 @@ class RecommendationEngine {
                         description: 'Consider Braille assessment if vision is deteriorating or reading becomes too difficult.'
                     },
                     {
-                        title: 'Color and Contrast',
-                        description: 'Use strong color and contrast to aid peripheral viewing and improve visual access.'
+                        title: 'Colour and Contrast',
+                        description: 'Use strong colour and contrast to aid peripheral viewing and improve visual access.'
                     }
                 ],
                 'Hemianopia (half field loss)': [
@@ -812,8 +812,8 @@ class RecommendationEngine {
                         description: 'Pre-teach location of important information before independent work.'
                     },
                     {
-                        title: 'Color Coding',
-                        description: 'Use color coding to categorize information and speed up visual search.'
+                        title: 'Colour Coding',
+                        description: 'Use colour coding to categorize information and speed up visual search.'
                     },
                     {
                         title: 'Reduce Copying',
@@ -836,50 +836,50 @@ class RecommendationEngine {
                 'Normal colour vision': [],
                 'Red-green deficiency': [
                     {
-                        title: 'Don\'t Rely on Color Alone',
-                        description: 'Do not rely on color alone to convey information - always provide additional cues.'
+                        title: 'Don\'t Rely on Colour Alone',
+                        description: 'Do not rely on colour alone to convey information - always provide additional cues.'
                     },
                     {
                         title: 'Patterns, Labels, or Symbols',
-                        description: 'Use patterns, labels, or symbols alongside color coding for accessibility.'
+                        description: 'Use patterns, labels, or symbols alongside colour coding for accessibility.'
                     },
                     {
-                        title: 'Careful Color Combinations',
-                        description: 'Choose color combinations carefully - blue/yellow works well, avoid red/green combinations.'
+                        title: 'Careful Colour Combinations',
+                        description: 'Choose colour combinations carefully - blue/yellow works well, avoid red/green combinations.'
                     },
                     {
                         title: 'Avoid Red Pen',
                         description: 'Avoid red pen for corrections or marking - use blue, purple, or other visible colors.'
                     },
                     {
-                        title: 'Label Color-Coded Materials',
-                        description: 'Always label color-coded materials with text or symbols.'
+                        title: 'Label Colour-Coded Materials',
+                        description: 'Always label colour-coded materials with text or symbols.'
                     },
                     {
                         title: 'Art Materials Labels',
-                        description: 'Provide color name labels on art materials (paints, pens, pencils) for independent selection.'
+                        description: 'Provide colour name labels on art materials (paints, pens, pencils) for independent selection.'
                     },
                     {
                         title: 'Multiple Cues',
-                        description: 'Use shape, texture, or position in addition to color for categorization.'
+                        description: 'Use shape, texture, or position in addition to colour for categorization.'
                     },
                     {
-                        title: 'Color Identification Apps',
-                        description: 'Consider color vision apps for identifying colors independently (e.g., Color ID apps).'
+                        title: 'Colour Identification Apps',
+                        description: 'Consider colour vision apps for identifying colors independently (e.g., Colour ID apps).'
                     },
                     {
                         title: 'Science Considerations',
-                        description: 'Be aware in science lessons (litmus paper, pH indicators) - always describe color changes verbally.'
+                        description: 'Be aware in science lessons (litmus paper, pH indicators) - always describe colour changes verbally.'
                     }
                 ],
                 'Blue-yellow deficiency': [
                     {
                         title: 'Use Red/Green Combinations',
-                        description: 'Use red/green color combinations which are more distinguishable for blue-yellow deficiency.'
+                        description: 'Use red/green colour combinations which are more distinguishable for blue-yellow deficiency.'
                     },
                     {
-                        title: 'Label All Color-Coded Materials',
-                        description: 'Label all color-coded materials with text descriptions.'
+                        title: 'Label All Colour-Coded Materials',
+                        description: 'Label all colour-coded materials with text descriptions.'
                     },
                     {
                         title: 'Alternative Identification Methods',
@@ -887,7 +887,7 @@ class RecommendationEngine {
                     },
                     {
                         title: 'Patterns and Textures',
-                        description: 'Use patterns or textures alongside color for differentiation.'
+                        description: 'Use patterns or textures alongside colour for differentiation.'
                     },
                     {
                         title: 'Verbal Descriptions',
@@ -896,16 +896,16 @@ class RecommendationEngine {
                 ],
                 'Monochromacy (no colour vision)': [
                     {
-                        title: 'Never Use Color Alone',
-                        description: 'Never use color alone to convey information - pupil cannot perceive any color.'
+                        title: 'Never Use Colour Alone',
+                        description: 'Never use colour alone to convey information - pupil cannot perceive any colour.'
                     },
                     {
                         title: 'Label All Materials',
-                        description: 'Label all materials with color names to allow pupil to know colors even if unable to see them.'
+                        description: 'Label all materials with colour names to allow pupil to know colors even if unable to see them.'
                     },
                     {
                         title: 'Patterns, Textures, Labels Only',
-                        description: 'Use patterns, textures, and labels exclusively for differentiation - color is not functional.'
+                        description: 'Use patterns, textures, and labels exclusively for differentiation - colour is not functional.'
                     },
                     {
                         title: 'High Contrast Black and White',
@@ -917,15 +917,15 @@ class RecommendationEngine {
                     },
                     {
                         title: 'Tactile or Verbal Methods',
-                        description: 'Use tactile or verbal methods for color identification - texture, labels, verbal descriptions.'
+                        description: 'Use tactile or verbal methods for colour identification - texture, labels, verbal descriptions.'
                     },
                     {
-                        title: 'Avoid Color-Based Instructions',
-                        description: 'Ensure all staff understand that color-based instructions are completely inaccessible.'
+                        title: 'Avoid Colour-Based Instructions',
+                        description: 'Ensure all staff understand that colour-based instructions are completely inaccessible.'
                     },
                     {
-                        title: 'Color Identifier Apps',
-                        description: 'Technology support - color identifier apps can speak color names aloud for independence.'
+                        title: 'Colour Identifier Apps',
+                        description: 'Technology support - colour identifier apps can speak colour names aloud for independence.'
                     }
                 ],
                 'Not assessed': []
@@ -1109,7 +1109,7 @@ class AssessmentManager {
         document.getElementById('find-it-notes').value = this.state.findIt.additionalNotes || '';
 
         // Use It section
-        document.getElementById('color-vision').value = this.state.useIt.colorVision || '';
+        document.getElementById('colour-vision').value = this.state.useIt.colorVision || '';
         document.querySelector('[name="colorVisionNotes"]').value = this.state.useIt.colorVisionNotes || '';
 
         // Functional vision checkboxes
@@ -1309,7 +1309,7 @@ class AssessmentManager {
         });
 
         // USE IT section listeners
-        const colorVisionSelect = document.getElementById('color-vision');
+        const colorVisionSelect = document.getElementById('colour-vision');
         colorVisionSelect.addEventListener('focus', () => {
             this.showRecommendationsFor('colorVision', this.state.useIt.colorVision, 'Colour Vision');
         });
@@ -1600,10 +1600,10 @@ class AssessmentManager {
         const text = document.getElementById('autosave-text');
         indicator.classList.remove('saving');
         text.textContent = 'Error saving changes';
-        text.style.color = 'var(--color-critical)';
+        text.style.colour = 'var(--colour-critical)';
 
         setTimeout(() => {
-            text.style.color = '';
+            text.style.colour = '';
             text.textContent = 'Changes saved automatically';
         }, 3000);
     }
@@ -1752,7 +1752,7 @@ class AssessmentManager {
             generateBtn.disabled = false;
             generateBtn.title = 'All sections complete - Click to generate report';
             if (requirementsText) {
-                requirementsText.innerHTML = '<span style="color: var(--color-success);">✓ All sections complete!</span>';
+                requirementsText.innerHTML = '<span style="colour: var(--colour-success);">✓ All sections complete!</span>';
             }
         } else {
             generateBtn.disabled = true;
@@ -1768,7 +1768,7 @@ class AssessmentManager {
             generateBtn.title = `Complete these sections first: ${incompleteText}`;
 
             if (requirementsText) {
-                requirementsText.innerHTML = `<span style="color: var(--color-warning);">✗ Incomplete:</span> ${incompleteText}`;
+                requirementsText.innerHTML = `<span style="colour: var(--colour-warning);">✗ Incomplete:</span> ${incompleteText}`;
             }
         }
     }
@@ -1893,7 +1893,7 @@ class AssessmentManager {
         }
 
         // USE IT Check Indicators
-        const colorVisionCheck = document.getElementById('color-vision-check');
+        const colorVisionCheck = document.getElementById('colour-vision-check');
         if (this.state.useIt.colorVision) {
             colorVisionCheck.classList.add('complete');
         } else {
@@ -2067,7 +2067,7 @@ class AssessmentManager {
             };
 
             // ===== HEADER =====
-            doc.setFillColor(30, 64, 175); // Primary color
+            doc.setFillColor(30, 64, 175); // Primary colour
             doc.rect(0, 0, pageWidth, 40, 'F');
 
             doc.setTextColor(255, 255, 255);
@@ -2286,7 +2286,7 @@ class AssessmentManager {
             doc.setFontSize(11);
             doc.setFont(undefined, 'bold');
             doc.setTextColor(0, 0, 0);
-            doc.text('Color Vision:', margin, yPos);
+            doc.text('Colour Vision:', margin, yPos);
             doc.setFont(undefined, 'normal');
             doc.text(this.state.useIt.colorVision || 'Not assessed', margin + 40, yPos);
             yPos += 6;
@@ -2967,7 +2967,7 @@ The environmental consequences of industrialization were significant. Factories 
         this.passageSelect = document.getElementById('passage-select');
         this.textSizeSelect = document.getElementById('text-size');
         this.lineSpacingSelect = document.getElementById('line-spacing');
-        this.textColorSelect = document.getElementById('text-color');
+        this.textColorSelect = document.getElementById('text-colour');
 
         this.startStandardBtn = document.getElementById('start-standard-test-btn');
         this.startModifiedBtn = document.getElementById('start-modified-test-btn');
@@ -3034,9 +3034,9 @@ The environmental consequences of industrialization were significant. Factories 
             this.passageContainer.style.fontSize = `${fontSize}pt`;
             this.passageContainer.style.lineHeight = lineSpacing;
 
-            // Apply color scheme
+            // Apply colour scheme
             if (colorScheme !== 'default') {
-                this.passageContainer.classList.add(`color-${colorScheme}`);
+                this.passageContainer.classList.add(`colour-${colorScheme}`);
             }
         }
 
