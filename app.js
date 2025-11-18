@@ -2687,8 +2687,220 @@ class AssessmentManager {
                 yPos += 10;
             }
 
-            // ===== KEY FINDINGS =====
+            // ===== VISUAL DASHBOARD =====
             const findings = this.analyzeFindingsSeverity();
+
+            checkPageBreak(80);
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(30, 64, 175);
+            doc.text('Visual Dashboard', margin, yPos);
+            yPos += 8;
+
+            doc.setDrawColor(30, 64, 175);
+            doc.setLineWidth(0.5);
+            doc.line(margin, yPos, pageWidth - margin, yPos);
+            yPos += 10;
+
+            // === SEVERITY SUMMARY BOX ===
+            const boxWidth = contentWidth;
+            const boxHeight = 50;
+
+            checkPageBreak(boxHeight + 10);
+
+            // Main box border
+            doc.setDrawColor(100, 100, 100);
+            doc.setLineWidth(1);
+            doc.rect(margin, yPos, boxWidth, boxHeight);
+
+            // Header section
+            doc.setFillColor(240, 240, 240);
+            doc.rect(margin, yPos, boxWidth, 12, 'F');
+
+            doc.setFontSize(12);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('ASSESSMENT SEVERITY OVERVIEW', pageWidth / 2, yPos + 8, { align: 'center' });
+
+            let severityYPos = yPos + 20;
+
+            // Critical findings bar
+            const barHeight = 8;
+            const barStartX = margin + 10;
+            const barWidth = contentWidth - 20;
+
+            doc.setFillColor(220, 38, 38); // Red
+            doc.roundedRect(barStartX, severityYPos, barWidth, barHeight, 1, 1, 'F');
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(255, 255, 255);
+            doc.text(`CRITICAL: ${findings.critical.length} finding${findings.critical.length !== 1 ? 's' : ''}`, barStartX + 5, severityYPos + 5.5);
+            severityYPos += barHeight + 4;
+
+            // Important findings bar
+            doc.setFillColor(237, 137, 54); // Orange
+            doc.roundedRect(barStartX, severityYPos, barWidth, barHeight, 1, 1, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.text(`IMPORTANT: ${findings.important.length} finding${findings.important.length !== 1 ? 's' : ''}`, barStartX + 5, severityYPos + 5.5);
+            severityYPos += barHeight + 4;
+
+            // Monitor findings bar
+            doc.setFillColor(59, 130, 246); // Blue
+            doc.roundedRect(barStartX, severityYPos, barWidth, barHeight, 1, 1, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.text(`MONITOR: ${findings.monitor.length} finding${findings.monitor.length !== 1 ? 's' : ''}`, barStartX + 5, severityYPos + 5.5);
+
+            yPos += boxHeight + 15;
+
+            // === VISUAL ACUITY CHART ===
+            checkPageBreak(45);
+
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Visual Acuity Overview', margin, yPos);
+            yPos += 8;
+
+            // Helper function to convert acuity to position on scale
+            const getAcuityPosition = (acuity, isDistance) => {
+                if (!acuity) return null;
+
+                if (isDistance) {
+                    const distanceScale = {
+                        '6/6': 0, '6/9': 1, '6/12': 2, '6/19': 3, '6/24': 4, '6/38': 5, '6/60': 6, '<6/60': 7
+                    };
+                    for (let key in distanceScale) {
+                        if (acuity.includes(key)) return distanceScale[key];
+                    }
+                } else {
+                    const nearScale = {
+                        'N5': 0, 'N6': 1, 'N8': 2, 'N10': 3, 'N12': 4, 'N18': 5, 'N24': 6, 'N36': 7, 'N48': 8
+                    };
+                    for (let key in nearScale) {
+                        if (acuity.includes(key)) return nearScale[key];
+                    }
+                }
+                return null;
+            };
+
+            const chartWidth = contentWidth - 40;
+            const chartStartX = margin + 20;
+
+            // Distance Acuity Chart
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Distance Acuity:', margin + 5, yPos);
+            yPos += 6;
+
+            // Draw scale bar
+            const scaleBarHeight = 6;
+            const segmentWidth = chartWidth / 7;
+
+            // Normal range (6/6 to 6/9) in green
+            doc.setFillColor(34, 197, 94);
+            doc.rect(chartStartX, yPos, segmentWidth * 1.5, scaleBarHeight, 'F');
+
+            // Caution range (6/12) in yellow
+            doc.setFillColor(250, 204, 21);
+            doc.rect(chartStartX + segmentWidth * 1.5, yPos, segmentWidth, scaleBarHeight, 'F');
+
+            // Concern range (6/19-6/24) in orange
+            doc.setFillColor(251, 146, 60);
+            doc.rect(chartStartX + segmentWidth * 2.5, yPos, segmentWidth * 1.5, scaleBarHeight, 'F');
+
+            // Critical range (6/38+) in red
+            doc.setFillColor(239, 68, 68);
+            doc.rect(chartStartX + segmentWidth * 4, yPos, segmentWidth * 3, scaleBarHeight, 'F');
+
+            // Draw border
+            doc.setDrawColor(100, 100, 100);
+            doc.setLineWidth(0.5);
+            doc.rect(chartStartX, yPos, chartWidth, scaleBarHeight);
+
+            // Mark student's position
+            const distancePos = getAcuityPosition(this.state.seeIt.distanceAcuity, true);
+            if (distancePos !== null) {
+                const markerX = chartStartX + (distancePos * segmentWidth);
+                doc.setFillColor(0, 0, 0);
+                doc.circle(markerX, yPos + scaleBarHeight / 2, 2, 'F');
+                doc.setFontSize(8);
+                doc.setTextColor(0, 0, 0);
+                doc.text('▼', markerX - 1, yPos - 2);
+                doc.setFontSize(7);
+                doc.text('Student', markerX - 5, yPos - 5);
+            }
+
+            yPos += scaleBarHeight + 3;
+
+            // Labels
+            doc.setFontSize(7);
+            doc.setTextColor(80, 80, 80);
+            const distanceLabels = ['6/6', '6/9', '6/12', '6/19', '6/24', '6/38', '6/60', '<6/60'];
+            distanceLabels.forEach((label, i) => {
+                const labelX = chartStartX + (i * segmentWidth);
+                doc.text(label, labelX - 2, yPos + 3);
+            });
+
+            yPos += 10;
+
+            // Near Acuity Chart
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Near Acuity:', margin + 5, yPos);
+            yPos += 6;
+
+            const nearSegmentWidth = chartWidth / 8;
+
+            // Normal range (N5-N6) in green
+            doc.setFillColor(34, 197, 94);
+            doc.rect(chartStartX, yPos, nearSegmentWidth * 2, scaleBarHeight, 'F');
+
+            // Caution range (N8) in yellow
+            doc.setFillColor(250, 204, 21);
+            doc.rect(chartStartX + nearSegmentWidth * 2, yPos, nearSegmentWidth, scaleBarHeight, 'F');
+
+            // Concern range (N10-N12) in orange
+            doc.setFillColor(251, 146, 60);
+            doc.rect(chartStartX + nearSegmentWidth * 3, yPos, nearSegmentWidth * 2, scaleBarHeight, 'F');
+
+            // Critical range (N18+) in red
+            doc.setFillColor(239, 68, 68);
+            doc.rect(chartStartX + nearSegmentWidth * 5, yPos, nearSegmentWidth * 3, scaleBarHeight, 'F');
+
+            // Draw border
+            doc.setDrawColor(100, 100, 100);
+            doc.setLineWidth(0.5);
+            doc.rect(chartStartX, yPos, chartWidth, scaleBarHeight);
+
+            // Mark student's position
+            const nearPos = getAcuityPosition(this.state.seeIt.nearAcuity, false);
+            if (nearPos !== null) {
+                const markerX = chartStartX + (nearPos * nearSegmentWidth);
+                doc.setFillColor(0, 0, 0);
+                doc.circle(markerX, yPos + scaleBarHeight / 2, 2, 'F');
+                doc.setFontSize(8);
+                doc.setTextColor(0, 0, 0);
+                doc.text('▼', markerX - 1, yPos - 2);
+                doc.setFontSize(7);
+                doc.text('Student', markerX - 5, yPos - 5);
+            }
+
+            yPos += scaleBarHeight + 3;
+
+            // Labels
+            doc.setFontSize(7);
+            doc.setTextColor(80, 80, 80);
+            const nearLabels = ['N5', 'N6', 'N8', 'N10', 'N12', 'N18', 'N24', 'N36', 'N48'];
+            nearLabels.forEach((label, i) => {
+                const labelX = chartStartX + (i * nearSegmentWidth);
+                doc.text(label, labelX - 2, yPos + 3);
+            });
+
+            yPos += 15;
+
+            // ===== KEY FINDINGS =====
 
             // Critical Findings (Red)
             if (findings.critical.length > 0) {
