@@ -480,7 +480,15 @@ class AssessmentManager {
 
         // Generate Report button (placeholder for future)
         document.getElementById('generate-report-btn').addEventListener('click', () => {
-            alert('Report generation will be implemented in Phase 2!');
+            alert('📄 PDF Report Generation\n\n' +
+                  'This feature is coming in Phase 2!\n\n' +
+                  'The report will include:\n' +
+                  '• Student information and assessment summary\n' +
+                  '• All ocular assessment results (See It, Find It, Use It)\n' +
+                  '• Reading test comparison data (if completed)\n' +
+                  '• Professional recommendations for classroom strategies\n' +
+                  '• Exportable PDF format for educational records\n\n' +
+                  'For now, all your data is auto-saved in your browser.');
         });
     }
 
@@ -674,10 +682,30 @@ class AssessmentManager {
 
         // Update generate report button
         const generateBtn = document.getElementById('generate-report-btn');
+        const requirementsText = document.getElementById('report-requirements');
+
         if (studentInfoComplete && seeItComplete && findItComplete && useItComplete) {
             generateBtn.disabled = false;
+            generateBtn.title = 'All sections complete - Click to generate report';
+            if (requirementsText) {
+                requirementsText.innerHTML = '<span style="color: var(--color-success);">✓ All sections complete!</span>';
+            }
         } else {
             generateBtn.disabled = true;
+
+            // Build list of incomplete sections
+            const incomplete = [];
+            if (!studentInfoComplete) incomplete.push('Student Info');
+            if (!seeItComplete) incomplete.push('See It');
+            if (!findItComplete) incomplete.push('Find It');
+            if (!useItComplete) incomplete.push('Use It');
+
+            const incompleteText = incomplete.join(', ');
+            generateBtn.title = `Complete these sections first: ${incompleteText}`;
+
+            if (requirementsText) {
+                requirementsText.innerHTML = `<span style="color: var(--color-warning);">✗ Incomplete:</span> ${incompleteText}`;
+            }
         }
     }
 
