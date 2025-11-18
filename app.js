@@ -97,6 +97,353 @@ class AssessmentDB {
 }
 
 // ===================================
+// RECOMMENDATION ENGINE
+// ===================================
+
+class RecommendationEngine {
+    constructor() {
+        this.recommendations = {
+            // DISTANCE ACUITY RECOMMENDATIONS
+            distanceAcuity: {
+                '6/6': {
+                    interpretation: 'The pupil has typical distance vision, able to see at 6 metres what is normally visible at that distance.',
+                    implications: 'No significant impact on distance viewing tasks.',
+                    strategies: []
+                },
+                '6/9': {
+                    interpretation: 'The pupil has mildly reduced distance vision, able to see at 6 metres what is typically visible at 9 metres.',
+                    implications: 'May experience slight difficulty with board work, recognising faces across the room, or viewing demonstrations from a distance.',
+                    strategies: [
+                        'Consider preferential seating in the front third of the classroom',
+                        'Ensure clear, high-contrast presentations on interactive whiteboards',
+                        'Provide enlarged handouts (minimum 14-16pt font) for board work',
+                        'Use technology: share screen content via iPad or tablet for closer viewing',
+                        'Consider digital copies of board work sent to pupil\'s device'
+                    ]
+                },
+                '6/12': {
+                    interpretation: 'The pupil has moderately reduced distance vision, able to see at 6 metres what is typically visible at 12 metres.',
+                    implications: 'Will experience noticeable difficulty with board work, facial recognition at distance, and participating in whole-class demonstrations.',
+                    strategies: [
+                        'Preferential seating in the front row is essential',
+                        'Provide all board content in digital format sent to pupil\'s iPad/tablet',
+                        'Use screen mirroring technology (Apple AirPlay, Google Cast) for real-time access',
+                        'Enlarge print materials to 18-24pt font size',
+                        'Pre-provide lesson materials electronically to allow for preview',
+                        'Consider use of monocular telescope for occasional distance viewing',
+                        'Ensure good contrast on all visual materials (black text on white/cream background)'
+                    ]
+                },
+                '6/19': {
+                    interpretation: 'The pupil has significantly reduced distance vision, able to see at 6 metres what is typically visible at 19 metres.',
+                    implications: 'Substantial difficulty accessing visual information at distance. Board work, demonstrations, and environmental navigation affected.',
+                    strategies: [
+                        'Seated at the front of the classroom with clear sightline to displays',
+                        'Mandatory provision of all visual content in alternative formats',
+                        'Use iPad with screen sharing for all board work and presentations',
+                        'Access to digital textbooks and eBooks with adjustable font sizes',
+                        'Enlarge all print to minimum 24-32pt, consider bold fonts',
+                        'Provide advance copies of PowerPoints and visual materials',
+                        'Train pupil in use of screen magnification apps (Zoom on iPad, Magnifier)',
+                        'Consider electronic note-taking to reduce copying from board',
+                        'Use of monocular telescope for specific distance tasks',
+                        'High contrast materials essential (avoid pastel colours, ensure dark text on light backgrounds)',
+                        'Allow extra time for accessing visual information',
+                        'Ensure all diagrams and images are described verbally or provided with text descriptions'
+                    ]
+                },
+                '6/24': {
+                    interpretation: 'The pupil has severely reduced distance vision, able to see at 6 metres what is typically visible at 24 metres.',
+                    implications: 'Severely impacted distance vision affecting all distance viewing tasks. Accessing curriculum materials requires substantial adaptation.',
+                    strategies: [
+                        'Front row seating mandatory with unobstructed views',
+                        'All visual information must be provided in accessible format',
+                        'iPad with screen mirroring essential classroom tool',
+                        'Large print textbooks (24-36pt minimum) or digital alternatives',
+                        'Access to magnification software on classroom computer/iPad',
+                        'Electronic whiteboards with ability to save and share content',
+                        'Pre-teaching of visual content where possible',
+                        'Reduce copying tasks - provide pre-prepared materials',
+                        'Use of portable CCTV/electronic magnifier for detail work',
+                        'Training in touch-typing for efficient note-taking',
+                        'Monocular telescope with training for specific tasks',
+                        'Maximum contrast on all materials (avoid grey, pastels)',
+                        'Verbal descriptions of all visual information',
+                        'Consider audio books alongside print/digital texts',
+                        'Extra time for processing visual information',
+                        'Regular breaks during visually intensive tasks'
+                    ]
+                },
+                '6/36': {
+                    interpretation: 'The pupil has very severely reduced distance vision, able to see at 6 metres what is typically visible at 36 metres.',
+                    implications: 'Extreme difficulty with distance vision. Standard classroom displays largely inaccessible without significant technological support.',
+                    strategies: [
+                        'Comprehensive assessment and specialist teaching required',
+                        'iPad with screen sharing for all visual content mandatory',
+                        'High-powered magnification technology essential',
+                        'Likely to require Braille or large print (36pt+) materials',
+                        'Electronic magnification (CCTV) for most classroom tasks',
+                        'Access to screen reading software for independence',
+                        'Consider tactile/3D models for visual concepts',
+                        'Auditory support crucial - audio descriptions, text-to-speech',
+                        'Eliminate board copying - provide all materials digitally or in accessible formats',
+                        'Training in assistive technology essential',
+                        'Environmental adaptations for safety (lighting, contrast marking)',
+                        'Consider assessment via technology rather than paper-based',
+                        'Collaborative technology (OneNote, Google Classroom) for shared access',
+                        'Regular QTVI involvement for curriculum access planning'
+                    ]
+                },
+                '6/60': {
+                    interpretation: 'The pupil has profoundly reduced distance vision, able to see at 6 metres what is typically visible at 60 metres. Approaching the threshold for severe sight impairment registration.',
+                    implications: 'Distance vision provides minimal functional information. Accessing visual curriculum requires comprehensive adaptations.',
+                    strategies: [
+                        'Specialist QTVI and mobility officer involvement essential',
+                        'Technology-based access for all visual materials',
+                        'Likely dual-media learner (print and Braille)',
+                        'High-powered electronic magnification (video magnifier/CCTV)',
+                        'Screen reading technology (JAWS, NVDA, VoiceOver)',
+                        'Touch-typing and accessible keyboard skills training',
+                        'Audio textbooks and digital accessible formats',
+                        'Tactile graphics and 3D models for diagrams',
+                        'Comprehensive environmental adaptations',
+                        'Mobility and orientation assessment',
+                        'Assessment accommodations (extra time, scribe, reader)',
+                        'Peer support for visual tasks',
+                        'Focus on developing independent living skills alongside curriculum',
+                        'Regular review of access methods as vision changes'
+                    ]
+                }
+            },
+
+            // CONTRAST SENSITIVITY RECOMMENDATIONS
+            contrastSensitivity: {
+                'Good': {
+                    interpretation: 'The pupil demonstrates good contrast sensitivity.',
+                    implications: 'Can distinguish subtle differences in shading and work effectively with standard materials.',
+                    strategies: []
+                },
+                'Moderate': {
+                    interpretation: 'The pupil has moderately reduced contrast sensitivity.',
+                    implications: 'May struggle with low-contrast materials, pencil on white paper, or faded photocopies.',
+                    strategies: [
+                        'Use high-contrast materials (black on white, avoid grey)',
+                        'Provide bold-lined paper for written work',
+                        'Ensure high-quality photocopies (not faded or light)',
+                        'Use felt-tip pens or dark pencils instead of standard graphite',
+                        'Increase screen contrast on computers and tablets',
+                        'Avoid glossy paper which can reduce contrast with glare',
+                        'Use yellow or cream paper if white creates glare',
+                        'Ensure good, even lighting without shadows'
+                    ]
+                },
+                'Poor': {
+                    interpretation: 'The pupil has significantly reduced contrast sensitivity.',
+                    implications: 'Standard materials appear washed out or difficult to distinguish. Requires maximum contrast for all tasks.',
+                    strategies: [
+                        'Maximum contrast essential - use black marker on white/cream backgrounds',
+                        'Bold-lined or raised-line paper for writing',
+                        'Thick black pens (felt-tip/rollerball) not standard pencils',
+                        'Digital materials with adjustable contrast settings',
+                        'Use colour overlays or tinted paper if helpful (trial different colours)',
+                        'Avoid worksheets with excessive visual clutter',
+                        'High-contrast keyboards and screen settings',
+                        'Ensure optimal lighting - not too bright (glare) or dim',
+                        'Consider yellow-on-black or white-on-black for some tasks',
+                        'Avoid shiny/glossy surfaces and laminated materials',
+                        'Provide clear borders around text and images'
+                    ]
+                }
+            },
+
+            // VISUAL FIELDS RECOMMENDATIONS
+            visualFields: {
+                'Full fields': {
+                    interpretation: 'The pupil has full visual fields with no restrictions.',
+                    implications: 'Can access visual information across their full field of vision.',
+                    strategies: []
+                },
+                'Peripheral field loss': {
+                    interpretation: 'The pupil has reduced peripheral (side) vision, commonly described as "tunnel vision".',
+                    implications: 'May miss information at the edges, bump into objects, or have difficulty with scanning and tracking.',
+                    strategies: [
+                        'Seated to maximise use of remaining field (e.g., if right field loss, sit on left)',
+                        'Reduce visual clutter on page and in environment',
+                        'Teach systematic scanning techniques (left to right, top to bottom)',
+                        'Use margins and clear spacing to define work areas',
+                        'Present information in central vision',
+                        'Orientation and mobility assessment recommended',
+                        'Consider bump dots or tactile markers for boundaries',
+                        'Warn before approaching from affected side',
+                        'Allow extra time for scanning and locating items'
+                    ]
+                },
+                'Central field loss': {
+                    interpretation: 'The pupil has reduced central vision, affecting their ability to see detail directly ahead.',
+                    implications: 'Reading and detailed work significantly affected. May use peripheral vision for some tasks.',
+                    strategies: [
+                        'High magnification essential (may not be effective if large central scotoma)',
+                        'Consider eccentric viewing training (using peripheral vision)',
+                        'Audio support crucial - text-to-speech technology',
+                        'Reduce reading demands or provide audio alternatives',
+                        'Large print (assess optimal size - may be 36pt+)',
+                        'Good lighting essential',
+                        'Allow extended time for reading and detail work',
+                        'Consider Braille assessment if vision deteriorating',
+                        'Use colour and contrast to aid peripheral viewing'
+                    ]
+                },
+                'Hemianopia (half field loss)': {
+                    interpretation: 'The pupil has loss of half of the visual field in both eyes.',
+                    implications: 'Significant impact on reading, scanning, and spatial awareness. May miss information on affected side.',
+                    strategies: [
+                        'Teach systematic scanning techniques',
+                        'Use coloured margin or ruler on affected side as a guide',
+                        'Position work to maximise use of intact field',
+                        'Reduce page width for reading (portrait orientation)',
+                        'Electronic reading aids can help with navigation',
+                        'Orientation and mobility support essential',
+                        'Seat to compensate for field loss',
+                        'Warn before approaching from affected side',
+                        'Use finger or guide to track during reading',
+                        'Extra time for visual tasks'
+                    ]
+                }
+            },
+
+            // SCANNING PATTERN RECOMMENDATIONS
+            scanningPattern: {
+                'Systematic': {
+                    interpretation: 'The pupil demonstrates efficient systematic scanning.',
+                    implications: 'Can locate information effectively using organised visual search strategies.',
+                    strategies: []
+                },
+                'Disorganised': {
+                    interpretation: 'The pupil uses a disorganised scanning pattern.',
+                    implications: 'May miss information, take longer to locate items, or lose place when reading.',
+                    strategies: [
+                        'Teach structured scanning techniques (left-right, top-bottom)',
+                        'Use finger or reading ruler to track',
+                        'Reduce visual clutter on worksheets',
+                        'Present information in clear, organised layouts',
+                        'Use visual prompts (arrows, numbers) to guide scanning',
+                        'Practice scanning activities regularly',
+                        'Use typoscope (reading window) to isolate text',
+                        'Highlight or box key information',
+                        'Allow extra time for locating information'
+                    ]
+                },
+                'Slow': {
+                    interpretation: 'The pupil demonstrates slow visual scanning.',
+                    implications: 'Takes longer to locate information, affecting speed of work completion.',
+                    strategies: [
+                        'Reduce amount of visual information on page',
+                        'Provide key information in predictable locations',
+                        'Use clear headings and organisational structure',
+                        'Allow extended time for visual search tasks',
+                        'Pre-teach location of important information',
+                        'Use colour coding to categorise information',
+                        'Reduce copying tasks',
+                        'Provide partially completed worksheets',
+                        'Use technology to reduce visual search (searchable PDFs)'
+                    ]
+                }
+            },
+
+            // COLOUR VISION RECOMMENDATIONS
+            colorVision: {
+                'Normal colour vision': {
+                    interpretation: 'The pupil has typical colour perception.',
+                    implications: 'Can use colour for learning and differentiation without difficulty.',
+                    strategies: []
+                },
+                'Red-green deficiency': {
+                    interpretation: 'The pupil has difficulty distinguishing between red and green colours.',
+                    implications: 'May confuse red/green on maps, graphs, or colour-coded materials. Affects approximately 8% of males.',
+                    strategies: [
+                        'Do not rely on colour alone to convey information',
+                        'Use patterns, labels, or symbols alongside colour',
+                        'Choose colour combinations carefully (blue/yellow works well)',
+                        'Avoid red pen for corrections - use blue or purple',
+                        'Label colour-coded materials',
+                        'Provide colour name labels on art materials',
+                        'Use shape or texture in addition to colour',
+                        'Consider colour vision apps for identifying colours',
+                        'Be aware in science (litmus, indicators) - describe colour verbally'
+                    ]
+                },
+                'Blue-yellow deficiency': {
+                    interpretation: 'The pupil has difficulty distinguishing between blue and yellow colours (less common).',
+                    implications: 'May confuse blue/yellow and related colours.',
+                    strategies: [
+                        'Use red/green colour combinations',
+                        'Label all colour-coded materials',
+                        'Provide alternative methods to identify colours',
+                        'Use patterns or textures alongside colour',
+                        'Describe colours verbally in class discussions'
+                    ]
+                },
+                'Monochromacy (no colour vision)': {
+                    interpretation: 'The pupil cannot perceive colour, seeing the world in shades of grey.',
+                    implications: 'Colour carries no information value. Often associated with reduced visual acuity and light sensitivity.',
+                    strategies: [
+                        'Never use colour alone to convey information',
+                        'Label all materials with colour names',
+                        'Use patterns, textures, and labels exclusively',
+                        'Provide high contrast black and white materials',
+                        'Address likely associated light sensitivity',
+                        'Use tactile or verbal methods for colour identification',
+                        'Ensure understanding that colour-based instructions are inaccessible',
+                        'Technology: colour identifier apps can speak colour names'
+                    ]
+                }
+            }
+        };
+
+        this.selectedRecommendations = new Set();
+    }
+
+    // Get recommendations for a specific assessment
+    getRecommendations(assessmentType, value) {
+        if (!value || value === 'Not assessed') return null;
+
+        const recs = this.recommendations[assessmentType]?.[value];
+        if (!recs || recs.strategies.length === 0) return null;
+
+        return {
+            ...recs,
+            assessmentType,
+            value,
+            id: `${assessmentType}-${value.replace(/\s+/g, '-').replace(/\//g, '-')}`
+        };
+    }
+
+    // Toggle a recommendation selection
+    toggleRecommendation(id, selected) {
+        if (selected) {
+            this.selectedRecommendations.add(id);
+        } else {
+            this.selectedRecommendations.delete(id);
+        }
+    }
+
+    // Get all selected recommendations
+    getSelectedRecommendations() {
+        return Array.from(this.selectedRecommendations);
+    }
+
+    // Clear all selections
+    clearAll() {
+        this.selectedRecommendations.clear();
+    }
+
+    // Select all visible recommendations
+    selectAll(visibleIds) {
+        visibleIds.forEach(id => this.selectedRecommendations.add(id));
+    }
+}
+
+// ===================================
 // ASSESSMENT STATE MANAGER
 // ===================================
 
@@ -146,6 +493,8 @@ class AssessmentManager {
         };
         this.saveTimeout = null;
         this.saveDelay = 500; // Debounce delay in ms
+        this.recommendationEngine = new RecommendationEngine();
+        this.activeRecommendations = [];
     }
 
     getTodayDate() {
@@ -241,6 +590,9 @@ class AssessmentManager {
         });
         document.querySelector('[name="environmentalNotes"]').value = this.state.useIt.environmentalNotes || '';
         document.getElementById('use-it-notes').value = this.state.useIt.additionalNotes || '';
+
+        // Update recommendations based on loaded data
+        this.updateRecommendations();
     }
 
     setupEventListeners() {
@@ -281,6 +633,7 @@ class AssessmentManager {
             this.debouncedSave();
             this.updateCheckIndicators();
             this.updateProgress();
+            this.updateRecommendations();
         });
 
         document.querySelector('[name="distanceAcuityNotes"]').addEventListener('input', (e) => {
@@ -310,6 +663,7 @@ class AssessmentManager {
             this.debouncedSave();
             this.updateCheckIndicators();
             this.updateProgress();
+            this.updateRecommendations();
         });
 
         document.querySelector('[name="contrastSensitivityNotes"]').addEventListener('input', (e) => {
@@ -349,6 +703,7 @@ class AssessmentManager {
             this.debouncedSave();
             this.updateCheckIndicators();
             this.updateProgress();
+            this.updateRecommendations();
         });
 
         document.querySelector('[name="visualFieldsNotes"]').addEventListener('input', (e) => {
@@ -361,6 +716,7 @@ class AssessmentManager {
             this.debouncedSave();
             this.updateCheckIndicators();
             this.updateProgress();
+            this.updateRecommendations();
         });
 
         document.querySelector('[name="scanningPatternNotes"]').addEventListener('input', (e) => {
@@ -403,6 +759,7 @@ class AssessmentManager {
             this.debouncedSave();
             this.updateCheckIndicators();
             this.updateProgress();
+            this.updateRecommendations();
         });
 
         document.querySelector('[name="colorVisionNotes"]').addEventListener('input', (e) => {
@@ -482,6 +839,162 @@ class AssessmentManager {
         document.getElementById('generate-report-btn').addEventListener('click', () => {
             this.generatePDFReport();
         });
+
+        // Setup recommendation panel listeners
+        this.setupRecommendationListeners();
+    }
+
+    setupRecommendationListeners() {
+        // Toggle recommendations panel
+        const toggleBtn = document.getElementById('toggle-recommendations-btn');
+        const panel = document.getElementById('recommendations-panel');
+        const icon = document.getElementById('toggle-icon');
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+                toggleBtn.setAttribute('aria-expanded', !isExpanded);
+                panel.classList.toggle('collapsed');
+                icon.textContent = isExpanded ? '▼' : '▲';
+            });
+        }
+
+        // Select All button
+        const selectAllBtn = document.getElementById('select-all-recommendations');
+        if (selectAllBtn) {
+            selectAllBtn.addEventListener('click', () => {
+                this.activeRecommendations.forEach(rec => {
+                    this.recommendationEngine.toggleRecommendation(rec.id, true);
+                });
+                this.updateRecommendationsUI();
+            });
+        }
+
+        // Clear All button
+        const clearAllBtn = document.getElementById('clear-all-recommendations');
+        if (clearAllBtn) {
+            clearAllBtn.addEventListener('click', () => {
+                this.activeRecommendations.forEach(rec => {
+                    this.recommendationEngine.toggleRecommendation(rec.id, false);
+                });
+                this.updateRecommendationsUI();
+            });
+        }
+    }
+
+    updateRecommendations() {
+        // Gather recommendations based on current state
+        const recommendations = [];
+
+        // Distance Acuity (from seeIt section)
+        if (this.state.seeIt.distanceAcuity && this.state.seeIt.distanceAcuity !== 'Not assessed') {
+            const rec = this.recommendationEngine.getRecommendations('distanceAcuity', this.state.seeIt.distanceAcuity);
+            if (rec) recommendations.push(rec);
+        }
+
+        // Contrast Sensitivity (from seeIt section)
+        if (this.state.seeIt.contrastSensitivity && this.state.seeIt.contrastSensitivity !== 'Not assessed') {
+            const rec = this.recommendationEngine.getRecommendations('contrastSensitivity', this.state.seeIt.contrastSensitivity);
+            if (rec) recommendations.push(rec);
+        }
+
+        // Visual Fields (from findIt section)
+        if (this.state.findIt.visualFields && this.state.findIt.visualFields !== 'Not assessed') {
+            const rec = this.recommendationEngine.getRecommendations('visualFields', this.state.findIt.visualFields);
+            if (rec) recommendations.push(rec);
+        }
+
+        // Scanning Pattern (from findIt section)
+        if (this.state.findIt.scanningPattern && this.state.findIt.scanningPattern !== 'Not assessed') {
+            const rec = this.recommendationEngine.getRecommendations('scanningPattern', this.state.findIt.scanningPattern);
+            if (rec) recommendations.push(rec);
+        }
+
+        // Color Vision (from useIt section)
+        if (this.state.useIt.colorVision && this.state.useIt.colorVision !== 'Not assessed') {
+            const rec = this.recommendationEngine.getRecommendations('colorVision', this.state.useIt.colorVision);
+            if (rec) recommendations.push(rec);
+        }
+
+        this.activeRecommendations = recommendations;
+        this.updateRecommendationsUI();
+    }
+
+    updateRecommendationsUI() {
+        const container = document.getElementById('recommendations-container');
+        const placeholder = document.querySelector('.recommendations-panel .preview-placeholder');
+        const actions = document.getElementById('recommendations-actions');
+
+        if (!container) return;
+
+        if (this.activeRecommendations.length === 0) {
+            container.classList.add('hidden');
+            actions.classList.add('hidden');
+            placeholder.classList.remove('hidden');
+            return;
+        }
+
+        placeholder.classList.add('hidden');
+        container.classList.remove('hidden');
+        actions.classList.remove('hidden');
+
+        container.innerHTML = this.activeRecommendations.map(rec =>
+            this.displayRecommendation(rec)
+        ).join('');
+
+        // Add checkbox event listeners
+        container.querySelectorAll('.recommendation-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const recId = e.target.dataset.recId;
+                this.recommendationEngine.toggleRecommendation(recId, e.target.checked);
+
+                // Update visual state
+                const item = e.target.closest('.recommendation-item');
+                if (e.target.checked) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+        });
+    }
+
+    displayRecommendation(rec) {
+        const isSelected = this.recommendationEngine.selectedRecommendations.has(rec.id);
+        const selectedClass = isSelected ? 'selected' : '';
+
+        const strategiesList = rec.strategies
+            .map(strategy => `<li>${strategy}</li>`)
+            .join('');
+
+        return `
+            <div class="recommendation-item ${selectedClass}">
+                <div class="recommendation-header">
+                    <input
+                        type="checkbox"
+                        class="recommendation-checkbox"
+                        data-rec-id="${rec.id}"
+                        ${isSelected ? 'checked' : ''}
+                        aria-label="Include this recommendation in report"
+                    />
+                    <div class="recommendation-title">${rec.value}</div>
+                </div>
+                <div class="recommendation-content">
+                    <div class="recommendation-interpretation">
+                        <strong>Interpretation:</strong> ${rec.interpretation}
+                    </div>
+                    <div class="recommendation-implications">
+                        <strong>Implications:</strong> ${rec.implications}
+                    </div>
+                    <div class="recommendation-strategies">
+                        <strong>Recommended Strategies:</strong>
+                        <ul class="recommendation-strategies-list">
+                            ${strategiesList}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        `;
     }
 
     debouncedSave() {
@@ -1383,6 +1896,100 @@ class AssessmentManager {
                         yPos += 6;
                     });
                 }
+            }
+
+            // ===== RECOMMENDED STRATEGIES =====
+            const selectedRecs = this.activeRecommendations.filter(rec =>
+                this.recommendationEngine.selectedRecommendations.has(rec.id)
+            );
+
+            if (selectedRecs.length > 0) {
+                checkPageBreak(50);
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(30, 64, 175);
+                doc.text('Recommended Strategies', margin, yPos);
+                yPos += 8;
+
+                doc.setLineWidth(0.5);
+                doc.line(margin, yPos, pageWidth - margin, yPos);
+                yPos += 8;
+
+                selectedRecs.forEach((rec, index) => {
+                    checkPageBreak(60);
+
+                    // Recommendation heading
+                    doc.setFontSize(12);
+                    doc.setFont(undefined, 'bold');
+                    doc.setTextColor(0, 0, 0);
+                    doc.text(`${rec.value}`, margin, yPos);
+                    yPos += 8;
+
+                    // Interpretation
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Interpretation:', margin + 5, yPos);
+                    yPos += 6;
+
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
+                    doc.setTextColor(60, 60, 60);
+                    yPos += addWrappedText(rec.interpretation, margin + 5, yPos, contentWidth - 5);
+                    yPos += 4;
+
+                    checkPageBreak(30);
+
+                    // Implications
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
+                    doc.setTextColor(0, 0, 0);
+                    doc.text('Implications for Learning:', margin + 5, yPos);
+                    yPos += 6;
+
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
+                    doc.setTextColor(60, 60, 60);
+                    yPos += addWrappedText(rec.implications, margin + 5, yPos, contentWidth - 5);
+                    yPos += 4;
+
+                    checkPageBreak(30);
+
+                    // Strategies
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
+                    doc.setTextColor(0, 0, 0);
+                    doc.text('Recommended Strategies:', margin + 5, yPos);
+                    yPos += 6;
+
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
+                    doc.setTextColor(60, 60, 60);
+
+                    rec.strategies.forEach(strategy => {
+                        checkPageBreak(15);
+                        const bulletPoint = '• ';
+                        const lines = doc.splitTextToSize(`${bulletPoint}${strategy}`, contentWidth - 10);
+
+                        lines.forEach((line, lineIndex) => {
+                            checkPageBreak(8);
+                            if (lineIndex === 0) {
+                                doc.text(line, margin + 10, yPos);
+                            } else {
+                                // Indent continuation lines
+                                doc.text(line, margin + 13, yPos);
+                            }
+                            yPos += 5;
+                        });
+                        yPos += 1;
+                    });
+
+                    // Add spacing between recommendations
+                    if (index < selectedRecs.length - 1) {
+                        yPos += 6;
+                    }
+                });
+
+                yPos += 10;
             }
 
             // ===== FOOTER =====
