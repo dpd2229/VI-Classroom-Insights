@@ -1487,30 +1487,34 @@ class AssessmentManager {
 
         if (!container) return;
 
-        // Update heading to show which field is active
-        if (this.currentField && this.currentField.label) {
-            heading.textContent = `Recommendations: ${this.currentField.label}`;
-        } else {
-            heading.textContent = 'Recommended Strategies';
+        // Update heading to show which field is active (with null check)
+        if (heading) {
+            if (this.currentField && this.currentField.label) {
+                heading.textContent = `Recommendations: ${this.currentField.label}`;
+            } else {
+                heading.textContent = 'Recommended Strategies';
+            }
         }
 
-        // Update placeholder text
-        if (this.currentField) {
-            placeholder.textContent = `No recommendations available for this ${this.currentField.label} value`;
-        } else {
-            placeholder.textContent = 'Click on an assessment field to see recommendation options';
+        // Update placeholder text (with null check)
+        if (placeholder) {
+            if (this.currentField) {
+                placeholder.textContent = `No recommendations available for this ${this.currentField.label} value`;
+            } else {
+                placeholder.textContent = 'Click on an assessment field to see recommendation options';
+            }
         }
 
         if (this.activeRecommendations.length === 0) {
             container.classList.add('hidden');
-            actions.classList.add('hidden');
-            placeholder.classList.remove('hidden');
+            if (actions) actions.classList.add('hidden');
+            if (placeholder) placeholder.classList.remove('hidden');
             return;
         }
 
-        placeholder.classList.add('hidden');
+        if (placeholder) placeholder.classList.add('hidden');
         container.classList.remove('hidden');
-        actions.classList.remove('hidden');
+        if (actions) actions.classList.remove('hidden');
 
         container.innerHTML = this.activeRecommendations.map(rec =>
             this.displayRecommendation(rec)
@@ -3097,12 +3101,22 @@ The Renaissance also marked significant advances in science and exploration. Ast
         this.questionsContainer = document.getElementById('questions-container');
         this.submitAnswersBtn = document.getElementById('submit-questions-btn');
 
-        // Setup event listeners
-        this.startStandardBtn.addEventListener('click', () => this.startTest('standard'));
-        this.startModifiedBtn.addEventListener('click', () => this.startTest('modified'));
-        this.finishTestBtn.addEventListener('click', () => this.finishReading());
-        this.closeModalBtn.addEventListener('click', () => this.closeTest());
-        this.submitAnswersBtn.addEventListener('click', () => this.submitAnswers());
+        // Setup event listeners (with null checks)
+        if (this.startStandardBtn) {
+            this.startStandardBtn.addEventListener('click', () => this.startTest('standard'));
+        }
+        if (this.startModifiedBtn) {
+            this.startModifiedBtn.addEventListener('click', () => this.startTest('modified'));
+        }
+        if (this.finishTestBtn) {
+            this.finishTestBtn.addEventListener('click', () => this.finishReading());
+        }
+        if (this.closeModalBtn) {
+            this.closeModalBtn.addEventListener('click', () => this.closeTest());
+        }
+        if (this.submitAnswersBtn) {
+            this.submitAnswersBtn.addEventListener('click', () => this.submitAnswers());
+        }
 
         console.log('Reading Test Manager initialized');
     }
