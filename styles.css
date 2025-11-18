@@ -151,12 +151,14 @@ button {
     margin-bottom: 4px;
     font-weight: 800;
     letter-spacing: -0.5px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .app-subtitle {
     font-size: var(--font-size-base);
-    opacity: 0.9;
+    color: white;
+    opacity: 0.95;
     font-weight: 400;
 }
 
@@ -937,6 +939,26 @@ button {
     border-radius: 50%;
     border: 2px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Reset button styling */
+.bottom-nav-btn.reset-btn {
+    border-left: 2px solid var(--color-border);
+    margin-left: 8px;
+}
+
+.bottom-nav-btn.reset-btn:hover {
+    background: rgba(220, 38, 38, 0.1);
+    color: var(--color-critical);
+}
+
+.bottom-nav-btn.reset-btn:hover .nav-icon {
+    animation: rotate-reset 0.6s ease-in-out;
+}
+
+@keyframes rotate-reset {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* ===================================
