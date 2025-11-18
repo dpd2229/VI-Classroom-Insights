@@ -102,320 +102,853 @@ class AssessmentDB {
 
 class RecommendationEngine {
     constructor() {
+        // Store as array of recommendation options per measurement
+        // Each is a separate selectable card
         this.recommendations = {
             // DISTANCE ACUITY RECOMMENDATIONS
             distanceAcuity: {
-                '6/6': {
-                    interpretation: 'The pupil has typical distance vision, able to see at 6 metres what is normally visible at that distance.',
-                    implications: 'No significant impact on distance viewing tasks.',
-                    strategies: []
-                },
-                '6/9': {
-                    interpretation: 'The pupil has mildly reduced distance vision, able to see at 6 metres what is typically visible at 9 metres.',
-                    implications: 'May experience slight difficulty with board work, recognising faces across the room, or viewing demonstrations from a distance.',
-                    strategies: [
-                        'Consider preferential seating in the front third of the classroom',
-                        'Ensure clear, high-contrast presentations on interactive whiteboards',
-                        'Provide enlarged handouts (minimum 14-16pt font) for board work',
-                        'Use technology: share screen content via iPad or tablet for closer viewing',
-                        'Consider digital copies of board work sent to pupil\'s device'
-                    ]
-                },
-                '6/12': {
-                    interpretation: 'The pupil has moderately reduced distance vision, able to see at 6 metres what is typically visible at 12 metres.',
-                    implications: 'Will experience noticeable difficulty with board work, facial recognition at distance, and participating in whole-class demonstrations.',
-                    strategies: [
-                        'Preferential seating in the front row is essential',
-                        'Provide all board content in digital format sent to pupil\'s iPad/tablet',
-                        'Use screen mirroring technology (Apple AirPlay, Google Cast) for real-time access',
-                        'Enlarge print materials to 18-24pt font size',
-                        'Pre-provide lesson materials electronically to allow for preview',
-                        'Consider use of monocular telescope for occasional distance viewing',
-                        'Ensure good contrast on all visual materials (black text on white/cream background)'
-                    ]
-                },
-                '6/19': {
-                    interpretation: 'The pupil has significantly reduced distance vision, able to see at 6 metres what is typically visible at 19 metres.',
-                    implications: 'Substantial difficulty accessing visual information at distance. Board work, demonstrations, and environmental navigation affected.',
-                    strategies: [
-                        'Seated at the front of the classroom with clear sightline to displays',
-                        'Mandatory provision of all visual content in alternative formats',
-                        'Use iPad with screen sharing for all board work and presentations',
-                        'Access to digital textbooks and eBooks with adjustable font sizes',
-                        'Enlarge all print to minimum 24-32pt, consider bold fonts',
-                        'Provide advance copies of PowerPoints and visual materials',
-                        'Train pupil in use of screen magnification apps (Zoom on iPad, Magnifier)',
-                        'Consider electronic note-taking to reduce copying from board',
-                        'Use of monocular telescope for specific distance tasks',
-                        'High contrast materials essential (avoid pastel colours, ensure dark text on light backgrounds)',
-                        'Allow extra time for accessing visual information',
-                        'Ensure all diagrams and images are described verbally or provided with text descriptions'
-                    ]
-                },
-                '6/24': {
-                    interpretation: 'The pupil has severely reduced distance vision, able to see at 6 metres what is typically visible at 24 metres.',
-                    implications: 'Severely impacted distance vision affecting all distance viewing tasks. Accessing curriculum materials requires substantial adaptation.',
-                    strategies: [
-                        'Front row seating mandatory with unobstructed views',
-                        'All visual information must be provided in accessible format',
-                        'iPad with screen mirroring essential classroom tool',
-                        'Large print textbooks (24-36pt minimum) or digital alternatives',
-                        'Access to magnification software on classroom computer/iPad',
-                        'Electronic whiteboards with ability to save and share content',
-                        'Pre-teaching of visual content where possible',
-                        'Reduce copying tasks - provide pre-prepared materials',
-                        'Use of portable CCTV/electronic magnifier for detail work',
-                        'Training in touch-typing for efficient note-taking',
-                        'Monocular telescope with training for specific tasks',
-                        'Maximum contrast on all materials (avoid grey, pastels)',
-                        'Verbal descriptions of all visual information',
-                        'Consider audio books alongside print/digital texts',
-                        'Extra time for processing visual information',
-                        'Regular breaks during visually intensive tasks'
-                    ]
-                },
-                '6/36': {
-                    interpretation: 'The pupil has very severely reduced distance vision, able to see at 6 metres what is typically visible at 36 metres.',
-                    implications: 'Extreme difficulty with distance vision. Standard classroom displays largely inaccessible without significant technological support.',
-                    strategies: [
-                        'Comprehensive assessment and specialist teaching required',
-                        'iPad with screen sharing for all visual content mandatory',
-                        'High-powered magnification technology essential',
-                        'Likely to require Braille or large print (36pt+) materials',
-                        'Electronic magnification (CCTV) for most classroom tasks',
-                        'Access to screen reading software for independence',
-                        'Consider tactile/3D models for visual concepts',
-                        'Auditory support crucial - audio descriptions, text-to-speech',
-                        'Eliminate board copying - provide all materials digitally or in accessible formats',
-                        'Training in assistive technology essential',
-                        'Environmental adaptations for safety (lighting, contrast marking)',
-                        'Consider assessment via technology rather than paper-based',
-                        'Collaborative technology (OneNote, Google Classroom) for shared access',
-                        'Regular QTVI involvement for curriculum access planning'
-                    ]
-                },
-                '6/60': {
-                    interpretation: 'The pupil has profoundly reduced distance vision, able to see at 6 metres what is typically visible at 60 metres. Approaching the threshold for severe sight impairment registration.',
-                    implications: 'Distance vision provides minimal functional information. Accessing visual curriculum requires comprehensive adaptations.',
-                    strategies: [
-                        'Specialist QTVI and mobility officer involvement essential',
-                        'Technology-based access for all visual materials',
-                        'Likely dual-media learner (print and Braille)',
-                        'High-powered electronic magnification (video magnifier/CCTV)',
-                        'Screen reading technology (JAWS, NVDA, VoiceOver)',
-                        'Touch-typing and accessible keyboard skills training',
-                        'Audio textbooks and digital accessible formats',
-                        'Tactile graphics and 3D models for diagrams',
-                        'Comprehensive environmental adaptations',
-                        'Mobility and orientation assessment',
-                        'Assessment accommodations (extra time, scribe, reader)',
-                        'Peer support for visual tasks',
-                        'Focus on developing independent living skills alongside curriculum',
-                        'Regular review of access methods as vision changes'
-                    ]
-                }
+                '6/6': [],
+                '6/9': [
+                    {
+                        title: 'Classroom Seating',
+                        description: 'Consider preferential seating in the front third of the classroom with clear sightlines to displays and teaching areas.'
+                    },
+                    {
+                        title: 'Board Work Access',
+                        description: 'Ensure clear, high-contrast presentations on interactive whiteboards. Consider sharing screen content via iPad or tablet for closer viewing.'
+                    },
+                    {
+                        title: 'Print Materials',
+                        description: 'Provide enlarged handouts with minimum 14-16pt font for board work and worksheets.'
+                    },
+                    {
+                        title: 'Digital Access',
+                        description: 'Consider providing digital copies of board work sent to pupil\'s device for closer viewing and magnification.'
+                    }
+                ],
+                '6/12': [
+                    {
+                        title: 'Classroom Seating',
+                        description: 'Preferential seating in the front row is essential, with unobstructed view of all teaching displays and demonstrations.'
+                    },
+                    {
+                        title: 'Screen Mirroring Technology',
+                        description: 'Provide all board content in digital format sent to pupil\'s iPad/tablet using screen mirroring technology (Apple AirPlay, Google Cast) for real-time access.'
+                    },
+                    {
+                        title: 'Print Size Adaptations',
+                        description: 'Enlarge print materials to 18-24pt font size with good contrast (black text on white/cream background).'
+                    },
+                    {
+                        title: 'Advance Materials',
+                        description: 'Pre-provide lesson materials electronically to allow for preview and preparation before lessons.'
+                    },
+                    {
+                        title: 'Distance Viewing Aids',
+                        description: 'Consider use of monocular telescope for occasional distance viewing of specific targets (e.g., demonstrations, displays).'
+                    }
+                ],
+                '6/19': [
+                    {
+                        title: 'Classroom Positioning',
+                        description: 'Seated at the front of the classroom with clear sightline to all displays. Avoid seating with visual obstructions.'
+                    },
+                    {
+                        title: 'iPad with Screen Sharing',
+                        description: 'Use iPad with screen sharing for all board work and presentations. This is essential for accessing distance information in real-time.'
+                    },
+                    {
+                        title: 'Digital Textbooks and eBooks',
+                        description: 'Provide access to digital textbooks and eBooks with adjustable font sizes, allowing pupil to magnify content as needed.'
+                    },
+                    {
+                        title: 'Enlarged Print Materials',
+                        description: 'Enlarge all print materials to minimum 24-32pt font size. Consider using bold fonts for increased clarity.'
+                    },
+                    {
+                        title: 'Advance Copies',
+                        description: 'Provide advance copies of PowerPoints, worksheets, and visual materials to allow time for processing and familiarisation.'
+                    },
+                    {
+                        title: 'Screen Magnification Apps',
+                        description: 'Train pupil in use of screen magnification apps (Zoom feature on iPad, Magnifier app) for accessing visual information.'
+                    },
+                    {
+                        title: 'Electronic Note-Taking',
+                        description: 'Consider electronic note-taking to reduce copying from board. Provide digital versions of notes or use collaborative documents.'
+                    },
+                    {
+                        title: 'Monocular Telescope',
+                        description: 'Use of monocular telescope for specific distance tasks (e.g., reading signs, viewing demonstrations). Requires training and practice.'
+                    },
+                    {
+                        title: 'High Contrast Materials',
+                        description: 'Use high contrast materials for all work - avoid pastel colours, ensure dark text on light backgrounds, avoid low-contrast combinations.'
+                    },
+                    {
+                        title: 'Extra Time Allowance',
+                        description: 'Allow extra time for accessing and processing visual information, including during assessments and classwork.'
+                    },
+                    {
+                        title: 'Verbal Descriptions',
+                        description: 'Ensure all diagrams, images, and visual information are described verbally or provided with text descriptions for full access.'
+                    }
+                ],
+                '6/24': [
+                    {
+                        title: 'Seating and Positioning',
+                        description: 'Front row seating mandatory with unobstructed views of all teaching areas and displays.'
+                    },
+                    {
+                        title: 'iPad with Screen Mirroring',
+                        description: 'iPad with screen mirroring is essential classroom tool for all visual content. All board work must be shared digitally.'
+                    },
+                    {
+                        title: 'Large Print or Digital Textbooks',
+                        description: 'Provide large print textbooks (24-36pt minimum) or digital alternatives with magnification capability.'
+                    },
+                    {
+                        title: 'Magnification Software',
+                        description: 'Ensure access to magnification software on classroom computer/iPad for all digital work.'
+                    },
+                    {
+                        title: 'Electronic Whiteboards',
+                        description: 'Use electronic whiteboards with ability to save and share content directly to pupil\'s device.'
+                    },
+                    {
+                        title: 'Reduce Copying Tasks',
+                        description: 'Reduce copying tasks - provide pre-prepared materials and digital versions of all notes.'
+                    },
+                    {
+                        title: 'Electronic Magnifier/CCTV',
+                        description: 'Consider use of portable CCTV/electronic magnifier for detail work and reading tasks.'
+                    },
+                    {
+                        title: 'Touch-Typing Skills',
+                        description: 'Provide training in touch-typing for efficient note-taking and reduced reliance on copying.'
+                    },
+                    {
+                        title: 'Monocular Telescope',
+                        description: 'Monocular telescope with appropriate training for specific distance viewing tasks.'
+                    },
+                    {
+                        title: 'Maximum Contrast',
+                        description: 'Use maximum contrast on all materials - avoid grey tones and pastels. Use bold, clear fonts.'
+                    },
+                    {
+                        title: 'Verbal Descriptions',
+                        description: 'Provide verbal descriptions of all visual information, diagrams, and demonstrations.'
+                    },
+                    {
+                        title: 'Audio Books',
+                        description: 'Consider audio books alongside print/digital texts to reduce visual fatigue and improve access.'
+                    },
+                    {
+                        title: 'Extra Time and Breaks',
+                        description: 'Allow extra time for processing visual information and provide regular breaks during visually intensive tasks.'
+                    }
+                ],
+                '6/36': [
+                    {
+                        title: 'Specialist Support',
+                        description: 'Comprehensive assessment and regular specialist teaching input from QTVI essential.'
+                    },
+                    {
+                        title: 'Technology for All Visual Content',
+                        description: 'iPad with screen sharing for all visual content is mandatory. Standard displays are largely inaccessible.'
+                    },
+                    {
+                        title: 'High-Powered Magnification',
+                        description: 'High-powered magnification technology essential - electronic magnification (CCTV) for most classroom tasks.'
+                    },
+                    {
+                        title: 'Large Print or Braille',
+                        description: 'Likely to require Braille or very large print (36pt+) materials. Consider Braille assessment.'
+                    },
+                    {
+                        title: 'Screen Reading Software',
+                        description: 'Provide access to screen reading software for independence (e.g., VoiceOver, JAWS, NVDA).'
+                    },
+                    {
+                        title: 'Tactile and 3D Models',
+                        description: 'Use tactile/3D models for visual concepts, diagrams, and maps to support understanding.'
+                    },
+                    {
+                        title: 'Audio Support',
+                        description: 'Auditory support crucial - audio descriptions, text-to-speech technology, and audio textbooks.'
+                    },
+                    {
+                        title: 'Eliminate Board Copying',
+                        description: 'Eliminate all board copying - provide all materials digitally or in accessible formats.'
+                    },
+                    {
+                        title: 'Assistive Technology Training',
+                        description: 'Comprehensive training in assistive technology is essential for curriculum access and independence.'
+                    },
+                    {
+                        title: 'Environmental Adaptations',
+                        description: 'Environmental adaptations for safety and access - improved lighting, contrast marking, tactile cues.'
+                    },
+                    {
+                        title: 'Technology-Based Assessment',
+                        description: 'Consider assessment via technology rather than paper-based methods to allow for magnification and speech output.'
+                    },
+                    {
+                        title: 'Collaborative Technology',
+                        description: 'Use collaborative technology (OneNote, Google Classroom) for shared access to materials and assignments.'
+                    }
+                ],
+                '6/60': [
+                    {
+                        title: 'Specialist Team Support',
+                        description: 'Specialist QTVI and mobility officer involvement essential. Regular ongoing support required.'
+                    },
+                    {
+                        title: 'Technology-Based Access',
+                        description: 'All visual materials must be accessed through technology. Distance vision provides minimal functional information.'
+                    },
+                    {
+                        title: 'Dual-Media Learning',
+                        description: 'Likely dual-media learner requiring both print (highly magnified) and Braille. Assess braille needs urgently.'
+                    },
+                    {
+                        title: 'Electronic Magnification',
+                        description: 'High-powered electronic magnification (video magnifier/CCTV) essential for any print access.'
+                    },
+                    {
+                        title: 'Screen Reading Technology',
+                        description: 'Screen reading technology (JAWS, NVDA, VoiceOver) for computer access and independence.'
+                    },
+                    {
+                        title: 'Touch-Typing and Keyboard Skills',
+                        description: 'Priority training in touch-typing and accessible keyboard skills for efficient computer use.'
+                    },
+                    {
+                        title: 'Audio Textbooks',
+                        description: 'Audio textbooks and digital accessible formats essential for accessing curriculum content.'
+                    },
+                    {
+                        title: 'Tactile Graphics',
+                        description: 'Tactile graphics and 3D models for all diagrams, maps, and visual concepts.'
+                    },
+                    {
+                        title: 'Comprehensive Environmental Adaptations',
+                        description: 'Comprehensive environmental adaptations required throughout school for safety and independence.'
+                    },
+                    {
+                        title: 'Mobility and Orientation',
+                        description: 'Mobility and orientation assessment and training essential for safe, independent movement.'
+                    },
+                    {
+                        title: 'Assessment Accommodations',
+                        description: 'Full assessment accommodations required - extra time, scribe, reader, or technology-based alternatives.'
+                    },
+                    {
+                        title: 'Peer Support Systems',
+                        description: 'Establish peer support for visual tasks while maintaining pupil\'s independence and dignity.'
+                    },
+                    {
+                        title: 'Independent Living Skills',
+                        description: 'Focus on developing independent living skills alongside curriculum access.'
+                    }
+                ],
+                'Not assessed': []
+            },
+
+            // NEAR ACUITY RECOMMENDATIONS (for reading/close work)
+            nearAcuity: {
+                'N5': [],
+                'N6': [
+                    {
+                        title: 'Standard Print Access',
+                        description: 'Pupil can access standard print (approximately 12pt font) but may benefit from slightly larger print (14-16pt) to reduce eye strain.'
+                    },
+                    {
+                        title: 'Good Lighting',
+                        description: 'Ensure good, adjustable lighting for close work. Consider task lighting for reading and writing.'
+                    },
+                    {
+                        title: 'Frequent Breaks',
+                        description: 'Allow frequent breaks during extended reading tasks to prevent visual fatigue.'
+                    }
+                ],
+                'N8': [
+                    {
+                        title: 'Enlarged Print',
+                        description: 'Provide print materials in 14-18pt font size for comfortable reading without excessive magnification.'
+                    },
+                    {
+                        title: 'Digital Text Options',
+                        description: 'Offer digital versions of texts so pupil can adjust font size as needed on iPad or computer.'
+                    },
+                    {
+                        title: 'Reading Stand',
+                        description: 'Consider use of a reading stand or slant board to bring materials closer and reduce fatigue.'
+                    },
+                    {
+                        title: 'Task Lighting',
+                        description: 'Provide adjustable task lighting for close work to improve contrast and reduce eye strain.'
+                    }
+                ],
+                'N10': [
+                    {
+                        title: 'Large Print Materials',
+                        description: 'Provide large print materials (18-24pt font size) for all reading tasks.'
+                    },
+                    {
+                        title: 'Digital Books with Magnification',
+                        description: 'Access to digital textbooks and eBooks with magnification capability is essential for independent reading.'
+                    },
+                    {
+                        title: 'Hand-Held Magnifier',
+                        description: 'Provide training in use of hand-held magnifier for occasional reading of standard print (labels, worksheets).'
+                    },
+                    {
+                        title: 'Close Working Distance',
+                        description: 'Allow pupil to work at close distance. Provide slant board or iPad stand to bring work closer without poor posture.'
+                    },
+                    {
+                        title: 'Reduce Copying',
+                        description: 'Minimize copying from board or books. Provide pre-prepared notes or digital versions.'
+                    },
+                    {
+                        title: 'High Contrast',
+                        description: 'Use high-contrast materials - black text on white/cream paper, avoid faded photocopies.'
+                    }
+                ],
+                'N12': [
+                    {
+                        title: 'Large Print Essential',
+                        description: 'Large print essential (24-28pt minimum). Standard print is inaccessible without magnification.'
+                    },
+                    {
+                        title: 'iPad with Digital Books',
+                        description: 'iPad or tablet with digital books and pinch-to-zoom functionality for independent reading.'
+                    },
+                    {
+                        title: 'Electronic Magnification',
+                        description: 'Consider electronic magnification (CCTV/video magnifier) for extended reading and writing tasks.'
+                    },
+                    {
+                        title: 'Magnification Apps',
+                        description: 'Train in use of magnification apps (iPad Magnifier, Zoom feature) for accessing standard print when necessary.'
+                    },
+                    {
+                        title: 'Bold-Lined Paper',
+                        description: 'Provide bold-lined or raised-line paper for written work to improve visibility of writing lines.'
+                    },
+                    {
+                        title: 'Reduce Reading Load',
+                        description: 'Reduce reading load where possible. Consider audio books alongside print to manage visual fatigue.'
+                    },
+                    {
+                        title: 'Optimal Lighting',
+                        description: 'Ensure optimal, glare-free lighting for all close work. Adjustable task lighting essential.'
+                    },
+                    {
+                        title: 'Extra Time',
+                        description: 'Allow extra time for reading and written work due to magnification needs and slower reading speed.'
+                    }
+                ],
+                'N18': [
+                    {
+                        title: 'Very Large Print',
+                        description: 'Very large print required (28-36pt minimum) for any print-based work.'
+                    },
+                    {
+                        title: 'Electronic Magnification Priority',
+                        description: 'Electronic magnification (CCTV/video magnifier) should be primary tool for reading and writing.'
+                    },
+                    {
+                        title: 'Digital Alternatives',
+                        description: 'Prioritise digital materials with adjustable magnification over print wherever possible.'
+                    },
+                    {
+                        title: 'Screen Reading Software',
+                        description: 'Introduce screen reading software (text-to-speech) to reduce visual load and support access.'
+                    },
+                    {
+                        title: 'Bold, Clear Fonts',
+                        description: 'Use bold, sans-serif fonts (Arial, Verdana) with maximum spacing between letters and lines.'
+                    },
+                    {
+                        title: 'Audio Support',
+                        description: 'Audio books and text-to-speech essential to supplement print access and reduce fatigue.'
+                    },
+                    {
+                        title: 'Eliminate Standard Print',
+                        description: 'Eliminate use of standard print. All materials must be adapted or provided digitally.'
+                    },
+                    {
+                        title: 'Assistive Technology Training',
+                        description: 'Comprehensive training in assistive technology for reading and writing (magnification, speech output).'
+                    }
+                ],
+                'N24': [
+                    {
+                        title: 'Electronic Magnification Essential',
+                        description: 'Electronic magnification (CCTV) essential for any print access. Very large print (36pt+) if using print at all.'
+                    },
+                    {
+                        title: 'Screen Reading as Primary Access',
+                        description: 'Screen reading software with speech output should be primary method for accessing text.'
+                    },
+                    {
+                        title: 'Audio Books Primary Resource',
+                        description: 'Audio books should be primary resource for reading curriculum texts. Print is highly fatiguing.'
+                    },
+                    {
+                        title: 'Touch-Typing Skills',
+                        description: 'Priority training in touch-typing skills for efficient written output without reliance on seeing keyboard.'
+                    },
+                    {
+                        title: 'Digital Workflow',
+                        description: 'Establish fully digital workflow - computer/iPad with accessibility features for all work.'
+                    },
+                    {
+                        title: 'Consider Braille Assessment',
+                        description: 'Consider Braille assessment if vision is deteriorating or pupil finds print too fatiguing.'
+                    },
+                    {
+                        title: 'Assessment Accommodations',
+                        description: 'Full assessment accommodations - reader, scribe, extra time, or technology-based alternatives.'
+                    }
+                ],
+                'N36': [
+                    {
+                        title: 'Dual-Media Approach',
+                        description: 'Likely dual-media learner. Assess for Braille alongside continued print access where beneficial.'
+                    },
+                    {
+                        title: 'Audio as Primary Access',
+                        description: 'Audio materials (text-to-speech, audio books) should be primary method for accessing curriculum content.'
+                    },
+                    {
+                        title: 'Screen Reading Technology',
+                        description: 'Screen reading technology with speech and/or Braille output essential for computer access.'
+                    },
+                    {
+                        title: 'Braille Instruction',
+                        description: 'Begin or continue Braille instruction as a sustainable literacy medium.'
+                    },
+                    {
+                        title: 'Electronic Magnification for Specific Tasks',
+                        description: 'High-powered electronic magnification for specific tasks only - audio/Braille should be primary media.'
+                    },
+                    {
+                        title: 'Tactile Learning Materials',
+                        description: 'Use tactile materials, 3D models, and manipulatives to support learning concepts.'
+                    },
+                    {
+                        title: 'Independent Living Skills',
+                        description: 'Focus on developing independent living skills and efficient use of assistive technology.'
+                    }
+                ],
+                'Not assessed': []
             },
 
             // CONTRAST SENSITIVITY RECOMMENDATIONS
             contrastSensitivity: {
-                'Good': {
-                    interpretation: 'The pupil demonstrates good contrast sensitivity.',
-                    implications: 'Can distinguish subtle differences in shading and work effectively with standard materials.',
-                    strategies: []
-                },
-                'Moderate': {
-                    interpretation: 'The pupil has moderately reduced contrast sensitivity.',
-                    implications: 'May struggle with low-contrast materials, pencil on white paper, or faded photocopies.',
-                    strategies: [
-                        'Use high-contrast materials (black on white, avoid grey)',
-                        'Provide bold-lined paper for written work',
-                        'Ensure high-quality photocopies (not faded or light)',
-                        'Use felt-tip pens or dark pencils instead of standard graphite',
-                        'Increase screen contrast on computers and tablets',
-                        'Avoid glossy paper which can reduce contrast with glare',
-                        'Use yellow or cream paper if white creates glare',
-                        'Ensure good, even lighting without shadows'
-                    ]
-                },
-                'Poor': {
-                    interpretation: 'The pupil has significantly reduced contrast sensitivity.',
-                    implications: 'Standard materials appear washed out or difficult to distinguish. Requires maximum contrast for all tasks.',
-                    strategies: [
-                        'Maximum contrast essential - use black marker on white/cream backgrounds',
-                        'Bold-lined or raised-line paper for writing',
-                        'Thick black pens (felt-tip/rollerball) not standard pencils',
-                        'Digital materials with adjustable contrast settings',
-                        'Use colour overlays or tinted paper if helpful (trial different colours)',
-                        'Avoid worksheets with excessive visual clutter',
-                        'High-contrast keyboards and screen settings',
-                        'Ensure optimal lighting - not too bright (glare) or dim',
-                        'Consider yellow-on-black or white-on-black for some tasks',
-                        'Avoid shiny/glossy surfaces and laminated materials',
-                        'Provide clear borders around text and images'
-                    ]
-                }
+                'Good': [],
+                'Moderate': [
+                    {
+                        title: 'High-Contrast Materials',
+                        description: 'Use high-contrast materials for all work - black text on white paper, avoid grey or faded colors.'
+                    },
+                    {
+                        title: 'Bold-Lined Paper',
+                        description: 'Provide bold-lined paper for written work to improve visibility of writing lines.'
+                    },
+                    {
+                        title: 'Quality Photocopies',
+                        description: 'Ensure high-quality photocopies - not faded or light. Consider providing digital alternatives.'
+                    },
+                    {
+                        title: 'Dark Writing Tools',
+                        description: 'Use felt-tip pens or very dark pencils instead of standard graphite for better visibility.'
+                    },
+                    {
+                        title: 'Screen Contrast Settings',
+                        description: 'Increase screen contrast on computers and tablets to maximum comfortable level.'
+                    },
+                    {
+                        title: 'Paper Selection',
+                        description: 'Avoid glossy paper which reduces contrast. Use yellow or cream paper if white creates glare.'
+                    },
+                    {
+                        title: 'Optimal Lighting',
+                        description: 'Ensure good, even lighting without shadows or glare on work surfaces.'
+                    }
+                ],
+                'Poor': [
+                    {
+                        title: 'Maximum Contrast Essential',
+                        description: 'Maximum contrast essential - use black marker on white/cream backgrounds for all materials.'
+                    },
+                    {
+                        title: 'Bold or Raised-Line Paper',
+                        description: 'Provide bold-lined or raised-line paper for writing tasks to maximize line visibility.'
+                    },
+                    {
+                        title: 'Thick Black Pens',
+                        description: 'Use only thick black pens (felt-tip/rollerball) - standard pencils are insufficient.'
+                    },
+                    {
+                        title: 'Digital with Contrast Adjustment',
+                        description: 'Prioritize digital materials with adjustable contrast settings for optimal access.'
+                    },
+                    {
+                        title: 'Color Overlays or Tinted Paper',
+                        description: 'Trial color overlays or tinted paper - different colors may enhance contrast for individual pupils.'
+                    },
+                    {
+                        title: 'Reduce Visual Clutter',
+                        description: 'Avoid worksheets with excessive visual clutter. Use clear borders and spacing.'
+                    },
+                    {
+                        title: 'High-Contrast Technology',
+                        description: 'Use high-contrast keyboards, screen settings, and ensure all technology is optimized for contrast.'
+                    },
+                    {
+                        title: 'Optimal Lighting Control',
+                        description: 'Ensure optimal lighting - not too bright (causing glare) or too dim. Adjustable lighting essential.'
+                    },
+                    {
+                        title: 'Alternative Color Schemes',
+                        description: 'Consider yellow-on-black or white-on-black for some tasks if more effective than standard contrast.'
+                    },
+                    {
+                        title: 'Avoid Glossy Surfaces',
+                        description: 'Avoid shiny/glossy surfaces and laminated materials which reduce contrast significantly.'
+                    }
+                ],
+                'Not assessed': []
             },
 
             // VISUAL FIELDS RECOMMENDATIONS
             visualFields: {
-                'Full fields': {
-                    interpretation: 'The pupil has full visual fields with no restrictions.',
-                    implications: 'Can access visual information across their full field of vision.',
-                    strategies: []
-                },
-                'Peripheral field loss': {
-                    interpretation: 'The pupil has reduced peripheral (side) vision, commonly described as "tunnel vision".',
-                    implications: 'May miss information at the edges, bump into objects, or have difficulty with scanning and tracking.',
-                    strategies: [
-                        'Seated to maximise use of remaining field (e.g., if right field loss, sit on left)',
-                        'Reduce visual clutter on page and in environment',
-                        'Teach systematic scanning techniques (left to right, top to bottom)',
-                        'Use margins and clear spacing to define work areas',
-                        'Present information in central vision',
-                        'Orientation and mobility assessment recommended',
-                        'Consider bump dots or tactile markers for boundaries',
-                        'Warn before approaching from affected side',
-                        'Allow extra time for scanning and locating items'
-                    ]
-                },
-                'Central field loss': {
-                    interpretation: 'The pupil has reduced central vision, affecting their ability to see detail directly ahead.',
-                    implications: 'Reading and detailed work significantly affected. May use peripheral vision for some tasks.',
-                    strategies: [
-                        'High magnification essential (may not be effective if large central scotoma)',
-                        'Consider eccentric viewing training (using peripheral vision)',
-                        'Audio support crucial - text-to-speech technology',
-                        'Reduce reading demands or provide audio alternatives',
-                        'Large print (assess optimal size - may be 36pt+)',
-                        'Good lighting essential',
-                        'Allow extended time for reading and detail work',
-                        'Consider Braille assessment if vision deteriorating',
-                        'Use colour and contrast to aid peripheral viewing'
-                    ]
-                },
-                'Hemianopia (half field loss)': {
-                    interpretation: 'The pupil has loss of half of the visual field in both eyes.',
-                    implications: 'Significant impact on reading, scanning, and spatial awareness. May miss information on affected side.',
-                    strategies: [
-                        'Teach systematic scanning techniques',
-                        'Use coloured margin or ruler on affected side as a guide',
-                        'Position work to maximise use of intact field',
-                        'Reduce page width for reading (portrait orientation)',
-                        'Electronic reading aids can help with navigation',
-                        'Orientation and mobility support essential',
-                        'Seat to compensate for field loss',
-                        'Warn before approaching from affected side',
-                        'Use finger or guide to track during reading',
-                        'Extra time for visual tasks'
-                    ]
-                }
+                'Full fields': [],
+                'Peripheral field loss': [
+                    {
+                        title: 'Strategic Seating',
+                        description: 'Seat pupil to maximize use of remaining field (e.g., if right field loss, sit on left side of room).'
+                    },
+                    {
+                        title: 'Reduce Visual Clutter',
+                        description: 'Reduce visual clutter on page and in environment to minimize information in periphery.'
+                    },
+                    {
+                        title: 'Systematic Scanning Training',
+                        description: 'Teach systematic scanning techniques (left to right, top to bottom) to compensate for field loss.'
+                    },
+                    {
+                        title: 'Clear Margins and Spacing',
+                        description: 'Use clear margins and spacing to define work areas and guide visual attention.'
+                    },
+                    {
+                        title: 'Central Information Presentation',
+                        description: 'Present important information in central vision where pupil has best access.'
+                    },
+                    {
+                        title: 'Mobility Assessment',
+                        description: 'Orientation and mobility assessment recommended for safe navigation in school.'
+                    },
+                    {
+                        title: 'Tactile Boundary Markers',
+                        description: 'Consider bump dots or tactile markers to mark boundaries and edges.'
+                    },
+                    {
+                        title: 'Approach from Good Side',
+                        description: 'Warn before approaching from affected side - approach from side with intact field where possible.'
+                    },
+                    {
+                        title: 'Extra Time for Scanning',
+                        description: 'Allow extra time for scanning and locating items due to reduced peripheral awareness.'
+                    }
+                ],
+                'Central field loss': [
+                    {
+                        title: 'High Magnification',
+                        description: 'High magnification may be helpful but assess effectiveness - may not work if large central scotoma.'
+                    },
+                    {
+                        title: 'Eccentric Viewing Training',
+                        description: 'Consider eccentric viewing training to teach pupil to use peripheral vision effectively.'
+                    },
+                    {
+                        title: 'Audio Support Essential',
+                        description: 'Audio support crucial - text-to-speech technology for accessing text-based materials.'
+                    },
+                    {
+                        title: 'Reduce Reading Demands',
+                        description: 'Reduce reading demands where possible or provide audio alternatives to minimize visual fatigue.'
+                    },
+                    {
+                        title: 'Very Large Print',
+                        description: 'Assess optimal print size - may require 36pt+ depending on scotoma size.'
+                    },
+                    {
+                        title: 'Excellent Lighting',
+                        description: 'Good, adjustable lighting essential to support peripheral vision use.'
+                    },
+                    {
+                        title: 'Extended Time',
+                        description: 'Allow extended time for reading and detail work due to reliance on peripheral vision.'
+                    },
+                    {
+                        title: 'Braille Assessment',
+                        description: 'Consider Braille assessment if vision is deteriorating or reading becomes too difficult.'
+                    },
+                    {
+                        title: 'Color and Contrast',
+                        description: 'Use strong color and contrast to aid peripheral viewing and improve visual access.'
+                    }
+                ],
+                'Hemianopia (half field loss)': [
+                    {
+                        title: 'Systematic Scanning Training',
+                        description: 'Teach systematic scanning techniques to ensure pupil checks affected side regularly.'
+                    },
+                    {
+                        title: 'Colored Margin or Ruler',
+                        description: 'Use colored margin or ruler on affected side as a visual guide during reading.'
+                    },
+                    {
+                        title: 'Position Work for Intact Field',
+                        description: 'Position work to maximize use of intact visual field.'
+                    },
+                    {
+                        title: 'Reduce Page Width',
+                        description: 'Reduce page width for reading - portrait orientation or narrower text columns.'
+                    },
+                    {
+                        title: 'Electronic Reading Aids',
+                        description: 'Electronic reading aids can help with navigation and tracking across text.'
+                    },
+                    {
+                        title: 'Mobility Support',
+                        description: 'Orientation and mobility support essential for safe movement in school environment.'
+                    },
+                    {
+                        title: 'Compensatory Seating',
+                        description: 'Seat to compensate for field loss - position intact field toward center of action.'
+                    },
+                    {
+                        title: 'Approach Awareness',
+                        description: 'Warn before approaching from affected side to avoid startling pupil.'
+                    },
+                    {
+                        title: 'Tracking Guide',
+                        description: 'Use finger, ruler, or electronic guide to track during reading to avoid missing text.'
+                    },
+                    {
+                        title: 'Extra Time',
+                        description: 'Provide extra time for all visual tasks due to need for compensatory scanning.'
+                    }
+                ],
+                'Not assessed': []
             },
 
             // SCANNING PATTERN RECOMMENDATIONS
             scanningPattern: {
-                'Systematic': {
-                    interpretation: 'The pupil demonstrates efficient systematic scanning.',
-                    implications: 'Can locate information effectively using organised visual search strategies.',
-                    strategies: []
-                },
-                'Disorganised': {
-                    interpretation: 'The pupil uses a disorganised scanning pattern.',
-                    implications: 'May miss information, take longer to locate items, or lose place when reading.',
-                    strategies: [
-                        'Teach structured scanning techniques (left-right, top-bottom)',
-                        'Use finger or reading ruler to track',
-                        'Reduce visual clutter on worksheets',
-                        'Present information in clear, organised layouts',
-                        'Use visual prompts (arrows, numbers) to guide scanning',
-                        'Practice scanning activities regularly',
-                        'Use typoscope (reading window) to isolate text',
-                        'Highlight or box key information',
-                        'Allow extra time for locating information'
-                    ]
-                },
-                'Slow': {
-                    interpretation: 'The pupil demonstrates slow visual scanning.',
-                    implications: 'Takes longer to locate information, affecting speed of work completion.',
-                    strategies: [
-                        'Reduce amount of visual information on page',
-                        'Provide key information in predictable locations',
-                        'Use clear headings and organisational structure',
-                        'Allow extended time for visual search tasks',
-                        'Pre-teach location of important information',
-                        'Use colour coding to categorise information',
-                        'Reduce copying tasks',
-                        'Provide partially completed worksheets',
-                        'Use technology to reduce visual search (searchable PDFs)'
-                    ]
-                }
+                'Systematic': [],
+                'Disorganised': [
+                    {
+                        title: 'Structured Scanning Training',
+                        description: 'Teach structured scanning techniques - consistent left-right, top-bottom patterns.'
+                    },
+                    {
+                        title: 'Physical Tracking Tools',
+                        description: 'Use finger, reading ruler, or typoscope to physically track and maintain place.'
+                    },
+                    {
+                        title: 'Reduce Visual Clutter',
+                        description: 'Reduce visual clutter on worksheets to minimize distractions and improve focus.'
+                    },
+                    {
+                        title: 'Clear, Organized Layouts',
+                        description: 'Present information in clear, well-organized layouts with predictable structure.'
+                    },
+                    {
+                        title: 'Visual Prompts and Guides',
+                        description: 'Use visual prompts (arrows, numbers, colored markers) to guide systematic scanning.'
+                    },
+                    {
+                        title: 'Regular Practice',
+                        description: 'Practice scanning activities regularly to develop and reinforce systematic patterns.'
+                    },
+                    {
+                        title: 'Reading Window/Typoscope',
+                        description: 'Use typoscope (reading window) to isolate text and reduce visual complexity.'
+                    },
+                    {
+                        title: 'Highlight Key Information',
+                        description: 'Highlight or box key information to draw attention and aid visual search.'
+                    },
+                    {
+                        title: 'Extra Time',
+                        description: 'Allow extra time for locating information and completing visual search tasks.'
+                    }
+                ],
+                'Slow': [
+                    {
+                        title: 'Reduce Visual Information',
+                        description: 'Reduce amount of visual information on page - use simpler layouts with less content per page.'
+                    },
+                    {
+                        title: 'Predictable Information Placement',
+                        description: 'Provide key information in predictable locations to reduce search time.'
+                    },
+                    {
+                        title: 'Clear Organizational Structure',
+                        description: 'Use clear headings, numbering, and organizational structure to guide visual search.'
+                    },
+                    {
+                        title: 'Extended Time',
+                        description: 'Allow extended time for visual search tasks and assignments.'
+                    },
+                    {
+                        title: 'Pre-Teaching',
+                        description: 'Pre-teach location of important information before independent work.'
+                    },
+                    {
+                        title: 'Color Coding',
+                        description: 'Use color coding to categorize information and speed up visual search.'
+                    },
+                    {
+                        title: 'Reduce Copying',
+                        description: 'Reduce copying tasks which require extensive visual search and tracking.'
+                    },
+                    {
+                        title: 'Partially Completed Work',
+                        description: 'Provide partially completed worksheets to reduce amount of visual searching required.'
+                    },
+                    {
+                        title: 'Technology Solutions',
+                        description: 'Use technology to reduce visual search - searchable PDFs, word processor find function.'
+                    }
+                ],
+                'Not assessed': []
             },
 
-            // COLOUR VISION RECOMMENDATIONS
+            // COLOR VISION RECOMMENDATIONS
             colorVision: {
-                'Normal colour vision': {
-                    interpretation: 'The pupil has typical colour perception.',
-                    implications: 'Can use colour for learning and differentiation without difficulty.',
-                    strategies: []
-                },
-                'Red-green deficiency': {
-                    interpretation: 'The pupil has difficulty distinguishing between red and green colours.',
-                    implications: 'May confuse red/green on maps, graphs, or colour-coded materials. Affects approximately 8% of males.',
-                    strategies: [
-                        'Do not rely on colour alone to convey information',
-                        'Use patterns, labels, or symbols alongside colour',
-                        'Choose colour combinations carefully (blue/yellow works well)',
-                        'Avoid red pen for corrections - use blue or purple',
-                        'Label colour-coded materials',
-                        'Provide colour name labels on art materials',
-                        'Use shape or texture in addition to colour',
-                        'Consider colour vision apps for identifying colours',
-                        'Be aware in science (litmus, indicators) - describe colour verbally'
-                    ]
-                },
-                'Blue-yellow deficiency': {
-                    interpretation: 'The pupil has difficulty distinguishing between blue and yellow colours (less common).',
-                    implications: 'May confuse blue/yellow and related colours.',
-                    strategies: [
-                        'Use red/green colour combinations',
-                        'Label all colour-coded materials',
-                        'Provide alternative methods to identify colours',
-                        'Use patterns or textures alongside colour',
-                        'Describe colours verbally in class discussions'
-                    ]
-                },
-                'Monochromacy (no colour vision)': {
-                    interpretation: 'The pupil cannot perceive colour, seeing the world in shades of grey.',
-                    implications: 'Colour carries no information value. Often associated with reduced visual acuity and light sensitivity.',
-                    strategies: [
-                        'Never use colour alone to convey information',
-                        'Label all materials with colour names',
-                        'Use patterns, textures, and labels exclusively',
-                        'Provide high contrast black and white materials',
-                        'Address likely associated light sensitivity',
-                        'Use tactile or verbal methods for colour identification',
-                        'Ensure understanding that colour-based instructions are inaccessible',
-                        'Technology: colour identifier apps can speak colour names'
-                    ]
-                }
+                'Normal colour vision': [],
+                'Red-green deficiency': [
+                    {
+                        title: 'Don\'t Rely on Color Alone',
+                        description: 'Do not rely on color alone to convey information - always provide additional cues.'
+                    },
+                    {
+                        title: 'Patterns, Labels, or Symbols',
+                        description: 'Use patterns, labels, or symbols alongside color coding for accessibility.'
+                    },
+                    {
+                        title: 'Careful Color Combinations',
+                        description: 'Choose color combinations carefully - blue/yellow works well, avoid red/green combinations.'
+                    },
+                    {
+                        title: 'Avoid Red Pen',
+                        description: 'Avoid red pen for corrections or marking - use blue, purple, or other visible colors.'
+                    },
+                    {
+                        title: 'Label Color-Coded Materials',
+                        description: 'Always label color-coded materials with text or symbols.'
+                    },
+                    {
+                        title: 'Art Materials Labels',
+                        description: 'Provide color name labels on art materials (paints, pens, pencils) for independent selection.'
+                    },
+                    {
+                        title: 'Multiple Cues',
+                        description: 'Use shape, texture, or position in addition to color for categorization.'
+                    },
+                    {
+                        title: 'Color Identification Apps',
+                        description: 'Consider color vision apps for identifying colors independently (e.g., Color ID apps).'
+                    },
+                    {
+                        title: 'Science Considerations',
+                        description: 'Be aware in science lessons (litmus paper, pH indicators) - always describe color changes verbally.'
+                    }
+                ],
+                'Blue-yellow deficiency': [
+                    {
+                        title: 'Use Red/Green Combinations',
+                        description: 'Use red/green color combinations which are more distinguishable for blue-yellow deficiency.'
+                    },
+                    {
+                        title: 'Label All Color-Coded Materials',
+                        description: 'Label all color-coded materials with text descriptions.'
+                    },
+                    {
+                        title: 'Alternative Identification Methods',
+                        description: 'Provide alternative methods to identify colors - patterns, labels, or technology.'
+                    },
+                    {
+                        title: 'Patterns and Textures',
+                        description: 'Use patterns or textures alongside color for differentiation.'
+                    },
+                    {
+                        title: 'Verbal Descriptions',
+                        description: 'Always describe colors verbally in class discussions and demonstrations.'
+                    }
+                ],
+                'Monochromacy (no colour vision)': [
+                    {
+                        title: 'Never Use Color Alone',
+                        description: 'Never use color alone to convey information - pupil cannot perceive any color.'
+                    },
+                    {
+                        title: 'Label All Materials',
+                        description: 'Label all materials with color names to allow pupil to know colors even if unable to see them.'
+                    },
+                    {
+                        title: 'Patterns, Textures, Labels Only',
+                        description: 'Use patterns, textures, and labels exclusively for differentiation - color is not functional.'
+                    },
+                    {
+                        title: 'High Contrast Black and White',
+                        description: 'Provide high contrast black and white materials for best visual access.'
+                    },
+                    {
+                        title: 'Address Light Sensitivity',
+                        description: 'Address likely associated light sensitivity with appropriate lighting and tinted lenses.'
+                    },
+                    {
+                        title: 'Tactile or Verbal Methods',
+                        description: 'Use tactile or verbal methods for color identification - texture, labels, verbal descriptions.'
+                    },
+                    {
+                        title: 'Avoid Color-Based Instructions',
+                        description: 'Ensure all staff understand that color-based instructions are completely inaccessible.'
+                    },
+                    {
+                        title: 'Color Identifier Apps',
+                        description: 'Technology support - color identifier apps can speak color names aloud for independence.'
+                    }
+                ],
+                'Not assessed': []
             }
         };
 
         this.selectedRecommendations = new Set();
     }
 
-    // Get recommendations for a specific assessment
+    // Get recommendations for a specific assessment - returns array of recommendation options
     getRecommendations(assessmentType, value) {
-        if (!value || value === 'Not assessed') return null;
+        if (!value || value === 'Not assessed') return [];
 
         const recs = this.recommendations[assessmentType]?.[value];
-        if (!recs || recs.strategies.length === 0) return null;
+        if (!recs || !Array.isArray(recs) || recs.length === 0) return [];
 
-        return {
-            ...recs,
+        // Return array of recommendations, each with a unique ID
+        return recs.map((rec, index) => ({
+            ...rec,
             assessmentType,
             value,
-            id: `${assessmentType}-${value.replace(/\s+/g, '-').replace(/\//g, '-')}`
-        };
+            id: `${assessmentType}-${value.replace(/\s+/g, '-').replace(/\//g, '-')}-${index}`
+        }));
     }
 
     // Toggle a recommendation selection
@@ -646,6 +1179,7 @@ class AssessmentManager {
             this.debouncedSave();
             this.updateCheckIndicators();
             this.updateProgress();
+            this.updateRecommendations();
         });
 
         document.getElementById('near-distance').addEventListener('input', (e) => {
@@ -884,36 +1418,42 @@ class AssessmentManager {
 
     updateRecommendations() {
         // Gather recommendations based on current state
-        const recommendations = [];
+        let recommendations = [];
 
         // Distance Acuity (from seeIt section)
         if (this.state.seeIt.distanceAcuity && this.state.seeIt.distanceAcuity !== 'Not assessed') {
-            const rec = this.recommendationEngine.getRecommendations('distanceAcuity', this.state.seeIt.distanceAcuity);
-            if (rec) recommendations.push(rec);
+            const recs = this.recommendationEngine.getRecommendations('distanceAcuity', this.state.seeIt.distanceAcuity);
+            recommendations = recommendations.concat(recs);
+        }
+
+        // Near Acuity (from seeIt section)
+        if (this.state.seeIt.nearAcuity && this.state.seeIt.nearAcuity !== 'Not assessed') {
+            const recs = this.recommendationEngine.getRecommendations('nearAcuity', this.state.seeIt.nearAcuity);
+            recommendations = recommendations.concat(recs);
         }
 
         // Contrast Sensitivity (from seeIt section)
         if (this.state.seeIt.contrastSensitivity && this.state.seeIt.contrastSensitivity !== 'Not assessed') {
-            const rec = this.recommendationEngine.getRecommendations('contrastSensitivity', this.state.seeIt.contrastSensitivity);
-            if (rec) recommendations.push(rec);
+            const recs = this.recommendationEngine.getRecommendations('contrastSensitivity', this.state.seeIt.contrastSensitivity);
+            recommendations = recommendations.concat(recs);
         }
 
         // Visual Fields (from findIt section)
         if (this.state.findIt.visualFields && this.state.findIt.visualFields !== 'Not assessed') {
-            const rec = this.recommendationEngine.getRecommendations('visualFields', this.state.findIt.visualFields);
-            if (rec) recommendations.push(rec);
+            const recs = this.recommendationEngine.getRecommendations('visualFields', this.state.findIt.visualFields);
+            recommendations = recommendations.concat(recs);
         }
 
         // Scanning Pattern (from findIt section)
         if (this.state.findIt.scanningPattern && this.state.findIt.scanningPattern !== 'Not assessed') {
-            const rec = this.recommendationEngine.getRecommendations('scanningPattern', this.state.findIt.scanningPattern);
-            if (rec) recommendations.push(rec);
+            const recs = this.recommendationEngine.getRecommendations('scanningPattern', this.state.findIt.scanningPattern);
+            recommendations = recommendations.concat(recs);
         }
 
         // Color Vision (from useIt section)
         if (this.state.useIt.colorVision && this.state.useIt.colorVision !== 'Not assessed') {
-            const rec = this.recommendationEngine.getRecommendations('colorVision', this.state.useIt.colorVision);
-            if (rec) recommendations.push(rec);
+            const recs = this.recommendationEngine.getRecommendations('colorVision', this.state.useIt.colorVision);
+            recommendations = recommendations.concat(recs);
         }
 
         this.activeRecommendations = recommendations;
@@ -963,10 +1503,6 @@ class AssessmentManager {
         const isSelected = this.recommendationEngine.selectedRecommendations.has(rec.id);
         const selectedClass = isSelected ? 'selected' : '';
 
-        const strategiesList = rec.strategies
-            .map(strategy => `<li>${strategy}</li>`)
-            .join('');
-
         return `
             <div class="recommendation-item ${selectedClass}">
                 <div class="recommendation-header">
@@ -977,21 +1513,10 @@ class AssessmentManager {
                         ${isSelected ? 'checked' : ''}
                         aria-label="Include this recommendation in report"
                     />
-                    <div class="recommendation-title">${rec.value}</div>
+                    <div class="recommendation-title">${rec.title}</div>
                 </div>
                 <div class="recommendation-content">
-                    <div class="recommendation-interpretation">
-                        <strong>Interpretation:</strong> ${rec.interpretation}
-                    </div>
-                    <div class="recommendation-implications">
-                        <strong>Implications:</strong> ${rec.implications}
-                    </div>
-                    <div class="recommendation-strategies">
-                        <strong>Recommended Strategies:</strong>
-                        <ul class="recommendation-strategies-list">
-                            ${strategiesList}
-                        </ul>
-                    </div>
+                    <p class="recommendation-description">${rec.description}</p>
                 </div>
             </div>
         `;
@@ -1916,76 +2441,35 @@ class AssessmentManager {
                 yPos += 8;
 
                 selectedRecs.forEach((rec, index) => {
-                    checkPageBreak(60);
-
-                    // Recommendation heading
-                    doc.setFontSize(12);
-                    doc.setFont(undefined, 'bold');
-                    doc.setTextColor(0, 0, 0);
-                    doc.text(`${rec.value}`, margin, yPos);
-                    yPos += 8;
-
-                    // Interpretation
-                    doc.setFontSize(11);
-                    doc.setFont(undefined, 'bold');
-                    doc.text('Interpretation:', margin + 5, yPos);
-                    yPos += 6;
-
-                    doc.setFont(undefined, 'normal');
-                    doc.setFontSize(10);
-                    doc.setTextColor(60, 60, 60);
-                    yPos += addWrappedText(rec.interpretation, margin + 5, yPos, contentWidth - 5);
-                    yPos += 4;
-
                     checkPageBreak(30);
 
-                    // Implications
+                    // Recommendation title
                     doc.setFontSize(11);
                     doc.setFont(undefined, 'bold');
                     doc.setTextColor(0, 0, 0);
-                    doc.text('Implications for Learning:', margin + 5, yPos);
-                    yPos += 6;
 
-                    doc.setFont(undefined, 'normal');
-                    doc.setFontSize(10);
-                    doc.setTextColor(60, 60, 60);
-                    yPos += addWrappedText(rec.implications, margin + 5, yPos, contentWidth - 5);
-                    yPos += 4;
-
-                    checkPageBreak(30);
-
-                    // Strategies
-                    doc.setFontSize(11);
-                    doc.setFont(undefined, 'bold');
-                    doc.setTextColor(0, 0, 0);
-                    doc.text('Recommended Strategies:', margin + 5, yPos);
-                    yPos += 6;
-
-                    doc.setFont(undefined, 'normal');
-                    doc.setFontSize(10);
-                    doc.setTextColor(60, 60, 60);
-
-                    rec.strategies.forEach(strategy => {
-                        checkPageBreak(15);
-                        const bulletPoint = '• ';
-                        const lines = doc.splitTextToSize(`${bulletPoint}${strategy}`, contentWidth - 10);
-
-                        lines.forEach((line, lineIndex) => {
-                            checkPageBreak(8);
-                            if (lineIndex === 0) {
-                                doc.text(line, margin + 10, yPos);
-                            } else {
-                                // Indent continuation lines
-                                doc.text(line, margin + 13, yPos);
-                            }
-                            yPos += 5;
-                        });
-                        yPos += 1;
+                    const bulletPoint = '• ';
+                    const lines = doc.splitTextToSize(`${bulletPoint}${rec.title}`, contentWidth - 5);
+                    lines.forEach((line, lineIndex) => {
+                        checkPageBreak(8);
+                        if (lineIndex === 0) {
+                            doc.text(line, margin + 5, yPos);
+                        } else {
+                            doc.text(line, margin + 8, yPos);
+                        }
+                        yPos += 6;
                     });
+
+                    // Recommendation description
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
+                    doc.setTextColor(60, 60, 60);
+                    yPos += addWrappedText(rec.description, margin + 10, yPos, contentWidth - 10);
+                    yPos += 4;
 
                     // Add spacing between recommendations
                     if (index < selectedRecs.length - 1) {
-                        yPos += 6;
+                        yPos += 2;
                     }
                 });
 
