@@ -2309,6 +2309,129 @@ class AssessmentManager {
         alert(message);
     }
 
+    analyzeFindingsSeverity() {
+        // Analyze assessment data and return {critical: [], important: [], monitor: []}
+        // CRITICAL: Severe vision impairment, multiple significant issues
+        // IMPORTANT: Moderate issues that need intervention
+        // MONITOR: Mild issues to track over time
+
+        const findings = { critical: [], important: [], monitor: [] };
+
+        // Distance Acuity analysis
+        if (this.state.seeIt.distanceAcuity) {
+            if (this.state.seeIt.distanceAcuity.includes('6/38') || this.state.seeIt.distanceAcuity.includes('6/60') || this.state.seeIt.distanceAcuity.includes('<6/60')) {
+                findings.critical.push(`Severe distance acuity impairment: ${this.state.seeIt.distanceAcuity}`);
+            } else if (this.state.seeIt.distanceAcuity.includes('6/19') || this.state.seeIt.distanceAcuity.includes('6/24')) {
+                findings.important.push(`Moderate distance acuity reduction: ${this.state.seeIt.distanceAcuity}`);
+            } else if (this.state.seeIt.distanceAcuity.includes('6/12')) {
+                findings.monitor.push(`Mild distance acuity reduction: ${this.state.seeIt.distanceAcuity}`);
+            }
+        }
+
+        // Near Acuity analysis
+        if (this.state.seeIt.nearAcuity) {
+            if (this.state.seeIt.nearAcuity.includes('N24') || this.state.seeIt.nearAcuity.includes('N36') || this.state.seeIt.nearAcuity.includes('N48')) {
+                findings.critical.push(`Severe near vision impairment: ${this.state.seeIt.nearAcuity}`);
+            } else if (this.state.seeIt.nearAcuity.includes('N10') || this.state.seeIt.nearAcuity.includes('N12') || this.state.seeIt.nearAcuity.includes('N18')) {
+                findings.important.push(`Reduced near acuity: ${this.state.seeIt.nearAcuity}`);
+            } else if (this.state.seeIt.nearAcuity.includes('N8')) {
+                findings.monitor.push(`Slightly reduced near acuity: ${this.state.seeIt.nearAcuity}`);
+            }
+        }
+
+        // Contrast Sensitivity
+        if (this.state.seeIt.contrastSensitivity === 'Severely reduced') {
+            findings.critical.push('Severely reduced contrast sensitivity - high-contrast materials essential');
+        } else if (this.state.seeIt.contrastSensitivity === 'Moderately reduced') {
+            findings.important.push('Moderately reduced contrast sensitivity affecting access to standard materials');
+        } else if (this.state.seeIt.contrastSensitivity === 'Mildly reduced') {
+            findings.monitor.push('Mildly reduced contrast sensitivity');
+        }
+
+        // Visual Fields
+        if (this.state.findIt.visualFields) {
+            if (this.state.findIt.visualFields.includes('Severe restriction') || this.state.findIt.visualFields.includes('Hemianopia')) {
+                findings.critical.push(`Significant visual field loss: ${this.state.findIt.visualFields}`);
+            } else if (this.state.findIt.visualFields.includes('Moderate restriction')) {
+                findings.important.push(`Moderate visual field restriction: ${this.state.findIt.visualFields}`);
+            } else if (this.state.findIt.visualFields.includes('Slight restriction')) {
+                findings.monitor.push(`Slight visual field restriction: ${this.state.findIt.visualFields}`);
+            }
+        }
+
+        // Scanning Pattern
+        if (this.state.findIt.scanningPattern === 'Random/disorganized' || this.state.findIt.scanningPattern === 'Incomplete - misses areas') {
+            findings.important.push(`Scanning difficulties: ${this.state.findIt.scanningPattern} - requires systematic training`);
+        }
+
+        // Color Vision
+        if (this.state.useIt.colorVision) {
+            if (this.state.useIt.colorVision.includes('Monochromacy')) {
+                findings.critical.push('No functional colour vision - never use colour alone to convey information');
+            } else if (this.state.useIt.colorVision.includes('deficiency')) {
+                findings.important.push(`${this.state.useIt.colorVision} - avoid relying on colour alone`);
+            }
+        }
+
+        return findings;
+    }
+
+    generateExecutiveSummary() {
+        // Generate a narrative summary based on assessment findings
+        const summary = [];
+        const studentName = this.state.studentInfo.studentName || 'The student';
+
+        // Overall visual profile
+        const hasSignificantImpairment =
+            this.state.seeIt.distanceAcuity?.includes('6/24') ||
+            this.state.seeIt.distanceAcuity?.includes('6/38') ||
+            this.state.seeIt.distanceAcuity?.includes('6/60') ||
+            this.state.findIt.visualFields?.includes('Severe') ||
+            this.state.findIt.visualFields?.includes('Hemianopia');
+
+        if (hasSignificantImpairment) {
+            summary.push(`${studentName} presents with significant visual impairment that substantially impacts classroom access and requires comprehensive adaptations.`);
+        } else {
+            summary.push(`${studentName} presents with visual impairment requiring thoughtful accommodations to optimize classroom access and learning outcomes.`);
+        }
+
+        // Distance vision summary
+        if (this.state.seeIt.distanceAcuity && this.state.seeIt.distanceAcuity !== '6/6') {
+            summary.push(`Distance acuity is measured at ${this.state.seeIt.distanceAcuity}, indicating that materials viewed from distance will require significant modification or alternative access methods.`);
+        }
+
+        // Near vision summary
+        if (this.state.seeIt.nearAcuity && !this.state.seeIt.nearAcuity.includes('N5') && !this.state.seeIt.nearAcuity.includes('N6')) {
+            summary.push(`Near acuity of ${this.state.seeIt.nearAcuity} indicates that print materials will benefit from enlargement and clear presentation.`);
+        }
+
+        // Visual field summary
+        if (this.state.findIt.visualFields && !this.state.findIt.visualFields.includes('Full')) {
+            summary.push(`Visual field assessment reveals ${this.state.findIt.visualFields.toLowerCase()}, which impacts scanning, mobility, and awareness of the visual environment.`);
+        }
+
+        // Functional implications
+        const functionalIssues = [];
+        if (this.state.findIt.scanningPattern?.includes('Random') || this.state.findIt.scanningPattern?.includes('Incomplete')) {
+            functionalIssues.push('scanning efficiency');
+        }
+        if (this.state.seeIt.contrastSensitivity?.includes('reduced')) {
+            functionalIssues.push('contrast perception');
+        }
+        if (this.state.useIt.colorVision?.includes('deficiency') || this.state.useIt.colorVision?.includes('Monochromacy')) {
+            functionalIssues.push('colour discrimination');
+        }
+
+        if (functionalIssues.length > 0) {
+            summary.push(`Additional considerations include difficulties with ${functionalIssues.join(', ')}, which require specific teaching strategies and environmental modifications.`);
+        }
+
+        // Positive note about support
+        summary.push(`With appropriate accommodations and support strategies as outlined in this report, ${studentName} can access the curriculum effectively and achieve their full potential.`);
+
+        return summary.join(' ');
+    }
+
     generatePDFReport() {
         try {
             // Access jsPDF from window
@@ -2323,7 +2446,7 @@ class AssessmentManager {
 
             // Helper function to add new page if needed
             const checkPageBreak = (requiredSpace) => {
-                if (yPos + requiredSpace > pageHeight - margin) {
+                if (yPos + requiredSpace > pageHeight - margin - 15) { // Extra space for footer
                     doc.addPage();
                     yPos = margin;
                     return true;
@@ -2338,6 +2461,39 @@ class AssessmentManager {
                 return lines.length * lineHeight;
             };
 
+            // Helper function to draw a colored box with text
+            const addColoredBox = (color, title, items, icon = '•') => {
+                if (items.length === 0) return;
+
+                checkPageBreak(20 + (items.length * 6));
+
+                // Draw colored background box
+                const boxHeight = 8 + (items.length * 6);
+                doc.setFillColor(...color);
+                doc.roundedRect(margin, yPos - 3, contentWidth, boxHeight, 2, 2, 'F');
+
+                // Title
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(255, 255, 255);
+                doc.text(title, margin + 5, yPos + 2);
+                yPos += 8;
+
+                // Items
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                items.forEach(item => {
+                    const textLines = doc.splitTextToSize(`${icon} ${item}`, contentWidth - 15);
+                    textLines.forEach(line => {
+                        doc.text(line, margin + 5, yPos);
+                        yPos += 5;
+                    });
+                    yPos += 1;
+                });
+
+                yPos += 5;
+            };
+
             // ===== HEADER =====
             doc.setFillColor(30, 64, 175); // Primary colour
             doc.rect(0, 0, pageWidth, 40, 'F');
@@ -2349,7 +2505,7 @@ class AssessmentManager {
 
             doc.setFontSize(12);
             doc.setFont(undefined, 'normal');
-            doc.text('Ocular Vision Assessment Report', margin, 30);
+            doc.text('Comprehensive Ocular Vision Assessment Report', margin, 30);
 
             doc.setTextColor(0, 0, 0);
             yPos = 50;
@@ -2384,14 +2540,69 @@ class AssessmentManager {
                 yPos += 6;
             });
 
-            yPos += 8;
+            yPos += 10;
 
-            // ===== SEE IT SECTION =====
+            // ===== EXECUTIVE SUMMARY =====
+            const executiveSummary = this.generateExecutiveSummary();
+            if (executiveSummary) {
+                checkPageBreak(40);
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(30, 64, 175);
+                doc.text('Executive Summary', margin, yPos);
+                yPos += 8;
+
+                doc.setDrawColor(30, 64, 175);
+                doc.setLineWidth(0.5);
+                doc.line(margin, yPos, pageWidth - margin, yPos);
+                yPos += 8;
+
+                // Light blue background for executive summary
+                const summaryLines = doc.splitTextToSize(executiveSummary, contentWidth - 10);
+                const summaryHeight = (summaryLines.length * 5.5) + 10;
+                checkPageBreak(summaryHeight);
+
+                doc.setFillColor(240, 248, 255); // Light blue background
+                doc.roundedRect(margin, yPos - 3, contentWidth, summaryHeight, 2, 2, 'F');
+
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                doc.setTextColor(0, 0, 0);
+                yPos += addWrappedText(executiveSummary, margin + 5, yPos + 2, contentWidth - 10, 5.5);
+                yPos += 10;
+            }
+
+            // ===== KEY FINDINGS =====
+            const findings = this.analyzeFindingsSeverity();
+
+            // Critical Findings (Red)
+            if (findings.critical.length > 0) {
+                doc.setTextColor(0, 0, 0);
+                addColoredBox([220, 38, 38], 'CRITICAL FINDINGS - Immediate Attention Required', findings.critical, '★');
+            }
+
+            // Important Findings (Orange)
+            if (findings.important.length > 0) {
+                doc.setTextColor(0, 0, 0);
+                addColoredBox([237, 137, 54], 'IMPORTANT FINDINGS - Significant Considerations', findings.important, '▲');
+            }
+
+            // Monitor Findings (Blue)
+            if (findings.monitor.length > 0) {
+                doc.setTextColor(0, 0, 0);
+                addColoredBox([59, 130, 246], 'MONITOR - Areas to Track Over Time', findings.monitor, '•');
+            }
+
+            yPos += 5;
+
+            // ===== DETAILED ASSESSMENT SECTIONS =====
+
+            // SEE IT SECTION
             checkPageBreak(50);
             doc.setFontSize(16);
             doc.setFont(undefined, 'bold');
             doc.setTextColor(30, 64, 175);
-            doc.text('See It - Visual Acuity Assessment', margin, yPos);
+            doc.text('Assessment Details: See It - Visual Acuity', margin, yPos);
             yPos += 8;
 
             doc.setLineWidth(0.5);
@@ -2491,12 +2702,12 @@ class AssessmentManager {
 
             yPos += 10;
 
-            // ===== FIND IT SECTION =====
+            // FIND IT SECTION
             checkPageBreak(50);
             doc.setFontSize(16);
             doc.setFont(undefined, 'bold');
             doc.setTextColor(30, 64, 175);
-            doc.text('Find It - Visual Field & Scanning', margin, yPos);
+            doc.text('Assessment Details: Find It - Visual Fields & Scanning', margin, yPos);
             yPos += 8;
 
             doc.setLineWidth(0.5);
@@ -2543,12 +2754,12 @@ class AssessmentManager {
 
             yPos += 10;
 
-            // ===== USE IT SECTION =====
+            // USE IT SECTION
             checkPageBreak(50);
             doc.setFontSize(16);
             doc.setFont(undefined, 'bold');
             doc.setTextColor(30, 64, 175);
-            doc.text('Use It - Functional Vision', margin, yPos);
+            doc.text('Assessment Details: Use It - Functional Vision', margin, yPos);
             yPos += 8;
 
             doc.setLineWidth(0.5);
@@ -2727,9 +2938,11 @@ class AssessmentManager {
                         yPos += 6;
                     });
                 }
+
+                yPos += 10;
             }
 
-            // ===== RECOMMENDED STRATEGIES =====
+            // ===== RECOMMENDED STRATEGIES - ORGANIZED BY CATEGORY =====
             const selectedRecs = this.activeRecommendations.filter(rec =>
                 this.recommendationEngine.selectedRecommendations.has(rec.id)
             );
@@ -2739,57 +2952,106 @@ class AssessmentManager {
                 doc.setFontSize(16);
                 doc.setFont(undefined, 'bold');
                 doc.setTextColor(30, 64, 175);
-                doc.text('Recommended Strategies', margin, yPos);
+                doc.text('Recommended Intervention Strategies', margin, yPos);
                 yPos += 8;
 
                 doc.setLineWidth(0.5);
                 doc.line(margin, yPos, pageWidth - margin, yPos);
                 yPos += 8;
 
-                selectedRecs.forEach((rec, index) => {
-                    checkPageBreak(30);
+                // Add introduction text
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                doc.setTextColor(0, 0, 0);
+                const introText = 'The following strategies are recommended based on the assessment findings. These accommodations should be implemented systematically to optimize learning outcomes and classroom access.';
+                yPos += addWrappedText(introText, margin, yPos, contentWidth, 5.5);
+                yPos += 8;
 
-                    // Recommendation title
-                    doc.setFontSize(11);
-                    doc.setFont(undefined, 'bold');
-                    doc.setTextColor(0, 0, 0);
+                // Group recommendations by category
+                const categories = {
+                    'Classroom Environment': [],
+                    'Materials & Resources': [],
+                    'Teaching Strategies': [],
+                    'Technology & Equipment': [],
+                    'Assessment & Monitoring': [],
+                    'Other Recommendations': []
+                };
 
-                    const bulletPoint = '• ';
-                    const lines = doc.splitTextToSize(`${bulletPoint}${rec.title}`, contentWidth - 5);
-                    lines.forEach((line, lineIndex) => {
-                        checkPageBreak(8);
-                        if (lineIndex === 0) {
-                            doc.text(line, margin + 5, yPos);
-                        } else {
-                            doc.text(line, margin + 8, yPos);
-                        }
-                        yPos += 6;
-                    });
-
-                    // Recommendation description
-                    doc.setFont(undefined, 'normal');
-                    doc.setFontSize(10);
-                    doc.setTextColor(60, 60, 60);
-                    yPos += addWrappedText(rec.description, margin + 10, yPos, contentWidth - 10);
-                    yPos += 4;
-
-                    // Add spacing between recommendations
-                    if (index < selectedRecs.length - 1) {
-                        yPos += 2;
+                // Categorize recommendations
+                selectedRecs.forEach(rec => {
+                    const title = rec.title.toLowerCase();
+                    if (title.includes('seating') || title.includes('lighting') || title.includes('position') || title.includes('environment')) {
+                        categories['Classroom Environment'].push(rec);
+                    } else if (title.includes('text') || title.includes('print') || title.includes('material') || title.includes('paper') || title.includes('contrast')) {
+                        categories['Materials & Resources'].push(rec);
+                    } else if (title.includes('teaching') || title.includes('instruction') || title.includes('verbal') || title.includes('scanning') || title.includes('tracking')) {
+                        categories['Teaching Strategies'].push(rec);
+                    } else if (title.includes('magnif') || title.includes('device') || title.includes('technology') || title.includes('screen') || title.includes('computer')) {
+                        categories['Technology & Equipment'].push(rec);
+                    } else if (title.includes('assessment') || title.includes('monitor') || title.includes('review') || title.includes('progress')) {
+                        categories['Assessment & Monitoring'].push(rec);
+                    } else {
+                        categories['Other Recommendations'].push(rec);
                     }
                 });
 
-                yPos += 10;
+                // Output each category
+                Object.keys(categories).forEach(categoryName => {
+                    const categoryRecs = categories[categoryName];
+                    if (categoryRecs.length > 0) {
+                        checkPageBreak(20);
+
+                        // Category header
+                        doc.setFillColor(245, 245, 245);
+                        doc.roundedRect(margin, yPos - 3, contentWidth, 10, 1, 1, 'F');
+                        doc.setFontSize(12);
+                        doc.setFont(undefined, 'bold');
+                        doc.setTextColor(30, 64, 175);
+                        doc.text(categoryName, margin + 3, yPos + 3);
+                        yPos += 12;
+
+                        // Recommendations in this category
+                        categoryRecs.forEach((rec, index) => {
+                            checkPageBreak(30);
+
+                            // Recommendation title with bullet
+                            doc.setFontSize(11);
+                            doc.setFont(undefined, 'bold');
+                            doc.setTextColor(0, 0, 0);
+
+                            const bulletPoint = '• ';
+                            const titleLines = doc.splitTextToSize(`${bulletPoint}${rec.title}`, contentWidth - 5);
+                            titleLines.forEach((line, lineIndex) => {
+                                checkPageBreak(8);
+                                if (lineIndex === 0) {
+                                    doc.text(line, margin + 5, yPos);
+                                } else {
+                                    doc.text(line, margin + 8, yPos);
+                                }
+                                yPos += 6;
+                            });
+
+                            // Recommendation description
+                            doc.setFont(undefined, 'normal');
+                            doc.setFontSize(10);
+                            doc.setTextColor(60, 60, 60);
+                            yPos += addWrappedText(rec.description, margin + 10, yPos, contentWidth - 15, 5.5);
+                            yPos += 5;
+                        });
+
+                        yPos += 5;
+                    }
+                });
             }
 
-            // ===== FOOTER =====
+            // ===== FOOTER ON ALL PAGES =====
             const totalPages = doc.internal.getNumberOfPages();
             for (let i = 1; i <= totalPages; i++) {
                 doc.setPage(i);
                 doc.setFontSize(9);
                 doc.setTextColor(128, 128, 128);
                 doc.text(
-                    `© D.Downes 2025 - VI Classroom Insights - For Educational Use Only`,
+                    `Generated by VI Classroom Insights - © D.Downes 2025 - For Educational Use Only`,
                     pageWidth / 2,
                     pageHeight - 10,
                     { align: 'center' }
@@ -2811,7 +3073,7 @@ class AssessmentManager {
             const fileName = `VI-Assessment-${this.state.studentInfo.studentName.replace(/\s+/g, '-') || 'Report'}-${new Date().toISOString().split('T')[0]}.pdf`;
             doc.save(fileName);
 
-            alert('✓ PDF Report Generated Successfully!\n\nThe report has been downloaded to your device.');
+            alert('PDF Report Generated Successfully!\n\nA comprehensive assessment report has been downloaded to your device.');
             console.log('PDF report generated successfully');
 
         } catch (error) {
