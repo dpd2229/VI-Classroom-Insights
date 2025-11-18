@@ -1249,6 +1249,26 @@ class AssessmentManager {
         const useItNotesEl = document.getElementById('use-it-notes');
         if (useItNotesEl) useItNotesEl.value = this.state.useIt.additionalNotes || '';
 
+        // Apply severity styling to fields with values
+        if (this.state.seeIt.distanceAcuity) {
+            this.applySeverityStyling('distance-acuity', this.state.seeIt.distanceAcuity);
+        }
+        if (this.state.seeIt.nearAcuity) {
+            this.applySeverityStyling('near-acuity', this.state.seeIt.nearAcuity);
+        }
+        if (this.state.seeIt.contrastSensitivity) {
+            this.applySeverityStyling('contrast-sensitivity', this.state.seeIt.contrastSensitivity);
+        }
+        if (this.state.findIt.visualFields) {
+            this.applySeverityStyling('visual-fields', this.state.findIt.visualFields);
+        }
+        if (this.state.findIt.scanningPattern) {
+            this.applySeverityStyling('scanning-pattern', this.state.findIt.scanningPattern);
+        }
+        if (this.state.useIt.colorVision) {
+            this.applySeverityStyling('colour-vision', this.state.useIt.colorVision);
+        }
+
         // Don't show recommendations automatically on load
         // User will click on a field to see recommendations
     }
@@ -1308,6 +1328,7 @@ class AssessmentManager {
             });
             distanceAcuitySelect.addEventListener('change', (e) => {
                 this.state.seeIt.distanceAcuity = e.target.value;
+                this.applySeverityStyling('distance-acuity', e.target.value);
                 this.debouncedSave();
                 this.updateCheckIndicators();
                 this.updateProgress();
@@ -1330,6 +1351,7 @@ class AssessmentManager {
             });
             nearAcuitySelect.addEventListener('change', (e) => {
                 this.state.seeIt.nearAcuity = e.target.value;
+                this.applySeverityStyling('near-acuity', e.target.value);
                 this.debouncedSave();
                 this.updateCheckIndicators();
                 this.updateProgress();
@@ -1360,6 +1382,7 @@ class AssessmentManager {
             });
             contrastSelect.addEventListener('change', (e) => {
                 this.state.seeIt.contrastSensitivity = e.target.value;
+                this.applySeverityStyling('contrast-sensitivity', e.target.value);
                 this.debouncedSave();
                 this.updateCheckIndicators();
                 this.updateProgress();
@@ -1415,6 +1438,7 @@ class AssessmentManager {
             });
             visualFieldsSelect.addEventListener('change', (e) => {
                 this.state.findIt.visualFields = e.target.value;
+                this.applySeverityStyling('visual-fields', e.target.value);
                 this.debouncedSave();
                 this.updateCheckIndicators();
                 this.updateProgress();
@@ -1437,6 +1461,7 @@ class AssessmentManager {
             });
             scanningPatternSelect.addEventListener('change', (e) => {
                 this.state.findIt.scanningPattern = e.target.value;
+                this.applySeverityStyling('scanning-pattern', e.target.value);
                 this.debouncedSave();
                 this.updateCheckIndicators();
                 this.updateProgress();
@@ -1504,6 +1529,7 @@ class AssessmentManager {
             });
             colorVisionSelect.addEventListener('change', (e) => {
                 this.state.useIt.colorVision = e.target.value;
+                this.applySeverityStyling('colour-vision', e.target.value);
                 this.debouncedSave();
                 this.updateCheckIndicators();
                 this.updateProgress();
@@ -2307,6 +2333,95 @@ class AssessmentManager {
         // Simple error display for Phase 1
         console.error(message);
         alert(message);
+    }
+
+    // Apply severity styling to a form field based on value
+    applySeverityStyling(fieldId, value) {
+        const field = document.getElementById(fieldId);
+        if (!field) return;
+
+        // Remove all severity classes
+        field.classList.remove('severity-critical', 'severity-important', 'severity-monitor', 'severity-normal');
+
+        // Determine severity based on field and value
+        let severity = null;
+
+        // Distance Acuity
+        if (fieldId === 'distance-acuity') {
+            if (value.includes('6/38') || value.includes('6/60') || value.includes('<6/60')) {
+                severity = 'critical';
+            } else if (value.includes('6/19') || value.includes('6/24')) {
+                severity = 'important';
+            } else if (value.includes('6/12')) {
+                severity = 'monitor';
+            } else if (value.includes('6/6') || value.includes('6/9')) {
+                severity = 'normal';
+            }
+        }
+
+        // Near Acuity
+        if (fieldId === 'near-acuity') {
+            if (value.includes('N24') || value.includes('N36') || value.includes('N48')) {
+                severity = 'critical';
+            } else if (value.includes('N10') || value.includes('N12') || value.includes('N18')) {
+                severity = 'important';
+            } else if (value.includes('N8')) {
+                severity = 'monitor';
+            } else if (value.includes('N5') || value.includes('N6')) {
+                severity = 'normal';
+            }
+        }
+
+        // Contrast Sensitivity
+        if (fieldId === 'contrast-sensitivity') {
+            if (value === 'Severely reduced') {
+                severity = 'critical';
+            } else if (value === 'Moderately reduced') {
+                severity = 'important';
+            } else if (value === 'Mildly reduced') {
+                severity = 'monitor';
+            } else if (value === 'Normal') {
+                severity = 'normal';
+            }
+        }
+
+        // Visual Fields
+        if (fieldId === 'visual-fields') {
+            if (value.includes('Severe restriction') || value.includes('Hemianopia')) {
+                severity = 'critical';
+            } else if (value.includes('Moderate restriction')) {
+                severity = 'important';
+            } else if (value.includes('Slight restriction')) {
+                severity = 'monitor';
+            } else if (value.includes('Full to confrontation')) {
+                severity = 'normal';
+            }
+        }
+
+        // Scanning Pattern
+        if (fieldId === 'scanning-pattern') {
+            if (value.includes('Random') || value.includes('Incomplete')) {
+                severity = 'important';
+            } else if (value.includes('Systematic')) {
+                severity = 'normal';
+            }
+        }
+
+        // Color Vision
+        if (fieldId === 'colour-vision') {
+            if (value.includes('Monochromacy')) {
+                severity = 'critical';
+            } else if (value.includes('deficiency')) {
+                severity = 'important';
+            } else if (value.includes('Normal')) {
+                severity = 'normal';
+            }
+        }
+
+        // Apply the severity class
+        if (severity) {
+            field.classList.add(`severity-${severity}`);
+        }
     }
 
     analyzeFindingsSeverity() {
