@@ -554,6 +554,52 @@ button {
 }
 
 /* ===================================
+   SEVERITY INDICATORS
+   =================================== */
+.severity-critical {
+    border-color: var(--color-critical) !important;
+    border-width: 3px !important;
+    background: rgba(239, 68, 68, 0.05) !important;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15), 0 4px 12px rgba(239, 68, 68, 0.2) !important;
+}
+
+.severity-critical:focus {
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.25), 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+}
+
+.severity-important {
+    border-color: var(--color-warning) !important;
+    border-width: 3px !important;
+    background: rgba(245, 158, 11, 0.05) !important;
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15), 0 4px 12px rgba(245, 158, 11, 0.2) !important;
+}
+
+.severity-important:focus {
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.25), 0 4px 12px rgba(245, 158, 11, 0.3) !important;
+}
+
+.severity-monitor {
+    border-color: #60a5fa !important;
+    border-width: 2px !important;
+    background: rgba(96, 165, 250, 0.05) !important;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1), 0 2px 8px rgba(96, 165, 250, 0.15) !important;
+}
+
+.severity-monitor:focus {
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2), 0 2px 8px rgba(96, 165, 250, 0.25) !important;
+}
+
+.severity-normal {
+    border-color: var(--color-success) !important;
+    border-width: 2px !important;
+    background: rgba(16, 185, 129, 0.03) !important;
+}
+
+.severity-normal:focus {
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1), 0 2px 8px rgba(16, 185, 129, 0.15) !important;
+}
+
+/* ===================================
    CHECKBOXES
    =================================== */
 .checkbox-group {

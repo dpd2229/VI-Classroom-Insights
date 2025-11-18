@@ -1249,6 +1249,26 @@ class AssessmentManager {
         const useItNotesEl = document.getElementById('use-it-notes');
         if (useItNotesEl) useItNotesEl.value = this.state.useIt.additionalNotes || '';
 
+        // Apply severity styling to fields with values
+        if (this.state.seeIt.distanceAcuity) {
+            this.applySeverityStyling('distance-acuity', this.state.seeIt.distanceAcuity);
+        }
+        if (this.state.seeIt.nearAcuity) {
+            this.applySeverityStyling('near-acuity', this.state.seeIt.nearAcuity);
+        }
+        if (this.state.seeIt.contrastSensitivity) {
+            this.applySeverityStyling('contrast-sensitivity', this.state.seeIt.contrastSensitivity);
+        }
+        if (this.state.findIt.visualFields) {
+            this.applySeverityStyling('visual-fields', this.state.findIt.visualFields);
+        }
+        if (this.state.findIt.scanningPattern) {
+            this.applySeverityStyling('scanning-pattern', this.state.findIt.scanningPattern);
+        }
+        if (this.state.useIt.colorVision) {
+            this.applySeverityStyling('colour-vision', this.state.useIt.colorVision);
+        }
+
         // Don't show recommendations automatically on load
         // User will click on a field to see recommendations
     }
@@ -1308,6 +1328,7 @@ class AssessmentManager {
             });
             distanceAcuitySelect.addEventListener('change', (e) => {
                 this.state.seeIt.distanceAcuity = e.target.value;
+                this.applySeverityStyling('distance-acuity', e.target.value);
                 this.debouncedSave();
                 this.updateCheckIndicators();
                 this.updateProgress();
@@ -1330,6 +1351,7 @@ class AssessmentManager {
             });
             nearAcuitySelect.addEventListener('change', (e) => {
                 this.state.seeIt.nearAcuity = e.target.value;
+                this.applySeverityStyling('near-acuity', e.target.value);
                 this.debouncedSave();
                 this.updateCheckIndicators();
                 this.updateProgress();
@@ -1360,6 +1382,7 @@ class AssessmentManager {
             });
             contrastSelect.addEventListener('change', (e) => {
                 this.state.seeIt.contrastSensitivity = e.target.value;
+                this.applySeverityStyling('contrast-sensitivity', e.target.value);
                 this.debouncedSave();
                 this.updateCheckIndicators();
                 this.updateProgress();
@@ -1415,6 +1438,7 @@ class AssessmentManager {
             });
             visualFieldsSelect.addEventListener('change', (e) => {
                 this.state.findIt.visualFields = e.target.value;
+                this.applySeverityStyling('visual-fields', e.target.value);
                 this.debouncedSave();
                 this.updateCheckIndicators();
                 this.updateProgress();
@@ -1437,6 +1461,7 @@ class AssessmentManager {
             });
             scanningPatternSelect.addEventListener('change', (e) => {
                 this.state.findIt.scanningPattern = e.target.value;
+                this.applySeverityStyling('scanning-pattern', e.target.value);
                 this.debouncedSave();
                 this.updateCheckIndicators();
                 this.updateProgress();
@@ -1504,6 +1529,7 @@ class AssessmentManager {
             });
             colorVisionSelect.addEventListener('change', (e) => {
                 this.state.useIt.colorVision = e.target.value;
+                this.applySeverityStyling('colour-vision', e.target.value);
                 this.debouncedSave();
                 this.updateCheckIndicators();
                 this.updateProgress();
@@ -1604,6 +1630,14 @@ class AssessmentManager {
         if (generateBtn) {
             generateBtn.addEventListener('click', () => {
                 this.generatePDFReport();
+            });
+        }
+
+        // Generate Quick Reference button
+        const quickRefBtn = document.getElementById('generate-quick-ref-btn');
+        if (quickRefBtn) {
+            quickRefBtn.addEventListener('click', () => {
+                this.generateQuickReferencePDF();
             });
         }
 
@@ -1978,6 +2012,7 @@ class AssessmentManager {
 
         // Update generate report button
         const generateBtn = document.getElementById('generate-report-btn');
+        const quickRefBtn = document.getElementById('generate-quick-ref-btn');
         const requirementsText = document.getElementById('report-requirements');
 
         if (generateBtn) {
@@ -2003,6 +2038,17 @@ class AssessmentManager {
                 if (requirementsText) {
                     requirementsText.innerHTML = `<span style="colour: var(--colour-warning);">Note:</span> Some sections incomplete`;
                 }
+            }
+        }
+
+        // Update quick reference button (same logic as generate report button)
+        if (quickRefBtn) {
+            if (studentInfoComplete && seeItComplete && findItComplete && useItComplete) {
+                quickRefBtn.disabled = false;
+                quickRefBtn.title = 'All sections complete - Click to generate quick reference';
+            } else {
+                quickRefBtn.disabled = false; // Allow PDF generation at any time
+                quickRefBtn.title = `Generate quick reference with current data`;
             }
         }
     }
@@ -2309,6 +2355,95 @@ class AssessmentManager {
         alert(message);
     }
 
+    // Apply severity styling to a form field based on value
+    applySeverityStyling(fieldId, value) {
+        const field = document.getElementById(fieldId);
+        if (!field) return;
+
+        // Remove all severity classes
+        field.classList.remove('severity-critical', 'severity-important', 'severity-monitor', 'severity-normal');
+
+        // Determine severity based on field and value
+        let severity = null;
+
+        // Distance Acuity
+        if (fieldId === 'distance-acuity') {
+            if (value.includes('6/38') || value.includes('6/60') || value.includes('<6/60')) {
+                severity = 'critical';
+            } else if (value.includes('6/19') || value.includes('6/24')) {
+                severity = 'important';
+            } else if (value.includes('6/12')) {
+                severity = 'monitor';
+            } else if (value.includes('6/6') || value.includes('6/9')) {
+                severity = 'normal';
+            }
+        }
+
+        // Near Acuity
+        if (fieldId === 'near-acuity') {
+            if (value.includes('N24') || value.includes('N36') || value.includes('N48')) {
+                severity = 'critical';
+            } else if (value.includes('N10') || value.includes('N12') || value.includes('N18')) {
+                severity = 'important';
+            } else if (value.includes('N8')) {
+                severity = 'monitor';
+            } else if (value.includes('N5') || value.includes('N6')) {
+                severity = 'normal';
+            }
+        }
+
+        // Contrast Sensitivity
+        if (fieldId === 'contrast-sensitivity') {
+            if (value === 'Severely reduced') {
+                severity = 'critical';
+            } else if (value === 'Moderately reduced') {
+                severity = 'important';
+            } else if (value === 'Mildly reduced') {
+                severity = 'monitor';
+            } else if (value === 'Normal') {
+                severity = 'normal';
+            }
+        }
+
+        // Visual Fields
+        if (fieldId === 'visual-fields') {
+            if (value.includes('Severe restriction') || value.includes('Hemianopia')) {
+                severity = 'critical';
+            } else if (value.includes('Moderate restriction')) {
+                severity = 'important';
+            } else if (value.includes('Slight restriction')) {
+                severity = 'monitor';
+            } else if (value.includes('Full to confrontation')) {
+                severity = 'normal';
+            }
+        }
+
+        // Scanning Pattern
+        if (fieldId === 'scanning-pattern') {
+            if (value.includes('Random') || value.includes('Incomplete')) {
+                severity = 'important';
+            } else if (value.includes('Systematic')) {
+                severity = 'normal';
+            }
+        }
+
+        // Color Vision
+        if (fieldId === 'colour-vision') {
+            if (value.includes('Monochromacy')) {
+                severity = 'critical';
+            } else if (value.includes('deficiency')) {
+                severity = 'important';
+            } else if (value.includes('Normal')) {
+                severity = 'normal';
+            }
+        }
+
+        // Apply the severity class
+        if (severity) {
+            field.classList.add(`severity-${severity}`);
+        }
+    }
+
     analyzeFindingsSeverity() {
         // Analyze assessment data and return {critical: [], important: [], monitor: []}
         // CRITICAL: Severe vision impairment, multiple significant issues
@@ -2572,8 +2707,220 @@ class AssessmentManager {
                 yPos += 10;
             }
 
-            // ===== KEY FINDINGS =====
+            // ===== VISUAL DASHBOARD =====
             const findings = this.analyzeFindingsSeverity();
+
+            checkPageBreak(80);
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(30, 64, 175);
+            doc.text('Visual Dashboard', margin, yPos);
+            yPos += 8;
+
+            doc.setDrawColor(30, 64, 175);
+            doc.setLineWidth(0.5);
+            doc.line(margin, yPos, pageWidth - margin, yPos);
+            yPos += 10;
+
+            // === SEVERITY SUMMARY BOX ===
+            const boxWidth = contentWidth;
+            const boxHeight = 50;
+
+            checkPageBreak(boxHeight + 10);
+
+            // Main box border
+            doc.setDrawColor(100, 100, 100);
+            doc.setLineWidth(1);
+            doc.rect(margin, yPos, boxWidth, boxHeight);
+
+            // Header section
+            doc.setFillColor(240, 240, 240);
+            doc.rect(margin, yPos, boxWidth, 12, 'F');
+
+            doc.setFontSize(12);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('ASSESSMENT SEVERITY OVERVIEW', pageWidth / 2, yPos + 8, { align: 'center' });
+
+            let severityYPos = yPos + 20;
+
+            // Critical findings bar
+            const barHeight = 8;
+            const barStartX = margin + 10;
+            const barWidth = contentWidth - 20;
+
+            doc.setFillColor(220, 38, 38); // Red
+            doc.roundedRect(barStartX, severityYPos, barWidth, barHeight, 1, 1, 'F');
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(255, 255, 255);
+            doc.text(`CRITICAL: ${findings.critical.length} finding${findings.critical.length !== 1 ? 's' : ''}`, barStartX + 5, severityYPos + 5.5);
+            severityYPos += barHeight + 4;
+
+            // Important findings bar
+            doc.setFillColor(237, 137, 54); // Orange
+            doc.roundedRect(barStartX, severityYPos, barWidth, barHeight, 1, 1, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.text(`IMPORTANT: ${findings.important.length} finding${findings.important.length !== 1 ? 's' : ''}`, barStartX + 5, severityYPos + 5.5);
+            severityYPos += barHeight + 4;
+
+            // Monitor findings bar
+            doc.setFillColor(59, 130, 246); // Blue
+            doc.roundedRect(barStartX, severityYPos, barWidth, barHeight, 1, 1, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.text(`MONITOR: ${findings.monitor.length} finding${findings.monitor.length !== 1 ? 's' : ''}`, barStartX + 5, severityYPos + 5.5);
+
+            yPos += boxHeight + 15;
+
+            // === VISUAL ACUITY CHART ===
+            checkPageBreak(45);
+
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Visual Acuity Overview', margin, yPos);
+            yPos += 8;
+
+            // Helper function to convert acuity to position on scale
+            const getAcuityPosition = (acuity, isDistance) => {
+                if (!acuity) return null;
+
+                if (isDistance) {
+                    const distanceScale = {
+                        '6/6': 0, '6/9': 1, '6/12': 2, '6/19': 3, '6/24': 4, '6/38': 5, '6/60': 6, '<6/60': 7
+                    };
+                    for (let key in distanceScale) {
+                        if (acuity.includes(key)) return distanceScale[key];
+                    }
+                } else {
+                    const nearScale = {
+                        'N5': 0, 'N6': 1, 'N8': 2, 'N10': 3, 'N12': 4, 'N18': 5, 'N24': 6, 'N36': 7, 'N48': 8
+                    };
+                    for (let key in nearScale) {
+                        if (acuity.includes(key)) return nearScale[key];
+                    }
+                }
+                return null;
+            };
+
+            const chartWidth = contentWidth - 40;
+            const chartStartX = margin + 20;
+
+            // Distance Acuity Chart
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Distance Acuity:', margin + 5, yPos);
+            yPos += 6;
+
+            // Draw scale bar
+            const scaleBarHeight = 6;
+            const segmentWidth = chartWidth / 7;
+
+            // Normal range (6/6 to 6/9) in green
+            doc.setFillColor(34, 197, 94);
+            doc.rect(chartStartX, yPos, segmentWidth * 1.5, scaleBarHeight, 'F');
+
+            // Caution range (6/12) in yellow
+            doc.setFillColor(250, 204, 21);
+            doc.rect(chartStartX + segmentWidth * 1.5, yPos, segmentWidth, scaleBarHeight, 'F');
+
+            // Concern range (6/19-6/24) in orange
+            doc.setFillColor(251, 146, 60);
+            doc.rect(chartStartX + segmentWidth * 2.5, yPos, segmentWidth * 1.5, scaleBarHeight, 'F');
+
+            // Critical range (6/38+) in red
+            doc.setFillColor(239, 68, 68);
+            doc.rect(chartStartX + segmentWidth * 4, yPos, segmentWidth * 3, scaleBarHeight, 'F');
+
+            // Draw border
+            doc.setDrawColor(100, 100, 100);
+            doc.setLineWidth(0.5);
+            doc.rect(chartStartX, yPos, chartWidth, scaleBarHeight);
+
+            // Mark student's position
+            const distancePos = getAcuityPosition(this.state.seeIt.distanceAcuity, true);
+            if (distancePos !== null) {
+                const markerX = chartStartX + (distancePos * segmentWidth);
+                doc.setFillColor(0, 0, 0);
+                doc.circle(markerX, yPos + scaleBarHeight / 2, 2, 'F');
+                doc.setFontSize(8);
+                doc.setTextColor(0, 0, 0);
+                doc.text('▼', markerX - 1, yPos - 2);
+                doc.setFontSize(7);
+                doc.text('Student', markerX - 5, yPos - 5);
+            }
+
+            yPos += scaleBarHeight + 3;
+
+            // Labels
+            doc.setFontSize(7);
+            doc.setTextColor(80, 80, 80);
+            const distanceLabels = ['6/6', '6/9', '6/12', '6/19', '6/24', '6/38', '6/60', '<6/60'];
+            distanceLabels.forEach((label, i) => {
+                const labelX = chartStartX + (i * segmentWidth);
+                doc.text(label, labelX - 2, yPos + 3);
+            });
+
+            yPos += 10;
+
+            // Near Acuity Chart
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Near Acuity:', margin + 5, yPos);
+            yPos += 6;
+
+            const nearSegmentWidth = chartWidth / 8;
+
+            // Normal range (N5-N6) in green
+            doc.setFillColor(34, 197, 94);
+            doc.rect(chartStartX, yPos, nearSegmentWidth * 2, scaleBarHeight, 'F');
+
+            // Caution range (N8) in yellow
+            doc.setFillColor(250, 204, 21);
+            doc.rect(chartStartX + nearSegmentWidth * 2, yPos, nearSegmentWidth, scaleBarHeight, 'F');
+
+            // Concern range (N10-N12) in orange
+            doc.setFillColor(251, 146, 60);
+            doc.rect(chartStartX + nearSegmentWidth * 3, yPos, nearSegmentWidth * 2, scaleBarHeight, 'F');
+
+            // Critical range (N18+) in red
+            doc.setFillColor(239, 68, 68);
+            doc.rect(chartStartX + nearSegmentWidth * 5, yPos, nearSegmentWidth * 3, scaleBarHeight, 'F');
+
+            // Draw border
+            doc.setDrawColor(100, 100, 100);
+            doc.setLineWidth(0.5);
+            doc.rect(chartStartX, yPos, chartWidth, scaleBarHeight);
+
+            // Mark student's position
+            const nearPos = getAcuityPosition(this.state.seeIt.nearAcuity, false);
+            if (nearPos !== null) {
+                const markerX = chartStartX + (nearPos * nearSegmentWidth);
+                doc.setFillColor(0, 0, 0);
+                doc.circle(markerX, yPos + scaleBarHeight / 2, 2, 'F');
+                doc.setFontSize(8);
+                doc.setTextColor(0, 0, 0);
+                doc.text('▼', markerX - 1, yPos - 2);
+                doc.setFontSize(7);
+                doc.text('Student', markerX - 5, yPos - 5);
+            }
+
+            yPos += scaleBarHeight + 3;
+
+            // Labels
+            doc.setFontSize(7);
+            doc.setTextColor(80, 80, 80);
+            const nearLabels = ['N5', 'N6', 'N8', 'N10', 'N12', 'N18', 'N24', 'N36', 'N48'];
+            nearLabels.forEach((label, i) => {
+                const labelX = chartStartX + (i * nearSegmentWidth);
+                doc.text(label, labelX - 2, yPos + 3);
+            });
+
+            yPos += 15;
+
+            // ===== KEY FINDINGS =====
 
             // Critical Findings (Red)
             if (findings.critical.length > 0) {
@@ -3079,6 +3426,207 @@ class AssessmentManager {
         } catch (error) {
             console.error('Error generating PDF:', error);
             alert('Error generating PDF report. Please try again or contact support if the problem persists.');
+        }
+    }
+
+    generateQuickReferencePDF() {
+        try {
+            // Access jsPDF from window
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const margin = 15;
+            const contentWidth = pageWidth - (margin * 2);
+            let yPos = margin;
+
+            // Helper function to add wrapped text
+            const addWrappedText = (text, x, y, maxWidth, lineHeight = 5) => {
+                const lines = doc.splitTextToSize(text, maxWidth);
+                doc.text(lines, x, y);
+                return lines.length * lineHeight;
+            };
+
+            // ===== HEADER =====
+            doc.setFillColor(30, 64, 175);
+            doc.rect(0, 0, pageWidth, 35, 'F');
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(20);
+            doc.setFont(undefined, 'bold');
+            doc.text('QUICK REFERENCE: Intervention Summary', pageWidth / 2, 15, { align: 'center' });
+
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'normal');
+            const studentName = this.state.studentInfo.studentName || 'Student';
+            const assessmentDate = this.state.studentInfo.assessmentDate || new Date().toLocaleDateString();
+            doc.text(`Student: ${studentName}`, margin, 25);
+            doc.text(`Date: ${assessmentDate}`, pageWidth - margin, 25, { align: 'right' });
+
+            doc.setTextColor(0, 0, 0);
+            yPos = 45;
+
+            // Get findings
+            const findings = this.analyzeFindingsSeverity();
+
+            // ===== CRITICAL FINDINGS SECTION (RED) =====
+            if (findings.critical.length > 0) {
+                // Limit to max 4 findings
+                const criticalToShow = findings.critical.slice(0, 4);
+
+                doc.setFillColor(220, 38, 38);
+                const boxHeight = 8 + (criticalToShow.length * 6);
+                doc.roundedRect(margin, yPos - 3, contentWidth, boxHeight, 2, 2, 'F');
+
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(255, 255, 255);
+                doc.text('CRITICAL FINDINGS', margin + 5, yPos + 2);
+                yPos += 8;
+
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+                criticalToShow.forEach(item => {
+                    const textLines = doc.splitTextToSize(`★ ${item}`, contentWidth - 15);
+                    textLines.forEach(line => {
+                        doc.text(line, margin + 5, yPos);
+                        yPos += 5;
+                    });
+                    yPos += 1;
+                });
+
+                yPos += 5;
+                doc.setTextColor(0, 0, 0);
+            }
+
+            // ===== IMPORTANT FINDINGS SECTION (ORANGE) =====
+            if (findings.important.length > 0) {
+                // Limit to max 4 findings
+                const importantToShow = findings.important.slice(0, 4);
+
+                doc.setFillColor(237, 137, 54);
+                const boxHeight = 8 + (importantToShow.length * 6);
+                doc.roundedRect(margin, yPos - 3, contentWidth, boxHeight, 2, 2, 'F');
+
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(255, 255, 255);
+                doc.text('IMPORTANT FINDINGS', margin + 5, yPos + 2);
+                yPos += 8;
+
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+                importantToShow.forEach(item => {
+                    const textLines = doc.splitTextToSize(`▲ ${item}`, contentWidth - 15);
+                    textLines.forEach(line => {
+                        doc.text(line, margin + 5, yPos);
+                        yPos += 5;
+                    });
+                    yPos += 1;
+                });
+
+                yPos += 5;
+                doc.setTextColor(0, 0, 0);
+            }
+
+            // ===== PRIORITY STRATEGIES SECTION (BLUE) =====
+            // Get selected recommendations, limit to top 8
+            const selectedRecs = this.activeRecommendations.filter(rec =>
+                this.recommendationEngine.selectedRecommendations.has(rec.id)
+            );
+            const strategiesToShow = selectedRecs.slice(0, 8);
+
+            if (strategiesToShow.length > 0) {
+                // Calculate approximate height needed
+                const estimatedHeight = 8 + (strategiesToShow.length * 12);
+
+                doc.setFillColor(59, 130, 246);
+                const boxHeight = Math.min(estimatedHeight, pageHeight - yPos - 25); // Leave room for footer
+                doc.roundedRect(margin, yPos - 3, contentWidth, boxHeight, 2, 2, 'F');
+
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(255, 255, 255);
+                doc.text('PRIORITY STRATEGIES', margin + 5, yPos + 2);
+                yPos += 8;
+
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+
+                strategiesToShow.forEach((rec, index) => {
+                    // Check if we're running out of space
+                    if (yPos > pageHeight - 35) {
+                        return; // Skip if too close to bottom
+                    }
+
+                    // Title
+                    doc.setFont(undefined, 'bold');
+                    const titleLines = doc.splitTextToSize(`• ${rec.title}`, contentWidth - 15);
+                    titleLines.forEach(line => {
+                        if (yPos <= pageHeight - 35) {
+                            doc.text(line, margin + 5, yPos);
+                            yPos += 5;
+                        }
+                    });
+
+                    // Description (abbreviated if needed)
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(8);
+                    const descLines = doc.splitTextToSize(rec.description, contentWidth - 20);
+                    // Limit description to 2 lines max per item
+                    const limitedDescLines = descLines.slice(0, 2);
+                    limitedDescLines.forEach(line => {
+                        if (yPos <= pageHeight - 35) {
+                            doc.text(line, margin + 10, yPos);
+                            yPos += 4;
+                        }
+                    });
+
+                    yPos += 2;
+                    doc.setFontSize(9);
+                });
+
+                doc.setTextColor(0, 0, 0);
+            } else {
+                // No strategies selected
+                doc.setFillColor(59, 130, 246);
+                doc.roundedRect(margin, yPos - 3, contentWidth, 15, 2, 2, 'F');
+
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(255, 255, 255);
+                doc.text('PRIORITY STRATEGIES', margin + 5, yPos + 2);
+                yPos += 8;
+
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+                doc.text('No strategies selected. Please select recommendations in the assessment.', margin + 5, yPos);
+
+                doc.setTextColor(0, 0, 0);
+            }
+
+            // ===== FOOTER =====
+            doc.setFontSize(9);
+            doc.setTextColor(100, 100, 100);
+            doc.setFont(undefined, 'italic');
+            doc.text('For full assessment details, see comprehensive report', pageWidth / 2, pageHeight - 15, { align: 'center' });
+
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'normal');
+            doc.text(`Generated: ${new Date().toLocaleDateString()}`, margin, pageHeight - 8);
+            doc.text('© D.Downes 2025 - For Educational Use Only', pageWidth / 2, pageHeight - 8, { align: 'center' });
+
+            // Save the PDF
+            const fileName = `VI-Quick-Reference-${this.state.studentInfo.studentName.replace(/\s+/g, '-') || 'Summary'}-${new Date().toISOString().split('T')[0]}.pdf`;
+            doc.save(fileName);
+
+            alert('Quick Reference PDF Generated Successfully!\n\nA one-page intervention summary has been downloaded to your device.');
+            console.log('Quick reference PDF generated successfully');
+
+        } catch (error) {
+            console.error('Error generating quick reference PDF:', error);
+            alert('Error generating quick reference PDF. Please try again or contact support if the problem persists.');
         }
     }
 
