@@ -7,19 +7,25 @@
    CSS VARIABLES
    =================================== */
 :root {
-    /* Colors */
-    --color-background: #F8F9FA;
+    /* Colors - Enhanced for Maximum Contrast */
+    --color-background: #F5F7FA;
     --color-card-bg: #FFFFFF;
-    --color-primary: #2C5282;
-    --color-primary-dark: #1e3a5f;
+    --color-primary: #1E40AF;
+    --color-primary-dark: #1E3A8A;
+    --color-primary-light: #3B82F6;
     --color-accent: #0891B2;
-    --color-success: #059669;
+    --color-accent-dark: #0E7490;
+    --color-success: #047857;
+    --color-success-light: #059669;
     --color-warning: #D97706;
+    --color-warning-light: #F59E0B;
     --color-critical: #DC2626;
-    --color-text-dark: #1F2937;
-    --color-text-body: #374151;
+    --color-critical-light: #EF4444;
+    --color-text-dark: #111827;
+    --color-text-body: #1F2937;
     --color-text-light: #6B7280;
-    --color-border: #E5E7EB;
+    --color-border: #D1D5DB;
+    --color-border-light: #E5E7EB;
     --color-border-focus: #0891B2;
 
     /* Spacing */
@@ -34,11 +40,12 @@
     --radius-md: 8px;
     --radius-lg: 12px;
 
-    /* Shadows */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-    --shadow-xl: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+    /* Enhanced Shadows for Professional Depth */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0 10px 20px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
 
     /* Typography */
     --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -221,15 +228,34 @@ button {
     background: var(--color-card-bg);
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--color-border);
-    transition: all 0.2s ease;
-    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--color-border-light);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: var(--spacing-xl);
+    position: relative;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .card:hover {
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-4px);
+    border-color: var(--color-border);
+}
+
+.card:hover::before {
+    opacity: 1;
 }
 
 .card.disabled {
@@ -321,6 +347,13 @@ button {
     color: var(--color-text-dark);
     transition: all 0.2s ease;
     font-family: var(--font-family);
+    box-shadow: var(--shadow-inner);
+}
+
+.form-input:hover,
+.form-select:hover,
+.form-textarea:hover {
+    border-color: var(--color-text-light);
 }
 
 .form-input:focus,
@@ -328,7 +361,8 @@ button {
 .form-textarea:focus {
     outline: none;
     border-color: var(--color-border-focus);
-    box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+    box-shadow: 0 0 0 4px rgba(8, 145, 178, 0.15), var(--shadow-sm);
+    background: white;
 }
 
 .form-input::placeholder,
@@ -403,16 +437,25 @@ button {
    =================================== */
 .assessment-item {
     padding: var(--spacing-lg);
-    border: 1px solid var(--color-border);
+    border: 2px solid var(--color-border-light);
     border-radius: var(--radius-md);
     margin-bottom: var(--spacing-md);
-    background: rgba(248, 249, 250, 0.5);
-    transition: all 0.2s ease;
+    background: linear-gradient(to bottom, #FAFBFC 0%, #FFFFFF 100%);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 }
 
 .assessment-item:hover {
     background: white;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-border);
+    transform: translateX(4px);
+}
+
+.assessment-item:focus-within {
+    border-color: var(--color-border-focus);
+    box-shadow: var(--shadow-md), 0 0 0 3px rgba(8, 145, 178, 0.1);
 }
 
 .assessment-header {
@@ -687,6 +730,66 @@ button {
     font-size: var(--font-size-sm);
     color: var(--color-text-light);
     text-align: center;
+}
+
+/* ===================================
+   ADDITIONAL NOTES SECTIONS
+   =================================== */
+.additional-notes-section {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.03) 0%, rgba(8, 145, 178, 0.03) 100%);
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s ease;
+}
+
+.additional-notes-section:hover {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.05) 0%, rgba(8, 145, 178, 0.05) 100%);
+    box-shadow: var(--shadow-md);
+}
+
+.additional-notes-section:focus-within {
+    border-style: solid;
+    border-color: var(--color-border-focus);
+    background: white;
+    box-shadow: var(--shadow-lg), 0 0 0 4px rgba(8, 145, 178, 0.1);
+}
+
+.section-notes-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.notes-icon {
+    font-size: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.section-notes {
+    min-height: 120px;
+    font-size: var(--font-size-base);
+    border: 2px solid var(--color-border);
+    background: white;
+    box-shadow: var(--shadow-inner);
+    resize: vertical;
+}
+
+.section-notes:focus {
+    min-height: 160px;
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 4px rgba(8, 145, 178, 0.15), var(--shadow-sm);
+}
+
+.section-notes::placeholder {
+    color: var(--color-text-light);
+    font-style: italic;
 }
 
 /* ===================================

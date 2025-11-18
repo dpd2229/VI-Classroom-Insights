@@ -120,7 +120,28 @@ class AssessmentManager {
                 contrastSensitivity: '',
                 contrastSensitivityNotes: '',
                 lightSensitivity: [],
-                lightSensitivityNotes: ''
+                lightSensitivityNotes: '',
+                additionalNotes: ''
+            },
+            findIt: {
+                visualFields: '',
+                visualFieldsNotes: '',
+                scanningPattern: '',
+                scanningPatternNotes: '',
+                tracking: '',
+                trackingNotes: '',
+                readingPosition: '',
+                readingPositionNotes: '',
+                additionalNotes: ''
+            },
+            useIt: {
+                colorVision: '',
+                colorVisionNotes: '',
+                functionalVision: [],
+                functionalVisionNotes: '',
+                environmental: [],
+                environmentalNotes: '',
+                additionalNotes: ''
             }
         };
         this.saveTimeout = null;
@@ -188,6 +209,38 @@ class AssessmentManager {
             checkbox.checked = this.state.seeIt.lightSensitivity.includes(checkbox.value);
         });
         document.querySelector('[name="lightSensitivityNotes"]').value = this.state.seeIt.lightSensitivityNotes || '';
+        document.getElementById('see-it-notes').value = this.state.seeIt.additionalNotes || '';
+
+        // Find It section
+        document.getElementById('visual-fields').value = this.state.findIt.visualFields || '';
+        document.querySelector('[name="visualFieldsNotes"]').value = this.state.findIt.visualFieldsNotes || '';
+
+        document.getElementById('scanning-pattern').value = this.state.findIt.scanningPattern || '';
+        document.querySelector('[name="scanningPatternNotes"]').value = this.state.findIt.scanningPatternNotes || '';
+
+        document.getElementById('tracking').value = this.state.findIt.tracking || '';
+        document.querySelector('[name="trackingNotes"]').value = this.state.findIt.trackingNotes || '';
+
+        document.getElementById('reading-position').value = this.state.findIt.readingPosition || '';
+        document.querySelector('[name="readingPositionNotes"]').value = this.state.findIt.readingPositionNotes || '';
+        document.getElementById('find-it-notes').value = this.state.findIt.additionalNotes || '';
+
+        // Use It section
+        document.getElementById('color-vision').value = this.state.useIt.colorVision || '';
+        document.querySelector('[name="colorVisionNotes"]').value = this.state.useIt.colorVisionNotes || '';
+
+        // Functional vision checkboxes
+        document.querySelectorAll('[name="functionalVision"]').forEach(checkbox => {
+            checkbox.checked = this.state.useIt.functionalVision.includes(checkbox.value);
+        });
+        document.querySelector('[name="functionalVisionNotes"]').value = this.state.useIt.functionalVisionNotes || '';
+
+        // Environmental checkboxes
+        document.querySelectorAll('[name="environmental"]').forEach(checkbox => {
+            checkbox.checked = this.state.useIt.environmental.includes(checkbox.value);
+        });
+        document.querySelector('[name="environmentalNotes"]').value = this.state.useIt.environmentalNotes || '';
+        document.getElementById('use-it-notes').value = this.state.useIt.additionalNotes || '';
     }
 
     setupEventListeners() {
@@ -282,6 +335,125 @@ class AssessmentManager {
 
         document.querySelector('[name="lightSensitivityNotes"]').addEventListener('input', (e) => {
             this.state.seeIt.lightSensitivityNotes = e.target.value;
+            this.debouncedSave();
+        });
+
+        document.getElementById('see-it-notes').addEventListener('input', (e) => {
+            this.state.seeIt.additionalNotes = e.target.value;
+            this.debouncedSave();
+        });
+
+        // FIND IT section listeners
+        document.getElementById('visual-fields').addEventListener('change', (e) => {
+            this.state.findIt.visualFields = e.target.value;
+            this.debouncedSave();
+            this.updateCheckIndicators();
+            this.updateProgress();
+        });
+
+        document.querySelector('[name="visualFieldsNotes"]').addEventListener('input', (e) => {
+            this.state.findIt.visualFieldsNotes = e.target.value;
+            this.debouncedSave();
+        });
+
+        document.getElementById('scanning-pattern').addEventListener('change', (e) => {
+            this.state.findIt.scanningPattern = e.target.value;
+            this.debouncedSave();
+            this.updateCheckIndicators();
+            this.updateProgress();
+        });
+
+        document.querySelector('[name="scanningPatternNotes"]').addEventListener('input', (e) => {
+            this.state.findIt.scanningPatternNotes = e.target.value;
+            this.debouncedSave();
+        });
+
+        document.getElementById('tracking').addEventListener('change', (e) => {
+            this.state.findIt.tracking = e.target.value;
+            this.debouncedSave();
+            this.updateCheckIndicators();
+            this.updateProgress();
+        });
+
+        document.querySelector('[name="trackingNotes"]').addEventListener('input', (e) => {
+            this.state.findIt.trackingNotes = e.target.value;
+            this.debouncedSave();
+        });
+
+        document.getElementById('reading-position').addEventListener('change', (e) => {
+            this.state.findIt.readingPosition = e.target.value;
+            this.debouncedSave();
+            this.updateCheckIndicators();
+            this.updateProgress();
+        });
+
+        document.querySelector('[name="readingPositionNotes"]').addEventListener('input', (e) => {
+            this.state.findIt.readingPositionNotes = e.target.value;
+            this.debouncedSave();
+        });
+
+        document.getElementById('find-it-notes').addEventListener('input', (e) => {
+            this.state.findIt.additionalNotes = e.target.value;
+            this.debouncedSave();
+        });
+
+        // USE IT section listeners
+        document.getElementById('color-vision').addEventListener('change', (e) => {
+            this.state.useIt.colorVision = e.target.value;
+            this.debouncedSave();
+            this.updateCheckIndicators();
+            this.updateProgress();
+        });
+
+        document.querySelector('[name="colorVisionNotes"]').addEventListener('input', (e) => {
+            this.state.useIt.colorVisionNotes = e.target.value;
+            this.debouncedSave();
+        });
+
+        // Functional vision checkboxes
+        document.querySelectorAll('[name="functionalVision"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    this.state.useIt.functionalVision.push(e.target.value);
+                } else {
+                    this.state.useIt.functionalVision = this.state.useIt.functionalVision.filter(
+                        val => val !== e.target.value
+                    );
+                }
+                this.debouncedSave();
+                this.updateCheckIndicators();
+                this.updateProgress();
+            });
+        });
+
+        document.querySelector('[name="functionalVisionNotes"]').addEventListener('input', (e) => {
+            this.state.useIt.functionalVisionNotes = e.target.value;
+            this.debouncedSave();
+        });
+
+        // Environmental checkboxes
+        document.querySelectorAll('[name="environmental"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    this.state.useIt.environmental.push(e.target.value);
+                } else {
+                    this.state.useIt.environmental = this.state.useIt.environmental.filter(
+                        val => val !== e.target.value
+                    );
+                }
+                this.debouncedSave();
+                this.updateCheckIndicators();
+                this.updateProgress();
+            });
+        });
+
+        document.querySelector('[name="environmentalNotes"]').addEventListener('input', (e) => {
+            this.state.useIt.environmentalNotes = e.target.value;
+            this.debouncedSave();
+        });
+
+        document.getElementById('use-it-notes').addEventListener('input', (e) => {
+            this.state.useIt.additionalNotes = e.target.value;
             this.debouncedSave();
         });
 
@@ -453,12 +625,51 @@ class AssessmentManager {
             seeItProgress.classList.remove('complete');
         }
 
+        // Check Find It completion
+        const findItComplete =
+            this.state.findIt.visualFields &&
+            this.state.findIt.scanningPattern &&
+            this.state.findIt.tracking &&
+            this.state.findIt.readingPosition;
+
+        const findItProgress = document.getElementById('progress-find-it');
+        if (findItComplete) {
+            findItProgress.classList.add('complete');
+            findItProgress.classList.remove('in-progress');
+        } else if (
+            this.state.findIt.visualFields ||
+            this.state.findIt.scanningPattern ||
+            this.state.findIt.tracking ||
+            this.state.findIt.readingPosition
+        ) {
+            findItProgress.classList.add('in-progress');
+            findItProgress.classList.remove('complete');
+        }
+
+        // Check Use It completion
+        const useItComplete =
+            this.state.useIt.colorVision &&
+            (this.state.useIt.functionalVision.length > 0 || this.state.useIt.environmental.length > 0);
+
+        const useItProgress = document.getElementById('progress-use-it');
+        if (useItComplete) {
+            useItProgress.classList.add('complete');
+            useItProgress.classList.remove('in-progress');
+        } else if (
+            this.state.useIt.colorVision ||
+            this.state.useIt.functionalVision.length > 0 ||
+            this.state.useIt.environmental.length > 0
+        ) {
+            useItProgress.classList.add('in-progress');
+            useItProgress.classList.remove('complete');
+        }
+
         // Update navigation
         this.updateNavigation();
 
         // Update generate report button
         const generateBtn = document.getElementById('generate-report-btn');
-        if (studentInfoComplete && seeItComplete) {
+        if (studentInfoComplete && seeItComplete && findItComplete && useItComplete) {
             generateBtn.disabled = false;
         } else {
             generateBtn.disabled = true;
@@ -494,6 +705,32 @@ class AssessmentManager {
         } else {
             seeItNav.classList.remove('completed');
         }
+
+        // Update Find It nav item
+        const findItNav = document.querySelector('[data-section="find-it"]');
+        const findItComplete =
+            this.state.findIt.visualFields &&
+            this.state.findIt.scanningPattern &&
+            this.state.findIt.tracking &&
+            this.state.findIt.readingPosition;
+
+        if (findItComplete) {
+            findItNav.classList.add('completed');
+        } else {
+            findItNav.classList.remove('completed');
+        }
+
+        // Update Use It nav item
+        const useItNav = document.querySelector('[data-section="use-it"]');
+        const useItComplete =
+            this.state.useIt.colorVision &&
+            (this.state.useIt.functionalVision.length > 0 || this.state.useIt.environmental.length > 0);
+
+        if (useItComplete) {
+            useItNav.classList.add('completed');
+        } else {
+            useItNav.classList.remove('completed');
+        }
     }
 
     updateCheckIndicators() {
@@ -527,6 +764,57 @@ class AssessmentManager {
             lightCheck.classList.add('complete');
         } else {
             lightCheck.classList.remove('complete');
+        }
+
+        // FIND IT Check Indicators
+        const visualFieldsCheck = document.getElementById('visual-fields-check');
+        if (this.state.findIt.visualFields) {
+            visualFieldsCheck.classList.add('complete');
+        } else {
+            visualFieldsCheck.classList.remove('complete');
+        }
+
+        const scanningPatternCheck = document.getElementById('scanning-pattern-check');
+        if (this.state.findIt.scanningPattern) {
+            scanningPatternCheck.classList.add('complete');
+        } else {
+            scanningPatternCheck.classList.remove('complete');
+        }
+
+        const trackingCheck = document.getElementById('tracking-check');
+        if (this.state.findIt.tracking) {
+            trackingCheck.classList.add('complete');
+        } else {
+            trackingCheck.classList.remove('complete');
+        }
+
+        const readingPositionCheck = document.getElementById('reading-position-check');
+        if (this.state.findIt.readingPosition) {
+            readingPositionCheck.classList.add('complete');
+        } else {
+            readingPositionCheck.classList.remove('complete');
+        }
+
+        // USE IT Check Indicators
+        const colorVisionCheck = document.getElementById('color-vision-check');
+        if (this.state.useIt.colorVision) {
+            colorVisionCheck.classList.add('complete');
+        } else {
+            colorVisionCheck.classList.remove('complete');
+        }
+
+        const functionalVisionCheck = document.getElementById('functional-vision-check');
+        if (this.state.useIt.functionalVision.length > 0) {
+            functionalVisionCheck.classList.add('complete');
+        } else {
+            functionalVisionCheck.classList.remove('complete');
+        }
+
+        const environmentalCheck = document.getElementById('environmental-check');
+        if (this.state.useIt.environmental.length > 0) {
+            environmentalCheck.classList.add('complete');
+        } else {
+            environmentalCheck.classList.remove('complete');
         }
     }
 
@@ -585,6 +873,64 @@ class AssessmentManager {
         } else {
             seeItBadge.textContent = '';
             seeItBadge.className = 'completion-badge';
+        }
+
+        // Find It badge
+        const findItBadge = document.getElementById('find-it-badge');
+        const findItComplete =
+            this.state.findIt.visualFields &&
+            this.state.findIt.scanningPattern &&
+            this.state.findIt.tracking &&
+            this.state.findIt.readingPosition;
+
+        const findItPartial =
+            !findItComplete &&
+            (this.state.findIt.visualFields ||
+             this.state.findIt.scanningPattern ||
+             this.state.findIt.tracking ||
+             this.state.findIt.readingPosition);
+
+        if (findItComplete) {
+            findItBadge.textContent = 'Complete';
+            findItBadge.className = 'completion-badge complete';
+        } else if (findItPartial) {
+            let completed = 0;
+            if (this.state.findIt.visualFields) completed++;
+            if (this.state.findIt.scanningPattern) completed++;
+            if (this.state.findIt.tracking) completed++;
+            if (this.state.findIt.readingPosition) completed++;
+            findItBadge.textContent = `${completed}/4`;
+            findItBadge.className = 'completion-badge partial';
+        } else {
+            findItBadge.textContent = '';
+            findItBadge.className = 'completion-badge';
+        }
+
+        // Use It badge
+        const useItBadge = document.getElementById('use-it-badge');
+        const useItComplete =
+            this.state.useIt.colorVision &&
+            (this.state.useIt.functionalVision.length > 0 || this.state.useIt.environmental.length > 0);
+
+        const useItPartial =
+            !useItComplete &&
+            (this.state.useIt.colorVision ||
+             this.state.useIt.functionalVision.length > 0 ||
+             this.state.useIt.environmental.length > 0);
+
+        if (useItComplete) {
+            useItBadge.textContent = 'Complete';
+            useItBadge.className = 'completion-badge complete';
+        } else if (useItPartial) {
+            let completed = 0;
+            if (this.state.useIt.colorVision) completed++;
+            if (this.state.useIt.functionalVision.length > 0) completed++;
+            if (this.state.useIt.environmental.length > 0) completed++;
+            useItBadge.textContent = `${completed}/3`;
+            useItBadge.className = 'completion-badge partial';
+        } else {
+            useItBadge.textContent = '';
+            useItBadge.className = 'completion-badge';
         }
     }
 
