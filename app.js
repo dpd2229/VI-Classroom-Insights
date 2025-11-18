@@ -1070,60 +1070,107 @@ class AssessmentManager {
 
     populateForm() {
         // Student Info
-        document.getElementById('student-name').value = this.state.studentInfo.studentName || '';
-        document.getElementById('date-of-birth').value = this.state.studentInfo.dateOfBirth || '';
-        document.getElementById('year-group').value = this.state.studentInfo.yearGroup || '';
-        document.getElementById('assessment-date').value = this.state.studentInfo.assessmentDate || this.getTodayDate();
-        document.getElementById('assessed-by').value = this.state.studentInfo.assessedBy || '';
+        const studentNameEl = document.getElementById('student-name');
+        if (studentNameEl) studentNameEl.value = this.state.studentInfo.studentName || '';
+
+        const dobEl = document.getElementById('date-of-birth');
+        if (dobEl) dobEl.value = this.state.studentInfo.dateOfBirth || '';
+
+        const yearGroupEl = document.getElementById('year-group');
+        if (yearGroupEl) yearGroupEl.value = this.state.studentInfo.yearGroup || '';
+
+        const assessmentDateEl = document.getElementById('assessment-date');
+        if (assessmentDateEl) assessmentDateEl.value = this.state.studentInfo.assessmentDate || this.getTodayDate();
+
+        const assessedByEl = document.getElementById('assessed-by');
+        if (assessedByEl) assessedByEl.value = this.state.studentInfo.assessedBy || '';
 
         // See It section
-        document.getElementById('distance-acuity').value = this.state.seeIt.distanceAcuity || '';
-        document.querySelector('[name="distanceAcuityNotes"]').value = this.state.seeIt.distanceAcuityNotes || '';
+        const distanceAcuityEl = document.getElementById('distance-acuity');
+        if (distanceAcuityEl) distanceAcuityEl.value = this.state.seeIt.distanceAcuity || '';
 
-        document.getElementById('near-acuity').value = this.state.seeIt.nearAcuity || '';
-        document.getElementById('near-distance').value = this.state.seeIt.nearDistance || '';
-        document.querySelector('[name="nearAcuityNotes"]').value = this.state.seeIt.nearAcuityNotes || '';
+        const distanceNotesEl = document.querySelector('[name="distanceAcuityNotes"]');
+        if (distanceNotesEl) distanceNotesEl.value = this.state.seeIt.distanceAcuityNotes || '';
 
-        document.getElementById('contrast-sensitivity').value = this.state.seeIt.contrastSensitivity || '';
-        document.querySelector('[name="contrastSensitivityNotes"]').value = this.state.seeIt.contrastSensitivityNotes || '';
+        const nearAcuityEl = document.getElementById('near-acuity');
+        if (nearAcuityEl) nearAcuityEl.value = this.state.seeIt.nearAcuity || '';
+
+        const nearDistanceEl = document.getElementById('near-distance');
+        if (nearDistanceEl) nearDistanceEl.value = this.state.seeIt.nearDistance || '';
+
+        const nearNotesEl = document.querySelector('[name="nearAcuityNotes"]');
+        if (nearNotesEl) nearNotesEl.value = this.state.seeIt.nearAcuityNotes || '';
+
+        const contrastEl = document.getElementById('contrast-sensitivity');
+        if (contrastEl) contrastEl.value = this.state.seeIt.contrastSensitivity || '';
+
+        const contrastNotesEl = document.querySelector('[name="contrastSensitivityNotes"]');
+        if (contrastNotesEl) contrastNotesEl.value = this.state.seeIt.contrastSensitivityNotes || '';
 
         // Light sensitivity checkboxes
         document.querySelectorAll('[name="lightSensitivity"]').forEach(checkbox => {
             checkbox.checked = this.state.seeIt.lightSensitivity.includes(checkbox.value);
         });
-        document.querySelector('[name="lightSensitivityNotes"]').value = this.state.seeIt.lightSensitivityNotes || '';
-        document.getElementById('see-it-notes').value = this.state.seeIt.additionalNotes || '';
+
+        const lightNotesEl = document.querySelector('[name="lightSensitivityNotes"]');
+        if (lightNotesEl) lightNotesEl.value = this.state.seeIt.lightSensitivityNotes || '';
+
+        const seeItNotesEl = document.getElementById('see-it-notes');
+        if (seeItNotesEl) seeItNotesEl.value = this.state.seeIt.additionalNotes || '';
 
         // Find It section
-        document.getElementById('visual-fields').value = this.state.findIt.visualFields || '';
-        document.querySelector('[name="visualFieldsNotes"]').value = this.state.findIt.visualFieldsNotes || '';
+        const visualFieldsEl = document.getElementById('visual-fields');
+        if (visualFieldsEl) visualFieldsEl.value = this.state.findIt.visualFields || '';
 
-        document.getElementById('scanning-pattern').value = this.state.findIt.scanningPattern || '';
-        document.querySelector('[name="scanningPatternNotes"]').value = this.state.findIt.scanningPatternNotes || '';
+        const visualFieldsNotesEl = document.querySelector('[name="visualFieldsNotes"]');
+        if (visualFieldsNotesEl) visualFieldsNotesEl.value = this.state.findIt.visualFieldsNotes || '';
 
-        document.getElementById('tracking').value = this.state.findIt.tracking || '';
-        document.querySelector('[name="trackingNotes"]').value = this.state.findIt.trackingNotes || '';
+        const scanningEl = document.getElementById('scanning-pattern');
+        if (scanningEl) scanningEl.value = this.state.findIt.scanningPattern || '';
 
-        document.getElementById('reading-position').value = this.state.findIt.readingPosition || '';
-        document.querySelector('[name="readingPositionNotes"]').value = this.state.findIt.readingPositionNotes || '';
-        document.getElementById('find-it-notes').value = this.state.findIt.additionalNotes || '';
+        const scanningNotesEl = document.querySelector('[name="scanningPatternNotes"]');
+        if (scanningNotesEl) scanningNotesEl.value = this.state.findIt.scanningPatternNotes || '';
+
+        const trackingEl = document.getElementById('tracking');
+        if (trackingEl) trackingEl.value = this.state.findIt.tracking || '';
+
+        const trackingNotesEl = document.querySelector('[name="trackingNotes"]');
+        if (trackingNotesEl) trackingNotesEl.value = this.state.findIt.trackingNotes || '';
+
+        const readingPosEl = document.getElementById('reading-position');
+        if (readingPosEl) readingPosEl.value = this.state.findIt.readingPosition || '';
+
+        const readingPosNotesEl = document.querySelector('[name="readingPositionNotes"]');
+        if (readingPosNotesEl) readingPosNotesEl.value = this.state.findIt.readingPositionNotes || '';
+
+        const findItNotesEl = document.getElementById('find-it-notes');
+        if (findItNotesEl) findItNotesEl.value = this.state.findIt.additionalNotes || '';
 
         // Use It section
-        document.getElementById('colour-vision').value = this.state.useIt.colorVision || '';
-        document.querySelector('[name="colorVisionNotes"]').value = this.state.useIt.colorVisionNotes || '';
+        const colourVisionEl = document.getElementById('colour-vision');
+        if (colourVisionEl) colourVisionEl.value = this.state.useIt.colorVision || '';
+
+        const colorNotesEl = document.querySelector('[name="colorVisionNotes"]');
+        if (colorNotesEl) colorNotesEl.value = this.state.useIt.colorVisionNotes || '';
 
         // Functional vision checkboxes
         document.querySelectorAll('[name="functionalVision"]').forEach(checkbox => {
             checkbox.checked = this.state.useIt.functionalVision.includes(checkbox.value);
         });
-        document.querySelector('[name="functionalVisionNotes"]').value = this.state.useIt.functionalVisionNotes || '';
+
+        const funcNotesEl = document.querySelector('[name="functionalVisionNotes"]');
+        if (funcNotesEl) funcNotesEl.value = this.state.useIt.functionalVisionNotes || '';
 
         // Environmental checkboxes
         document.querySelectorAll('[name="environmental"]').forEach(checkbox => {
             checkbox.checked = this.state.useIt.environmental.includes(checkbox.value);
         });
-        document.querySelector('[name="environmentalNotes"]').value = this.state.useIt.environmentalNotes || '';
-        document.getElementById('use-it-notes').value = this.state.useIt.additionalNotes || '';
+
+        const envNotesEl = document.querySelector('[name="environmentalNotes"]');
+        if (envNotesEl) envNotesEl.value = this.state.useIt.environmentalNotes || '';
+
+        const useItNotesEl = document.getElementById('use-it-notes');
+        if (useItNotesEl) useItNotesEl.value = this.state.useIt.additionalNotes || '';
 
         // Don't show recommendations automatically on load
         // User will click on a field to see recommendations
@@ -1395,9 +1442,20 @@ class AssessmentManager {
         });
 
         // Generate Report button
-        document.getElementById('generate-report-btn').addEventListener('click', () => {
-            this.generatePDFReport();
-        });
+        const generateBtn = document.getElementById('generate-report-btn');
+        if (generateBtn) {
+            generateBtn.addEventListener('click', () => {
+                this.generatePDFReport();
+            });
+        }
+
+        // Reset Assessment button
+        const resetBtn = document.getElementById('reset-assessment-btn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                this.resetAssessment();
+            });
+        }
 
         // Setup recommendation panel listeners
         this.setupRecommendationListeners();
@@ -1627,31 +1685,35 @@ class AssessmentManager {
     updatePreview() {
         // Update student name preview
         const studentNameEl = document.getElementById('preview-student-name');
-        if (this.state.studentInfo.studentName) {
-            studentNameEl.innerHTML = `<strong>${this.state.studentInfo.studentName}</strong>`;
-        } else {
-            studentNameEl.innerHTML = '<span class="preview-placeholder">No student name entered</span>';
+        if (studentNameEl) {
+            if (this.state.studentInfo.studentName) {
+                studentNameEl.innerHTML = `<strong>${this.state.studentInfo.studentName}</strong>`;
+            } else {
+                studentNameEl.innerHTML = '<span class="preview-placeholder">No student name entered</span>';
+            }
         }
 
         // Update student details
         const detailsEl = document.getElementById('preview-student-details');
-        const details = [];
+        if (detailsEl) {
+            const details = [];
 
-        if (this.state.studentInfo.yearGroup) {
-            details.push(this.state.studentInfo.yearGroup);
+            if (this.state.studentInfo.yearGroup) {
+                details.push(this.state.studentInfo.yearGroup);
+            }
+
+            if (this.state.studentInfo.dateOfBirth) {
+                const age = this.calculateAge(this.state.studentInfo.dateOfBirth);
+                details.push(`Age ${age}`);
+            }
+
+            if (this.state.studentInfo.assessmentDate) {
+                const date = new Date(this.state.studentInfo.assessmentDate);
+                details.push(`Assessed: ${date.toLocaleDateString('en-GB')}`);
+            }
+
+            detailsEl.textContent = details.join(' • ');
         }
-
-        if (this.state.studentInfo.dateOfBirth) {
-            const age = this.calculateAge(this.state.studentInfo.dateOfBirth);
-            details.push(`Age ${age}`);
-        }
-
-        if (this.state.studentInfo.assessmentDate) {
-            const date = new Date(this.state.studentInfo.assessmentDate);
-            details.push(`Assessed: ${date.toLocaleDateString('en-GB')}`);
-        }
-
-        detailsEl.textContent = details.join(' • ');
     }
 
     calculateAge(dateOfBirth) {
@@ -1677,12 +1739,14 @@ class AssessmentManager {
             this.state.studentInfo.assessedBy;
 
         const studentInfoProgress = document.getElementById('progress-student-info');
-        if (studentInfoComplete) {
-            studentInfoProgress.classList.add('complete');
-            studentInfoProgress.classList.remove('in-progress');
-        } else if (Object.values(this.state.studentInfo).some(val => val && val.length > 0)) {
-            studentInfoProgress.classList.add('in-progress');
-            studentInfoProgress.classList.remove('complete');
+        if (studentInfoProgress) {
+            if (studentInfoComplete) {
+                studentInfoProgress.classList.add('complete');
+                studentInfoProgress.classList.remove('in-progress');
+            } else if (Object.values(this.state.studentInfo).some(val => val && val.length > 0)) {
+                studentInfoProgress.classList.add('in-progress');
+                studentInfoProgress.classList.remove('complete');
+            }
         }
 
         // Check See It completion
@@ -1693,17 +1757,19 @@ class AssessmentManager {
             this.state.seeIt.lightSensitivity.length > 0;
 
         const seeItProgress = document.getElementById('progress-see-it');
-        if (seeItComplete) {
-            seeItProgress.classList.add('complete');
-            seeItProgress.classList.remove('in-progress');
-        } else if (
-            this.state.seeIt.distanceAcuity ||
-            this.state.seeIt.nearAcuity ||
-            this.state.seeIt.contrastSensitivity ||
-            this.state.seeIt.lightSensitivity.length > 0
-        ) {
-            seeItProgress.classList.add('in-progress');
-            seeItProgress.classList.remove('complete');
+        if (seeItProgress) {
+            if (seeItComplete) {
+                seeItProgress.classList.add('complete');
+                seeItProgress.classList.remove('in-progress');
+            } else if (
+                this.state.seeIt.distanceAcuity ||
+                this.state.seeIt.nearAcuity ||
+                this.state.seeIt.contrastSensitivity ||
+                this.state.seeIt.lightSensitivity.length > 0
+            ) {
+                seeItProgress.classList.add('in-progress');
+                seeItProgress.classList.remove('complete');
+            }
         }
 
         // Check Find It completion
@@ -1714,17 +1780,19 @@ class AssessmentManager {
             this.state.findIt.readingPosition;
 
         const findItProgress = document.getElementById('progress-find-it');
-        if (findItComplete) {
-            findItProgress.classList.add('complete');
-            findItProgress.classList.remove('in-progress');
-        } else if (
-            this.state.findIt.visualFields ||
-            this.state.findIt.scanningPattern ||
-            this.state.findIt.tracking ||
-            this.state.findIt.readingPosition
-        ) {
-            findItProgress.classList.add('in-progress');
-            findItProgress.classList.remove('complete');
+        if (findItProgress) {
+            if (findItComplete) {
+                findItProgress.classList.add('complete');
+                findItProgress.classList.remove('in-progress');
+            } else if (
+                this.state.findIt.visualFields ||
+                this.state.findIt.scanningPattern ||
+                this.state.findIt.tracking ||
+                this.state.findIt.readingPosition
+            ) {
+                findItProgress.classList.add('in-progress');
+                findItProgress.classList.remove('complete');
+            }
         }
 
         // Check Use It completion
@@ -1733,16 +1801,18 @@ class AssessmentManager {
             (this.state.useIt.functionalVision.length > 0 || this.state.useIt.environmental.length > 0);
 
         const useItProgress = document.getElementById('progress-use-it');
-        if (useItComplete) {
-            useItProgress.classList.add('complete');
-            useItProgress.classList.remove('in-progress');
-        } else if (
-            this.state.useIt.colorVision ||
-            this.state.useIt.functionalVision.length > 0 ||
-            this.state.useIt.environmental.length > 0
-        ) {
-            useItProgress.classList.add('in-progress');
-            useItProgress.classList.remove('complete');
+        if (useItProgress) {
+            if (useItComplete) {
+                useItProgress.classList.add('complete');
+                useItProgress.classList.remove('in-progress');
+            } else if (
+                this.state.useIt.colorVision ||
+                this.state.useIt.functionalVision.length > 0 ||
+                this.state.useIt.environmental.length > 0
+            ) {
+                useItProgress.classList.add('in-progress');
+                useItProgress.classList.remove('complete');
+            }
         }
 
         // Update navigation
@@ -1752,27 +1822,29 @@ class AssessmentManager {
         const generateBtn = document.getElementById('generate-report-btn');
         const requirementsText = document.getElementById('report-requirements');
 
-        if (studentInfoComplete && seeItComplete && findItComplete && useItComplete) {
-            generateBtn.disabled = false;
-            generateBtn.title = 'All sections complete - Click to generate report';
-            if (requirementsText) {
-                requirementsText.innerHTML = '<span style="colour: var(--colour-success);">✓ All sections complete!</span>';
-            }
-        } else {
-            generateBtn.disabled = true;
+        if (generateBtn) {
+            if (studentInfoComplete && seeItComplete && findItComplete && useItComplete) {
+                generateBtn.disabled = false;
+                generateBtn.title = 'All sections complete - Click to generate report';
+                if (requirementsText) {
+                    requirementsText.innerHTML = '<span style="colour: var(--colour-success);">✓ All sections complete!</span>';
+                }
+            } else {
+                generateBtn.disabled = false; // Allow PDF generation at any time
 
-            // Build list of incomplete sections
-            const incomplete = [];
-            if (!studentInfoComplete) incomplete.push('Student Info');
-            if (!seeItComplete) incomplete.push('See It');
-            if (!findItComplete) incomplete.push('Find It');
-            if (!useItComplete) incomplete.push('Use It');
+                // Build list of incomplete sections
+                const incomplete = [];
+                if (!studentInfoComplete) incomplete.push('Student Info');
+                if (!seeItComplete) incomplete.push('See It');
+                if (!findItComplete) incomplete.push('Find It');
+                if (!useItComplete) incomplete.push('Use It');
 
-            const incompleteText = incomplete.join(', ');
-            generateBtn.title = `Complete these sections first: ${incompleteText}`;
+                const incompleteText = incomplete.join(', ');
+                generateBtn.title = `Generate report with current data`;
 
-            if (requirementsText) {
-                requirementsText.innerHTML = `<span style="colour: var(--colour-warning);">✗ Incomplete:</span> ${incompleteText}`;
+                if (requirementsText) {
+                    requirementsText.innerHTML = `<span style="colour: var(--colour-warning);">Note:</span> Some sections incomplete`;
+                }
             }
         }
     }
@@ -1787,10 +1859,12 @@ class AssessmentManager {
             this.state.studentInfo.assessmentDate &&
             this.state.studentInfo.assessedBy;
 
-        if (studentInfoComplete) {
-            studentInfoNav.classList.add('completed');
-        } else {
-            studentInfoNav.classList.remove('completed');
+        if (studentInfoNav) {
+            if (studentInfoComplete) {
+                studentInfoNav.classList.add('completed');
+            } else {
+                studentInfoNav.classList.remove('completed');
+            }
         }
 
         // Update See It nav item
@@ -1801,10 +1875,12 @@ class AssessmentManager {
             this.state.seeIt.contrastSensitivity &&
             this.state.seeIt.lightSensitivity.length > 0;
 
-        if (seeItComplete) {
-            seeItNav.classList.add('completed');
-        } else {
-            seeItNav.classList.remove('completed');
+        if (seeItNav) {
+            if (seeItComplete) {
+                seeItNav.classList.add('completed');
+            } else {
+                seeItNav.classList.remove('completed');
+            }
         }
 
         // Update Find It nav item
@@ -1815,10 +1891,12 @@ class AssessmentManager {
             this.state.findIt.tracking &&
             this.state.findIt.readingPosition;
 
-        if (findItComplete) {
-            findItNav.classList.add('completed');
-        } else {
-            findItNav.classList.remove('completed');
+        if (findItNav) {
+            if (findItComplete) {
+                findItNav.classList.add('completed');
+            } else {
+                findItNav.classList.remove('completed');
+            }
         }
 
         // Update Use It nav item
@@ -1827,95 +1905,119 @@ class AssessmentManager {
             this.state.useIt.colorVision &&
             (this.state.useIt.functionalVision.length > 0 || this.state.useIt.environmental.length > 0);
 
-        if (useItComplete) {
-            useItNav.classList.add('completed');
-        } else {
-            useItNav.classList.remove('completed');
+        if (useItNav) {
+            if (useItComplete) {
+                useItNav.classList.add('completed');
+            } else {
+                useItNav.classList.remove('completed');
+            }
         }
     }
 
     updateCheckIndicators() {
         // Distance Acuity
         const distanceCheck = document.getElementById('distance-acuity-check');
-        if (this.state.seeIt.distanceAcuity) {
-            distanceCheck.classList.add('complete');
-        } else {
-            distanceCheck.classList.remove('complete');
+        if (distanceCheck) {
+            if (this.state.seeIt.distanceAcuity) {
+                distanceCheck.classList.add('complete');
+            } else {
+                distanceCheck.classList.remove('complete');
+            }
         }
 
         // Near Acuity
         const nearCheck = document.getElementById('near-acuity-check');
-        if (this.state.seeIt.nearAcuity) {
-            nearCheck.classList.add('complete');
-        } else {
-            nearCheck.classList.remove('complete');
+        if (nearCheck) {
+            if (this.state.seeIt.nearAcuity) {
+                nearCheck.classList.add('complete');
+            } else {
+                nearCheck.classList.remove('complete');
+            }
         }
 
         // Contrast Sensitivity
         const contrastCheck = document.getElementById('contrast-sensitivity-check');
-        if (this.state.seeIt.contrastSensitivity) {
-            contrastCheck.classList.add('complete');
-        } else {
-            contrastCheck.classList.remove('complete');
+        if (contrastCheck) {
+            if (this.state.seeIt.contrastSensitivity) {
+                contrastCheck.classList.add('complete');
+            } else {
+                contrastCheck.classList.remove('complete');
+            }
         }
 
         // Light Sensitivity
         const lightCheck = document.getElementById('light-sensitivity-check');
-        if (this.state.seeIt.lightSensitivity.length > 0) {
-            lightCheck.classList.add('complete');
-        } else {
-            lightCheck.classList.remove('complete');
+        if (lightCheck) {
+            if (this.state.seeIt.lightSensitivity.length > 0) {
+                lightCheck.classList.add('complete');
+            } else {
+                lightCheck.classList.remove('complete');
+            }
         }
 
         // FIND IT Check Indicators
         const visualFieldsCheck = document.getElementById('visual-fields-check');
-        if (this.state.findIt.visualFields) {
-            visualFieldsCheck.classList.add('complete');
-        } else {
-            visualFieldsCheck.classList.remove('complete');
+        if (visualFieldsCheck) {
+            if (this.state.findIt.visualFields) {
+                visualFieldsCheck.classList.add('complete');
+            } else {
+                visualFieldsCheck.classList.remove('complete');
+            }
         }
 
         const scanningPatternCheck = document.getElementById('scanning-pattern-check');
-        if (this.state.findIt.scanningPattern) {
-            scanningPatternCheck.classList.add('complete');
-        } else {
-            scanningPatternCheck.classList.remove('complete');
+        if (scanningPatternCheck) {
+            if (this.state.findIt.scanningPattern) {
+                scanningPatternCheck.classList.add('complete');
+            } else {
+                scanningPatternCheck.classList.remove('complete');
+            }
         }
 
         const trackingCheck = document.getElementById('tracking-check');
-        if (this.state.findIt.tracking) {
-            trackingCheck.classList.add('complete');
-        } else {
-            trackingCheck.classList.remove('complete');
+        if (trackingCheck) {
+            if (this.state.findIt.tracking) {
+                trackingCheck.classList.add('complete');
+            } else {
+                trackingCheck.classList.remove('complete');
+            }
         }
 
         const readingPositionCheck = document.getElementById('reading-position-check');
-        if (this.state.findIt.readingPosition) {
-            readingPositionCheck.classList.add('complete');
-        } else {
-            readingPositionCheck.classList.remove('complete');
+        if (readingPositionCheck) {
+            if (this.state.findIt.readingPosition) {
+                readingPositionCheck.classList.add('complete');
+            } else {
+                readingPositionCheck.classList.remove('complete');
+            }
         }
 
         // USE IT Check Indicators
         const colorVisionCheck = document.getElementById('colour-vision-check');
-        if (this.state.useIt.colorVision) {
-            colorVisionCheck.classList.add('complete');
-        } else {
-            colorVisionCheck.classList.remove('complete');
+        if (colorVisionCheck) {
+            if (this.state.useIt.colorVision) {
+                colorVisionCheck.classList.add('complete');
+            } else {
+                colorVisionCheck.classList.remove('complete');
+            }
         }
 
         const functionalVisionCheck = document.getElementById('functional-vision-check');
-        if (this.state.useIt.functionalVision.length > 0) {
-            functionalVisionCheck.classList.add('complete');
-        } else {
-            functionalVisionCheck.classList.remove('complete');
+        if (functionalVisionCheck) {
+            if (this.state.useIt.functionalVision.length > 0) {
+                functionalVisionCheck.classList.add('complete');
+            } else {
+                functionalVisionCheck.classList.remove('complete');
+            }
         }
 
         const environmentalCheck = document.getElementById('environmental-check');
-        if (this.state.useIt.environmental.length > 0) {
-            environmentalCheck.classList.add('complete');
-        } else {
-            environmentalCheck.classList.remove('complete');
+        if (environmentalCheck) {
+            if (this.state.useIt.environmental.length > 0) {
+                environmentalCheck.classList.add('complete');
+            } else {
+                environmentalCheck.classList.remove('complete');
+            }
         }
     }
 
@@ -1933,16 +2035,18 @@ class AssessmentManager {
             !studentInfoComplete &&
             Object.values(this.state.studentInfo).some(val => val && val.length > 0);
 
-        if (studentInfoComplete) {
-            studentInfoBadge.textContent = 'Complete';
-            studentInfoBadge.className = 'completion-badge complete';
-        } else if (studentInfoPartial) {
-            const completed = Object.values(this.state.studentInfo).filter(val => val && val.length > 0).length;
-            studentInfoBadge.textContent = `${completed}/5`;
-            studentInfoBadge.className = 'completion-badge partial';
-        } else {
-            studentInfoBadge.textContent = '';
-            studentInfoBadge.className = 'completion-badge';
+        if (studentInfoBadge) {
+            if (studentInfoComplete) {
+                studentInfoBadge.textContent = 'Complete';
+                studentInfoBadge.className = 'completion-badge complete';
+            } else if (studentInfoPartial) {
+                const completed = Object.values(this.state.studentInfo).filter(val => val && val.length > 0).length;
+                studentInfoBadge.textContent = `${completed}/5`;
+                studentInfoBadge.className = 'completion-badge partial';
+            } else {
+                studentInfoBadge.textContent = '';
+                studentInfoBadge.className = 'completion-badge';
+            }
         }
 
         // See It badge
@@ -1960,20 +2064,22 @@ class AssessmentManager {
              this.state.seeIt.contrastSensitivity ||
              this.state.seeIt.lightSensitivity.length > 0);
 
-        if (seeItComplete) {
-            seeItBadge.textContent = 'Complete';
-            seeItBadge.className = 'completion-badge complete';
-        } else if (seeItPartial) {
-            let completed = 0;
-            if (this.state.seeIt.distanceAcuity) completed++;
-            if (this.state.seeIt.nearAcuity) completed++;
-            if (this.state.seeIt.contrastSensitivity) completed++;
-            if (this.state.seeIt.lightSensitivity.length > 0) completed++;
-            seeItBadge.textContent = `${completed}/4`;
-            seeItBadge.className = 'completion-badge partial';
-        } else {
-            seeItBadge.textContent = '';
-            seeItBadge.className = 'completion-badge';
+        if (seeItBadge) {
+            if (seeItComplete) {
+                seeItBadge.textContent = 'Complete';
+                seeItBadge.className = 'completion-badge complete';
+            } else if (seeItPartial) {
+                let completed = 0;
+                if (this.state.seeIt.distanceAcuity) completed++;
+                if (this.state.seeIt.nearAcuity) completed++;
+                if (this.state.seeIt.contrastSensitivity) completed++;
+                if (this.state.seeIt.lightSensitivity.length > 0) completed++;
+                seeItBadge.textContent = `${completed}/4`;
+                seeItBadge.className = 'completion-badge partial';
+            } else {
+                seeItBadge.textContent = '';
+                seeItBadge.className = 'completion-badge';
+            }
         }
 
         // Find It badge
@@ -1991,20 +2097,22 @@ class AssessmentManager {
              this.state.findIt.tracking ||
              this.state.findIt.readingPosition);
 
-        if (findItComplete) {
-            findItBadge.textContent = 'Complete';
-            findItBadge.className = 'completion-badge complete';
-        } else if (findItPartial) {
-            let completed = 0;
-            if (this.state.findIt.visualFields) completed++;
-            if (this.state.findIt.scanningPattern) completed++;
-            if (this.state.findIt.tracking) completed++;
-            if (this.state.findIt.readingPosition) completed++;
-            findItBadge.textContent = `${completed}/4`;
-            findItBadge.className = 'completion-badge partial';
-        } else {
-            findItBadge.textContent = '';
-            findItBadge.className = 'completion-badge';
+        if (findItBadge) {
+            if (findItComplete) {
+                findItBadge.textContent = 'Complete';
+                findItBadge.className = 'completion-badge complete';
+            } else if (findItPartial) {
+                let completed = 0;
+                if (this.state.findIt.visualFields) completed++;
+                if (this.state.findIt.scanningPattern) completed++;
+                if (this.state.findIt.tracking) completed++;
+                if (this.state.findIt.readingPosition) completed++;
+                findItBadge.textContent = `${completed}/4`;
+                findItBadge.className = 'completion-badge partial';
+            } else {
+                findItBadge.textContent = '';
+                findItBadge.className = 'completion-badge';
+            }
         }
 
         // Use It badge
@@ -2019,19 +2127,21 @@ class AssessmentManager {
              this.state.useIt.functionalVision.length > 0 ||
              this.state.useIt.environmental.length > 0);
 
-        if (useItComplete) {
-            useItBadge.textContent = 'Complete';
-            useItBadge.className = 'completion-badge complete';
-        } else if (useItPartial) {
-            let completed = 0;
-            if (this.state.useIt.colorVision) completed++;
-            if (this.state.useIt.functionalVision.length > 0) completed++;
-            if (this.state.useIt.environmental.length > 0) completed++;
-            useItBadge.textContent = `${completed}/3`;
-            useItBadge.className = 'completion-badge partial';
-        } else {
-            useItBadge.textContent = '';
-            useItBadge.className = 'completion-badge';
+        if (useItBadge) {
+            if (useItComplete) {
+                useItBadge.textContent = 'Complete';
+                useItBadge.className = 'completion-badge complete';
+            } else if (useItPartial) {
+                let completed = 0;
+                if (this.state.useIt.colorVision) completed++;
+                if (this.state.useIt.functionalVision.length > 0) completed++;
+                if (this.state.useIt.environmental.length > 0) completed++;
+                useItBadge.textContent = `${completed}/3`;
+                useItBadge.className = 'completion-badge partial';
+            } else {
+                useItBadge.textContent = '';
+                useItBadge.className = 'completion-badge';
+            }
         }
     }
 
@@ -2663,7 +2773,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('Ocular Vision Assessment - Initializing...');
 
     // Set default assessment date to today
-    document.getElementById('assessment-date').value = new Date().toISOString().split('T')[0];
+    const assessmentDateEl = document.getElementById('assessment-date');
+    if (assessmentDateEl) {
+        assessmentDateEl.value = new Date().toISOString().split('T')[0];
+    }
 
     // Initialize Assessment Manager
     assessmentManager = new AssessmentManager();
