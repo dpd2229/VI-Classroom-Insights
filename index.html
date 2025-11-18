@@ -11,8 +11,16 @@
     <!-- Header -->
     <header class="app-header">
         <div class="container">
-            <h1 class="app-title">Ocular Vision Assessment</h1>
-            <p class="app-subtitle">Educational Assessment Tool for QTVIs</p>
+            <div class="header-content">
+                <div>
+                    <h1 class="app-title">Ocular Vision Assessment</h1>
+                    <p class="app-subtitle">Educational Assessment Tool for QTVIs</p>
+                </div>
+                <div class="copyright-notice">
+                    © D.Downes 2025 - VI Classroom Insights<br>
+                    <span class="copyright-subtext">For Educational use only</span>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -351,21 +359,454 @@
                                 </div>
                             </div>
 
+                            <!-- SEE IT - Additional Notes -->
+                            <div class="additional-notes-section">
+                                <label for="see-it-notes" class="form-label section-notes-label">
+                                    <span class="notes-icon">📝</span>
+                                    Additional Notes - See It Section
+                                </label>
+                                <textarea
+                                    id="see-it-notes"
+                                    name="seeItAdditionalNotes"
+                                    class="form-textarea section-notes"
+                                    placeholder="Add any additional observations or context about visual clarity assessments..."
+                                    rows="4"
+                                ></textarea>
+                            </div>
+
                         </div>
                     </section>
 
-                    <!-- Placeholder sections for future phases -->
-                    <section class="card disabled" id="find-it-section">
+                    <!-- FIND IT Section -->
+                    <section class="card" id="find-it-section">
                         <div class="card-header">
-                            <h2 class="card-title">FIND IT - Visual Scanning</h2>
-                            <span class="badge-coming-soon">Coming Soon</span>
+                            <h2 class="card-title">FIND IT - Visual Scanning & Fields</h2>
+                            <span class="completion-badge" id="find-it-badge"></span>
+                        </div>
+                        <div class="card-body">
+
+                            <!-- Visual Fields -->
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <label for="visual-fields" class="form-label">Visual Fields</label>
+                                    <span class="check-indicator" id="visual-fields-check"></span>
+                                </div>
+                                <select
+                                    id="visual-fields"
+                                    name="visualFields"
+                                    class="form-select"
+                                >
+                                    <option value="">Select visual field status</option>
+                                    <option value="Full to confrontation">Full to confrontation</option>
+                                    <option value="Slight restriction">Slight restriction</option>
+                                    <option value="Moderate restriction">Moderate restriction</option>
+                                    <option value="Severe restriction">Severe restriction</option>
+                                    <option value="Hemianopia - left">Hemianopia - left</option>
+                                    <option value="Hemianopia - right">Hemianopia - right</option>
+                                    <option value="Hemianopia - upper">Hemianopia - upper</option>
+                                    <option value="Hemianopia - lower">Hemianopia - lower</option>
+                                    <option value="Central scotoma">Central scotoma</option>
+                                    <option value="Tunnel vision">Tunnel vision</option>
+                                    <option value="Not assessed">Not assessed</option>
+                                </select>
+                                <button
+                                    type="button"
+                                    class="toggle-notes-btn"
+                                    data-target="visual-fields-notes"
+                                    aria-expanded="false"
+                                    aria-controls="visual-fields-notes"
+                                >
+                                    + Optional notes
+                                </button>
+                                <div class="notes-container hidden" id="visual-fields-notes">
+                                    <textarea
+                                        name="visualFieldsNotes"
+                                        class="form-textarea"
+                                        placeholder="Add any additional observations..."
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Scanning Pattern -->
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <label for="scanning-pattern" class="form-label">Scanning Pattern</label>
+                                    <span class="check-indicator" id="scanning-pattern-check"></span>
+                                </div>
+                                <select
+                                    id="scanning-pattern"
+                                    name="scanningPattern"
+                                    class="form-select"
+                                >
+                                    <option value="">Select scanning pattern</option>
+                                    <option value="Systematic - left to right">Systematic - left to right</option>
+                                    <option value="Systematic - top to bottom">Systematic - top to bottom</option>
+                                    <option value="Random/disorganized">Random/disorganized</option>
+                                    <option value="Incomplete - misses areas">Incomplete - misses areas</option>
+                                    <option value="Needs training">Needs training</option>
+                                    <option value="Age-appropriate">Age-appropriate</option>
+                                    <option value="Not assessed">Not assessed</option>
+                                </select>
+                                <button
+                                    type="button"
+                                    class="toggle-notes-btn"
+                                    data-target="scanning-pattern-notes"
+                                    aria-expanded="false"
+                                    aria-controls="scanning-pattern-notes"
+                                >
+                                    + Optional notes
+                                </button>
+                                <div class="notes-container hidden" id="scanning-pattern-notes">
+                                    <textarea
+                                        name="scanningPatternNotes"
+                                        class="form-textarea"
+                                        placeholder="Add any additional observations..."
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Tracking -->
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <label for="tracking" class="form-label">Visual Tracking</label>
+                                    <span class="check-indicator" id="tracking-check"></span>
+                                </div>
+                                <select
+                                    id="tracking"
+                                    name="tracking"
+                                    class="form-select"
+                                >
+                                    <option value="">Select tracking ability</option>
+                                    <option value="Smooth and accurate">Smooth and accurate</option>
+                                    <option value="Slightly jerky">Slightly jerky</option>
+                                    <option value="Loses line frequently">Loses line frequently</option>
+                                    <option value="Difficulty tracking across page">Difficulty tracking across page</option>
+                                    <option value="Uses finger/guide">Uses finger/guide</option>
+                                    <option value="Age-appropriate">Age-appropriate</option>
+                                    <option value="Not assessed">Not assessed</option>
+                                </select>
+                                <button
+                                    type="button"
+                                    class="toggle-notes-btn"
+                                    data-target="tracking-notes"
+                                    aria-expanded="false"
+                                    aria-controls="tracking-notes"
+                                >
+                                    + Optional notes
+                                </button>
+                                <div class="notes-container hidden" id="tracking-notes">
+                                    <textarea
+                                        name="trackingNotes"
+                                        class="form-textarea"
+                                        placeholder="Add any additional observations..."
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Reading Position/Distance -->
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <label for="reading-position" class="form-label">Reading Position/Distance</label>
+                                    <span class="check-indicator" id="reading-position-check"></span>
+                                </div>
+                                <select
+                                    id="reading-position"
+                                    name="readingPosition"
+                                    class="form-select"
+                                >
+                                    <option value="">Select reading position</option>
+                                    <option value="Normal distance (30-40cm)">Normal distance (30-40cm)</option>
+                                    <option value="Close (under 20cm)">Close (under 20cm)</option>
+                                    <option value="Very close (under 10cm)">Very close (under 10cm)</option>
+                                    <option value="Far (over 50cm)">Far (over 50cm)</option>
+                                    <option value="Head tilted - left">Head tilted - left</option>
+                                    <option value="Head tilted - right">Head tilted - right</option>
+                                    <option value="Head turned">Head turned</option>
+                                    <option value="Eccentric viewing">Eccentric viewing</option>
+                                    <option value="Not assessed">Not assessed</option>
+                                </select>
+                                <button
+                                    type="button"
+                                    class="toggle-notes-btn"
+                                    data-target="reading-position-notes"
+                                    aria-expanded="false"
+                                    aria-controls="reading-position-notes"
+                                >
+                                    + Optional notes
+                                </button>
+                                <div class="notes-container hidden" id="reading-position-notes">
+                                    <textarea
+                                        name="readingPositionNotes"
+                                        class="form-textarea"
+                                        placeholder="Add any additional observations..."
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            <!-- FIND IT - Additional Notes -->
+                            <div class="additional-notes-section">
+                                <label for="find-it-notes" class="form-label section-notes-label">
+                                    <span class="notes-icon">📝</span>
+                                    Additional Notes - Find It Section
+                                </label>
+                                <textarea
+                                    id="find-it-notes"
+                                    name="findItAdditionalNotes"
+                                    class="form-textarea section-notes"
+                                    placeholder="Add any additional observations or context about visual scanning and field assessments..."
+                                    rows="4"
+                                ></textarea>
+                            </div>
+
                         </div>
                     </section>
 
-                    <section class="card disabled" id="use-it-section">
+                    <!-- USE IT Section -->
+                    <section class="card" id="use-it-section">
                         <div class="card-header">
                             <h2 class="card-title">USE IT - Functional Vision</h2>
-                            <span class="badge-coming-soon">Coming Soon</span>
+                            <span class="completion-badge" id="use-it-badge"></span>
+                        </div>
+                        <div class="card-body">
+
+                            <!-- Color Vision -->
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <label for="color-vision" class="form-label">Color Vision</label>
+                                    <span class="check-indicator" id="color-vision-check"></span>
+                                </div>
+                                <select
+                                    id="color-vision"
+                                    name="colorVision"
+                                    class="form-select"
+                                >
+                                    <option value="">Select color vision status</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="Red-green deficiency">Red-green deficiency</option>
+                                    <option value="Blue-yellow deficiency">Blue-yellow deficiency</option>
+                                    <option value="Total color blindness">Total color blindness</option>
+                                    <option value="Difficulty with pale colors">Difficulty with pale colors</option>
+                                    <option value="Prefers high contrast colors">Prefers high contrast colors</option>
+                                    <option value="Not assessed">Not assessed</option>
+                                </select>
+                                <button
+                                    type="button"
+                                    class="toggle-notes-btn"
+                                    data-target="color-vision-notes"
+                                    aria-expanded="false"
+                                    aria-controls="color-vision-notes"
+                                >
+                                    + Optional notes
+                                </button>
+                                <div class="notes-container hidden" id="color-vision-notes">
+                                    <textarea
+                                        name="colorVisionNotes"
+                                        class="form-textarea"
+                                        placeholder="Add any additional observations..."
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Functional Vision for Learning -->
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <label class="form-label">Functional Vision for Learning</label>
+                                    <span class="check-indicator" id="functional-vision-check"></span>
+                                </div>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="functionalVision"
+                                            value="Can read board from desk"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Can read board from desk</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="functionalVision"
+                                            value="Needs to move closer to board"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Needs to move closer to board</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="functionalVision"
+                                            value="Can copy from board"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Can copy from board</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="functionalVision"
+                                            value="Difficulty locating items on desk"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Difficulty locating items on desk</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="functionalVision"
+                                            value="Difficulty with PE/sports"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Difficulty with PE/sports</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="functionalVision"
+                                            value="Difficulty navigating school"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Difficulty navigating school</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="functionalVision"
+                                            value="Can see facial expressions"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Can see facial expressions</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="functionalVision"
+                                            value="Difficulty recognizing faces"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Difficulty recognizing faces</span>
+                                    </label>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="toggle-notes-btn"
+                                    data-target="functional-vision-notes"
+                                    aria-expanded="false"
+                                    aria-controls="functional-vision-notes"
+                                >
+                                    + Optional notes
+                                </button>
+                                <div class="notes-container hidden" id="functional-vision-notes">
+                                    <textarea
+                                        name="functionalVisionNotes"
+                                        class="form-textarea"
+                                        placeholder="Add any additional observations..."
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Environmental Factors -->
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <label class="form-label">Environmental Factors</label>
+                                    <span class="check-indicator" id="environmental-check"></span>
+                                </div>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="environmental"
+                                            value="Better performance in good lighting"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Better performance in good lighting</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="environmental"
+                                            value="Glare affects performance"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Glare affects performance</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="environmental"
+                                            value="Needs high contrast materials"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Needs high contrast materials</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="environmental"
+                                            value="Benefits from clear backgrounds"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Benefits from clear backgrounds</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="environmental"
+                                            value="Prefers specific color backgrounds"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Prefers specific color backgrounds</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="environmental"
+                                            value="Fatigue affects performance"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Fatigue affects performance</span>
+                                    </label>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="toggle-notes-btn"
+                                    data-target="environmental-notes"
+                                    aria-expanded="false"
+                                    aria-controls="environmental-notes"
+                                >
+                                    + Optional notes
+                                </button>
+                                <div class="notes-container hidden" id="environmental-notes">
+                                    <textarea
+                                        name="environmentalNotes"
+                                        class="form-textarea"
+                                        placeholder="Add any additional observations..."
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            <!-- USE IT - Additional Notes -->
+                            <div class="additional-notes-section">
+                                <label for="use-it-notes" class="form-label section-notes-label">
+                                    <span class="notes-icon">📝</span>
+                                    Additional Notes - Use It Section
+                                </label>
+                                <textarea
+                                    id="use-it-notes"
+                                    name="useItAdditionalNotes"
+                                    class="form-textarea section-notes"
+                                    placeholder="Add any additional observations or context about functional vision and environmental factors..."
+                                    rows="4"
+                                ></textarea>
+                            </div>
+
                         </div>
                     </section>
 
@@ -464,6 +905,30 @@
             </p>
         </div>
     </footer>
+
+    <!-- Fixed Bottom Navigation -->
+    <nav class="bottom-nav" role="navigation" aria-label="Quick section navigation">
+        <button class="bottom-nav-btn" data-scroll-to="student-info-section" aria-label="Go to Student Info">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">Student Info</span>
+        </button>
+        <button class="bottom-nav-btn" data-scroll-to="see-it-section" aria-label="Go to See It section">
+            <span class="nav-icon">👁️</span>
+            <span class="nav-text">See It</span>
+        </button>
+        <button class="bottom-nav-btn" data-scroll-to="find-it-section" aria-label="Go to Find It section">
+            <span class="nav-icon">🔍</span>
+            <span class="nav-text">Find It</span>
+        </button>
+        <button class="bottom-nav-btn" data-scroll-to="use-it-section" aria-label="Go to Use It section">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-text">Use It</span>
+        </button>
+        <button class="bottom-nav-btn" data-scroll-to="reading-test-section" aria-label="Go to Reading Test section">
+            <span class="nav-icon">📖</span>
+            <span class="nav-text">Reading</span>
+        </button>
+    </nav>
 
     <!-- JavaScript -->
     <script src="app.js"></script>
