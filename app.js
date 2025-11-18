@@ -3360,7 +3360,7 @@ The Renaissance also marked significant advances in science and exploration. Ast
         this.passageSelect = document.getElementById('passage-select');
         this.textSizeSelect = document.getElementById('text-size');
         this.lineSpacingSelect = document.getElementById('line-spacing');
-        this.textColorSelect = document.getElementById('text-colour');
+        this.textColorSelect = document.getElementById('text-color'); // Fixed: HTML uses 'text-color' not 'text-colour'
 
         // Debug logging
         console.log('ReadingTestManager elements:', {
