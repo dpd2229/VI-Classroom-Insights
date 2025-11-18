@@ -549,8 +549,22 @@ class RecommendationEngine {
 
             // CONTRAST SENSITIVITY RECOMMENDATIONS
             contrastSensitivity: {
-                'Good': [],
-                'Moderate': [
+                'Normal': [],
+                'Mildly reduced': [
+                    {
+                        title: 'Good Lighting',
+                        description: 'Ensure good, even lighting without shadows or glare on work surfaces.'
+                    },
+                    {
+                        title: 'High-Contrast Materials',
+                        description: 'Use high-contrast materials - black text on white/cream paper works best.'
+                    },
+                    {
+                        title: 'Quality Photocopies',
+                        description: 'Ensure high-quality photocopies - not faded or light. Consider providing digital alternatives.'
+                    }
+                ],
+                'Moderately reduced': [
                     {
                         title: 'High-Contrast Materials',
                         description: 'Use high-contrast materials for all work - black text on white paper, avoid grey or faded colors.'
@@ -580,7 +594,7 @@ class RecommendationEngine {
                         description: 'Ensure good, even lighting without shadows or glare on work surfaces.'
                     }
                 ],
-                'Poor': [
+                'Severely reduced': [
                     {
                         title: 'Maximum Contrast Essential',
                         description: 'Maximum contrast essential - use black marker on white/cream backgrounds for all materials.'
@@ -627,8 +641,44 @@ class RecommendationEngine {
 
             // VISUAL FIELDS RECOMMENDATIONS
             visualFields: {
-                'Full fields': [],
-                'Peripheral field loss': [
+                'Full to confrontation': [],
+                'Slight restriction': [
+                    {
+                        title: 'Awareness Monitoring',
+                        description: 'Monitor pupil's awareness of visual environment - slight restrictions may affect peripheral awareness.'
+                    },
+                    {
+                        title: 'Good Lighting',
+                        description: 'Ensure good lighting to optimize use of available visual field.'
+                    },
+                    {
+                        title: 'Seating Considerations',
+                        description: 'Consider seating position to maximize use of intact field if restriction is directional.'
+                    }
+                ],
+                'Moderate restriction': [
+                    {
+                        title: 'Strategic Seating',
+                        description: 'Seat pupil to maximize use of remaining field (e.g., if right field restriction, sit on left side of room).'
+                    },
+                    {
+                        title: 'Reduce Visual Clutter',
+                        description: 'Reduce visual clutter on page and in environment to minimize information in periphery.'
+                    },
+                    {
+                        title: 'Systematic Scanning Training',
+                        description: 'Teach systematic scanning techniques (left to right, top to bottom) to compensate for field loss.'
+                    },
+                    {
+                        title: 'Clear Margins and Spacing',
+                        description: 'Use clear margins and spacing to define work areas and guide visual attention.'
+                    },
+                    {
+                        title: 'Central Information Presentation',
+                        description: 'Present important information in central vision where pupil has best access.'
+                    }
+                ],
+                'Severe restriction': [
                     {
                         title: 'Strategic Seating',
                         description: 'Seat pupil to maximize use of remaining field (e.g., if right field loss, sit on left side of room).'
@@ -704,42 +754,60 @@ class RecommendationEngine {
                         description: 'Use strong colour and contrast to aid peripheral viewing and improve visual access.'
                     }
                 ],
-                'Hemianopia (half field loss)': [
+                'Hemianopia - left': [
                     {
                         title: 'Systematic Scanning Training',
-                        description: 'Teach systematic scanning techniques to ensure pupil checks affected side regularly.'
+                        description: 'Teach systematic scanning techniques to ensure pupil checks left side regularly.'
                     },
                     {
                         title: 'Colored Margin or Ruler',
-                        description: 'Use colored margin or ruler on affected side as a visual guide during reading.'
+                        description: 'Use colored margin or ruler on left side as a visual guide during reading.'
                     },
                     {
-                        title: 'Position Work for Intact Field',
-                        description: 'Position work to maximize use of intact visual field.'
-                    },
-                    {
-                        title: 'Reduce Page Width',
-                        description: 'Reduce page width for reading - portrait orientation or narrower text columns.'
-                    },
-                    {
-                        title: 'Electronic Reading Aids',
-                        description: 'Electronic reading aids can help with navigation and tracking across text.'
-                    },
-                    {
-                        title: 'Mobility Support',
-                        description: 'Orientation and mobility support essential for safe movement in school environment.'
+                        title: 'Position Work for Right Field',
+                        description: 'Position work to maximize use of intact right visual field.'
                     },
                     {
                         title: 'Compensatory Seating',
-                        description: 'Seat to compensate for field loss - position intact field toward center of action.'
+                        description: 'Seat on right side of room to position intact right field toward center of action.'
                     },
                     {
-                        title: 'Approach Awareness',
-                        description: 'Warn before approaching from affected side to avoid startling pupil.'
+                        title: 'Approach from Right',
+                        description: 'Approach from right side to avoid startling pupil.'
                     },
                     {
                         title: 'Tracking Guide',
-                        description: 'Use finger, ruler, or electronic guide to track during reading to avoid missing text.'
+                        description: 'Use finger, ruler, or electronic guide to track during reading.'
+                    },
+                    {
+                        title: 'Extra Time',
+                        description: 'Provide extra time for all visual tasks due to need for compensatory scanning.'
+                    }
+                ],
+                'Hemianopia - right': [
+                    {
+                        title: 'Systematic Scanning Training',
+                        description: 'Teach systematic scanning techniques to ensure pupil checks right side regularly.'
+                    },
+                    {
+                        title: 'Colored Margin or Ruler',
+                        description: 'Use colored margin or ruler on right side as a visual guide during reading.'
+                    },
+                    {
+                        title: 'Position Work for Left Field',
+                        description: 'Position work to maximize use of intact left visual field.'
+                    },
+                    {
+                        title: 'Compensatory Seating',
+                        description: 'Seat on left side of room to position intact left field toward center of action.'
+                    },
+                    {
+                        title: 'Approach from Left',
+                        description: 'Approach from left side to avoid startling pupil.'
+                    },
+                    {
+                        title: 'Tracking Guide',
+                        description: 'Use finger, ruler, or electronic guide to track during reading.'
                     },
                     {
                         title: 'Extra Time',
@@ -751,8 +819,9 @@ class RecommendationEngine {
 
             // SCANNING PATTERN RECOMMENDATIONS
             scanningPattern: {
-                'Systematic': [],
-                'Disorganised': [
+                'Systematic - left to right': [],
+                'Systematic - top to bottom': [],
+                'Random/disorganized': [
                     {
                         title: 'Structured Scanning Training',
                         description: 'Teach structured scanning techniques - consistent left-right, top-bottom patterns.'
@@ -790,7 +859,15 @@ class RecommendationEngine {
                         description: 'Allow extra time for locating information and completing visual search tasks.'
                     }
                 ],
-                'Slow': [
+                'Incomplete - misses areas': [
+                    {
+                        title: 'Scanning Training',
+                        description: 'Teach systematic scanning techniques to ensure complete coverage of visual field.'
+                    },
+                    {
+                        title: 'Visual Prompts',
+                        description: 'Use visual prompts (arrows, numbers, colored markers) to guide complete scanning.'
+                    },
                     {
                         title: 'Reduce Visual Information',
                         description: 'Reduce amount of visual information on page - use simpler layouts with less content per page.'
@@ -3285,6 +3362,14 @@ The Renaissance also marked significant advances in science and exploration. Ast
         this.lineSpacingSelect = document.getElementById('line-spacing');
         this.textColorSelect = document.getElementById('text-colour');
 
+        // Debug logging
+        console.log('ReadingTestManager elements:', {
+            passageSelect: !!this.passageSelect,
+            textSizeSelect: !!this.textSizeSelect,
+            lineSpacingSelect: !!this.lineSpacingSelect,
+            textColorSelect: !!this.textColorSelect
+        });
+
         this.startStandardBtn = document.getElementById('start-standard-test-btn');
         this.startModifiedBtn = document.getElementById('start-modified-test-btn');
 
@@ -3362,6 +3447,8 @@ The Renaissance also marked significant advances in science and exploration. Ast
                 const lineSpacing = this.lineSpacingSelect.value;
                 const colorScheme = this.textColorSelect.value;
 
+                console.log('Applying modified settings:', { fontSize, lineSpacing, colorScheme });
+
                 this.passageContainer.classList.add('modified');
                 this.passageContainer.style.fontSize = `${fontSize}pt`;
                 this.passageContainer.style.lineHeight = lineSpacing;
@@ -3369,7 +3456,14 @@ The Renaissance also marked significant advances in science and exploration. Ast
                 // Apply colour scheme
                 if (colorScheme !== 'default') {
                     this.passageContainer.classList.add(`color-${colorScheme}`);
+                    console.log('Applied color scheme:', colorScheme);
                 }
+            } else {
+                console.error('Modified test settings elements not found:', {
+                    textSizeSelect: !!this.textSizeSelect,
+                    lineSpacingSelect: !!this.lineSpacingSelect,
+                    textColorSelect: !!this.textColorSelect
+                });
             }
         }
 
