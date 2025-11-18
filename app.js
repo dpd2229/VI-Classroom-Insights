@@ -541,6 +541,11 @@ class AssessmentManager {
         this.updateProgress();
         this.updateCheckIndicators();
         this.updateCompletionBadges();
+
+        // Update bottom nav completion indicators
+        if (typeof updateBottomNavActive === 'function') {
+            updateBottomNavActive();
+        }
     }
 
     updatePreview() {
@@ -955,6 +960,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Initialize Assessment Manager
     assessmentManager = new AssessmentManager();
+    window.assessmentManager = assessmentManager; // Make globally accessible for bottom nav
     await assessmentManager.init();
 
     console.log('Application ready!');
@@ -984,4 +990,116 @@ document.addEventListener('DOMContentLoaded', () => {
             item.classList.add('active');
         });
     });
+
+    // Bottom navigation click handlers
+    document.querySelectorAll('.bottom-nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.dataset.scrollTo;
+            const targetSection = document.getElementById(targetId);
+
+            if (targetSection) {
+                // Scroll to section with offset for fixed nav
+                const yOffset = -80; // Offset for top nav
+                const y = targetSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+                window.scrollTo({
+                    top: y,
+                    behavior: 'smooth'
+                });
+
+                // Update active state
+                updateBottomNavActive();
+            }
+        });
+    });
+
+    // Update bottom nav active state on scroll
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(updateBottomNavActive, 100);
+    });
+
+    // Initial update
+    updateBottomNavActive();
 });
+
+// Update bottom navigation active state based on scroll position
+function updateBottomNavActive() {
+    const sections = [
+        'student-info-section',
+        'see-it-section',
+        'find-it-section',
+        'use-it-section',
+        'reading-test-section'
+    ];
+
+    let currentSection = '';
+    const scrollPosition = window.scrollY + 200; // Offset for better detection
+
+    // Find which section is currently in view
+    sections.forEach(sectionId => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            const sectionTop = section.offsetTop;
+            const sectionBottom = sectionTop + section.offsetHeight;
+
+            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                currentSection = sectionId;
+            }
+        }
+    });
+
+    // Update active state on bottom nav buttons
+    document.querySelectorAll('.bottom-nav-btn').forEach(btn => {
+        if (btn.dataset.scrollTo === currentSection) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    // Add completed class to buttons based on assessment state
+    if (window.assessmentManager && window.assessmentManager.state) {
+        const state = window.assessmentManager.state;
+
+        // Student Info
+        const studentInfoComplete = state.studentInfo.studentName &&
+                                   state.studentInfo.dateOfBirth &&
+                                   state.studentInfo.yearGroup &&
+                                   state.studentInfo.assessmentDate &&
+                                   state.studentInfo.assessedBy;
+        const studentInfoBtn = document.querySelector('[data-scroll-to="student-info-section"]');
+        if (studentInfoBtn) {
+            studentInfoBtn.classList.toggle('completed', studentInfoComplete);
+        }
+
+        // See It
+        const seeItComplete = state.seeIt.distanceAcuity &&
+                             state.seeIt.nearAcuity &&
+                             state.seeIt.contrastSensitivity &&
+                             state.seeIt.lightSensitivity.length > 0;
+        const seeItBtn = document.querySelector('[data-scroll-to="see-it-section"]');
+        if (seeItBtn) {
+            seeItBtn.classList.toggle('completed', seeItComplete);
+        }
+
+        // Find It
+        const findItComplete = state.findIt.visualFields &&
+                              state.findIt.scanningPattern &&
+                              state.findIt.tracking &&
+                              state.findIt.readingPosition;
+        const findItBtn = document.querySelector('[data-scroll-to="find-it-section"]');
+        if (findItBtn) {
+            findItBtn.classList.toggle('completed', findItComplete);
+        }
+
+        // Use It
+        const useItComplete = state.useIt.colorVision &&
+                             (state.useIt.functionalVision.length > 0 || state.useIt.environmental.length > 0);
+        const useItBtn = document.querySelector('[data-scroll-to="use-it-section"]');
+        if (useItBtn) {
+            useItBtn.classList.toggle('completed', useItComplete);
+        }
+    }
+}
