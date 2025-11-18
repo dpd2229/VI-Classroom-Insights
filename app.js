@@ -1178,92 +1178,125 @@ class AssessmentManager {
 
     setupEventListeners() {
         // Student Info listeners
-        document.getElementById('student-name').addEventListener('input', (e) => {
-            this.state.studentInfo.studentName = e.target.value;
-            this.debouncedSave();
-            this.updatePreview();
-        });
+        const studentNameEl = document.getElementById('student-name');
+        if (studentNameEl) {
+            studentNameEl.addEventListener('input', (e) => {
+                this.state.studentInfo.studentName = e.target.value;
+                this.debouncedSave();
+                this.updatePreview();
+            });
+        }
 
-        document.getElementById('date-of-birth').addEventListener('change', (e) => {
-            this.state.studentInfo.dateOfBirth = e.target.value;
-            this.debouncedSave();
-            this.updatePreview();
-        });
+        const dateOfBirthEl = document.getElementById('date-of-birth');
+        if (dateOfBirthEl) {
+            dateOfBirthEl.addEventListener('change', (e) => {
+                this.state.studentInfo.dateOfBirth = e.target.value;
+                this.debouncedSave();
+                this.updatePreview();
+            });
+        }
 
-        document.getElementById('year-group').addEventListener('change', (e) => {
-            this.state.studentInfo.yearGroup = e.target.value;
-            this.debouncedSave();
-            this.updatePreview();
-        });
+        const yearGroupEl = document.getElementById('year-group');
+        if (yearGroupEl) {
+            yearGroupEl.addEventListener('change', (e) => {
+                this.state.studentInfo.yearGroup = e.target.value;
+                this.debouncedSave();
+                this.updatePreview();
+            });
+        }
 
-        document.getElementById('assessment-date').addEventListener('change', (e) => {
-            this.state.studentInfo.assessmentDate = e.target.value;
-            this.debouncedSave();
-            this.updatePreview();
-        });
+        const assessmentDateEl = document.getElementById('assessment-date');
+        if (assessmentDateEl) {
+            assessmentDateEl.addEventListener('change', (e) => {
+                this.state.studentInfo.assessmentDate = e.target.value;
+                this.debouncedSave();
+                this.updatePreview();
+            });
+        }
 
-        document.getElementById('assessed-by').addEventListener('input', (e) => {
-            this.state.studentInfo.assessedBy = e.target.value;
-            this.debouncedSave();
-            this.updatePreview();
-        });
+        const assessedByEl = document.getElementById('assessed-by');
+        if (assessedByEl) {
+            assessedByEl.addEventListener('input', (e) => {
+                this.state.studentInfo.assessedBy = e.target.value;
+                this.debouncedSave();
+                this.updatePreview();
+            });
+        }
 
         // See It section listeners
         const distanceAcuitySelect = document.getElementById('distance-acuity');
-        distanceAcuitySelect.addEventListener('focus', () => {
-            this.showRecommendationsFor('distanceAcuity', this.state.seeIt.distanceAcuity, 'Distance Acuity');
-        });
-        distanceAcuitySelect.addEventListener('change', (e) => {
-            this.state.seeIt.distanceAcuity = e.target.value;
-            this.debouncedSave();
-            this.updateCheckIndicators();
-            this.updateProgress();
-            this.updateRecommendations();
-        });
+        if (distanceAcuitySelect) {
+            distanceAcuitySelect.addEventListener('focus', () => {
+                this.showRecommendationsFor('distanceAcuity', this.state.seeIt.distanceAcuity, 'Distance Acuity');
+            });
+            distanceAcuitySelect.addEventListener('change', (e) => {
+                this.state.seeIt.distanceAcuity = e.target.value;
+                this.debouncedSave();
+                this.updateCheckIndicators();
+                this.updateProgress();
+                this.updateRecommendations();
+            });
+        }
 
-        document.querySelector('[name="distanceAcuityNotes"]').addEventListener('input', (e) => {
-            this.state.seeIt.distanceAcuityNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const distanceAcuityNotesEl = document.querySelector('[name="distanceAcuityNotes"]');
+        if (distanceAcuityNotesEl) {
+            distanceAcuityNotesEl.addEventListener('input', (e) => {
+                this.state.seeIt.distanceAcuityNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
         const nearAcuitySelect = document.getElementById('near-acuity');
-        nearAcuitySelect.addEventListener('focus', () => {
-            this.showRecommendationsFor('nearAcuity', this.state.seeIt.nearAcuity, 'Near Acuity');
-        });
-        nearAcuitySelect.addEventListener('change', (e) => {
-            this.state.seeIt.nearAcuity = e.target.value;
-            this.debouncedSave();
-            this.updateCheckIndicators();
-            this.updateProgress();
-            this.updateRecommendations();
-        });
+        if (nearAcuitySelect) {
+            nearAcuitySelect.addEventListener('focus', () => {
+                this.showRecommendationsFor('nearAcuity', this.state.seeIt.nearAcuity, 'Near Acuity');
+            });
+            nearAcuitySelect.addEventListener('change', (e) => {
+                this.state.seeIt.nearAcuity = e.target.value;
+                this.debouncedSave();
+                this.updateCheckIndicators();
+                this.updateProgress();
+                this.updateRecommendations();
+            });
+        }
 
-        document.getElementById('near-distance').addEventListener('input', (e) => {
-            this.state.seeIt.nearDistance = e.target.value;
-            this.debouncedSave();
-        });
+        const nearDistanceEl = document.getElementById('near-distance');
+        if (nearDistanceEl) {
+            nearDistanceEl.addEventListener('input', (e) => {
+                this.state.seeIt.nearDistance = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
-        document.querySelector('[name="nearAcuityNotes"]').addEventListener('input', (e) => {
-            this.state.seeIt.nearAcuityNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const nearAcuityNotesEl = document.querySelector('[name="nearAcuityNotes"]');
+        if (nearAcuityNotesEl) {
+            nearAcuityNotesEl.addEventListener('input', (e) => {
+                this.state.seeIt.nearAcuityNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
         const contrastSelect = document.getElementById('contrast-sensitivity');
-        contrastSelect.addEventListener('focus', () => {
-            this.showRecommendationsFor('contrastSensitivity', this.state.seeIt.contrastSensitivity, 'Contrast Sensitivity');
-        });
-        contrastSelect.addEventListener('change', (e) => {
-            this.state.seeIt.contrastSensitivity = e.target.value;
-            this.debouncedSave();
-            this.updateCheckIndicators();
-            this.updateProgress();
-            this.updateRecommendations();
-        });
+        if (contrastSelect) {
+            contrastSelect.addEventListener('focus', () => {
+                this.showRecommendationsFor('contrastSensitivity', this.state.seeIt.contrastSensitivity, 'Contrast Sensitivity');
+            });
+            contrastSelect.addEventListener('change', (e) => {
+                this.state.seeIt.contrastSensitivity = e.target.value;
+                this.debouncedSave();
+                this.updateCheckIndicators();
+                this.updateProgress();
+                this.updateRecommendations();
+            });
+        }
 
-        document.querySelector('[name="contrastSensitivityNotes"]').addEventListener('input', (e) => {
-            this.state.seeIt.contrastSensitivityNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const contrastSensitivityNotesEl = document.querySelector('[name="contrastSensitivityNotes"]');
+        if (contrastSensitivityNotesEl) {
+            contrastSensitivityNotesEl.addEventListener('input', (e) => {
+                this.state.seeIt.contrastSensitivityNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
         // Light sensitivity checkboxes
         document.querySelectorAll('[name="lightSensitivity"]').forEach(checkbox => {
@@ -1281,97 +1314,133 @@ class AssessmentManager {
             });
         });
 
-        document.querySelector('[name="lightSensitivityNotes"]').addEventListener('input', (e) => {
-            this.state.seeIt.lightSensitivityNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const lightSensitivityNotesEl = document.querySelector('[name="lightSensitivityNotes"]');
+        if (lightSensitivityNotesEl) {
+            lightSensitivityNotesEl.addEventListener('input', (e) => {
+                this.state.seeIt.lightSensitivityNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
-        document.getElementById('see-it-notes').addEventListener('input', (e) => {
-            this.state.seeIt.additionalNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const seeItNotesEl = document.getElementById('see-it-notes');
+        if (seeItNotesEl) {
+            seeItNotesEl.addEventListener('input', (e) => {
+                this.state.seeIt.additionalNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
         // FIND IT section listeners
         const visualFieldsSelect = document.getElementById('visual-fields');
-        visualFieldsSelect.addEventListener('focus', () => {
-            this.showRecommendationsFor('visualFields', this.state.findIt.visualFields, 'Visual Fields');
-        });
-        visualFieldsSelect.addEventListener('change', (e) => {
-            this.state.findIt.visualFields = e.target.value;
-            this.debouncedSave();
-            this.updateCheckIndicators();
-            this.updateProgress();
-            this.updateRecommendations();
-        });
+        if (visualFieldsSelect) {
+            visualFieldsSelect.addEventListener('focus', () => {
+                this.showRecommendationsFor('visualFields', this.state.findIt.visualFields, 'Visual Fields');
+            });
+            visualFieldsSelect.addEventListener('change', (e) => {
+                this.state.findIt.visualFields = e.target.value;
+                this.debouncedSave();
+                this.updateCheckIndicators();
+                this.updateProgress();
+                this.updateRecommendations();
+            });
+        }
 
-        document.querySelector('[name="visualFieldsNotes"]').addEventListener('input', (e) => {
-            this.state.findIt.visualFieldsNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const visualFieldsNotesEl = document.querySelector('[name="visualFieldsNotes"]');
+        if (visualFieldsNotesEl) {
+            visualFieldsNotesEl.addEventListener('input', (e) => {
+                this.state.findIt.visualFieldsNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
         const scanningPatternSelect = document.getElementById('scanning-pattern');
-        scanningPatternSelect.addEventListener('focus', () => {
-            this.showRecommendationsFor('scanningPattern', this.state.findIt.scanningPattern, 'Scanning Pattern');
-        });
-        scanningPatternSelect.addEventListener('change', (e) => {
-            this.state.findIt.scanningPattern = e.target.value;
-            this.debouncedSave();
-            this.updateCheckIndicators();
-            this.updateProgress();
-            this.updateRecommendations();
-        });
+        if (scanningPatternSelect) {
+            scanningPatternSelect.addEventListener('focus', () => {
+                this.showRecommendationsFor('scanningPattern', this.state.findIt.scanningPattern, 'Scanning Pattern');
+            });
+            scanningPatternSelect.addEventListener('change', (e) => {
+                this.state.findIt.scanningPattern = e.target.value;
+                this.debouncedSave();
+                this.updateCheckIndicators();
+                this.updateProgress();
+                this.updateRecommendations();
+            });
+        }
 
-        document.querySelector('[name="scanningPatternNotes"]').addEventListener('input', (e) => {
-            this.state.findIt.scanningPatternNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const scanningPatternNotesEl = document.querySelector('[name="scanningPatternNotes"]');
+        if (scanningPatternNotesEl) {
+            scanningPatternNotesEl.addEventListener('input', (e) => {
+                this.state.findIt.scanningPatternNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
-        document.getElementById('tracking').addEventListener('change', (e) => {
-            this.state.findIt.tracking = e.target.value;
-            this.debouncedSave();
-            this.updateCheckIndicators();
-            this.updateProgress();
-        });
+        const trackingEl = document.getElementById('tracking');
+        if (trackingEl) {
+            trackingEl.addEventListener('change', (e) => {
+                this.state.findIt.tracking = e.target.value;
+                this.debouncedSave();
+                this.updateCheckIndicators();
+                this.updateProgress();
+            });
+        }
 
-        document.querySelector('[name="trackingNotes"]').addEventListener('input', (e) => {
-            this.state.findIt.trackingNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const trackingNotesEl = document.querySelector('[name="trackingNotes"]');
+        if (trackingNotesEl) {
+            trackingNotesEl.addEventListener('input', (e) => {
+                this.state.findIt.trackingNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
-        document.getElementById('reading-position').addEventListener('change', (e) => {
-            this.state.findIt.readingPosition = e.target.value;
-            this.debouncedSave();
-            this.updateCheckIndicators();
-            this.updateProgress();
-        });
+        const readingPositionEl = document.getElementById('reading-position');
+        if (readingPositionEl) {
+            readingPositionEl.addEventListener('change', (e) => {
+                this.state.findIt.readingPosition = e.target.value;
+                this.debouncedSave();
+                this.updateCheckIndicators();
+                this.updateProgress();
+            });
+        }
 
-        document.querySelector('[name="readingPositionNotes"]').addEventListener('input', (e) => {
-            this.state.findIt.readingPositionNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const readingPositionNotesEl = document.querySelector('[name="readingPositionNotes"]');
+        if (readingPositionNotesEl) {
+            readingPositionNotesEl.addEventListener('input', (e) => {
+                this.state.findIt.readingPositionNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
-        document.getElementById('find-it-notes').addEventListener('input', (e) => {
-            this.state.findIt.additionalNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const findItNotesEl = document.getElementById('find-it-notes');
+        if (findItNotesEl) {
+            findItNotesEl.addEventListener('input', (e) => {
+                this.state.findIt.additionalNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
         // USE IT section listeners
         const colorVisionSelect = document.getElementById('colour-vision');
-        colorVisionSelect.addEventListener('focus', () => {
-            this.showRecommendationsFor('colorVision', this.state.useIt.colorVision, 'Colour Vision');
-        });
-        colorVisionSelect.addEventListener('change', (e) => {
-            this.state.useIt.colorVision = e.target.value;
-            this.debouncedSave();
-            this.updateCheckIndicators();
-            this.updateProgress();
-            this.updateRecommendations();
-        });
+        if (colorVisionSelect) {
+            colorVisionSelect.addEventListener('focus', () => {
+                this.showRecommendationsFor('colorVision', this.state.useIt.colorVision, 'Colour Vision');
+            });
+            colorVisionSelect.addEventListener('change', (e) => {
+                this.state.useIt.colorVision = e.target.value;
+                this.debouncedSave();
+                this.updateCheckIndicators();
+                this.updateProgress();
+                this.updateRecommendations();
+            });
+        }
 
-        document.querySelector('[name="colorVisionNotes"]').addEventListener('input', (e) => {
-            this.state.useIt.colorVisionNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const colorVisionNotesEl = document.querySelector('[name="colorVisionNotes"]');
+        if (colorVisionNotesEl) {
+            colorVisionNotesEl.addEventListener('input', (e) => {
+                this.state.useIt.colorVisionNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
         // Functional vision checkboxes
         document.querySelectorAll('[name="functionalVision"]').forEach(checkbox => {
@@ -1389,10 +1458,13 @@ class AssessmentManager {
             });
         });
 
-        document.querySelector('[name="functionalVisionNotes"]').addEventListener('input', (e) => {
-            this.state.useIt.functionalVisionNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const functionalVisionNotesEl = document.querySelector('[name="functionalVisionNotes"]');
+        if (functionalVisionNotesEl) {
+            functionalVisionNotesEl.addEventListener('input', (e) => {
+                this.state.useIt.functionalVisionNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
         // Environmental checkboxes
         document.querySelectorAll('[name="environmental"]').forEach(checkbox => {
@@ -1410,15 +1482,21 @@ class AssessmentManager {
             });
         });
 
-        document.querySelector('[name="environmentalNotes"]').addEventListener('input', (e) => {
-            this.state.useIt.environmentalNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const environmentalNotesEl = document.querySelector('[name="environmentalNotes"]');
+        if (environmentalNotesEl) {
+            environmentalNotesEl.addEventListener('input', (e) => {
+                this.state.useIt.environmentalNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
-        document.getElementById('use-it-notes').addEventListener('input', (e) => {
-            this.state.useIt.additionalNotes = e.target.value;
-            this.debouncedSave();
-        });
+        const useItNotesEl = document.getElementById('use-it-notes');
+        if (useItNotesEl) {
+            useItNotesEl.addEventListener('input', (e) => {
+                this.state.useIt.additionalNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
 
         // Toggle notes buttons
         document.querySelectorAll('.toggle-notes-btn').forEach(button => {
@@ -1428,15 +1506,18 @@ class AssessmentManager {
                 const isExpanded = e.target.getAttribute('aria-expanded') === 'true';
 
                 e.target.setAttribute('aria-expanded', !isExpanded);
-                notesContainer.classList.toggle('hidden');
 
-                if (!isExpanded) {
-                    e.target.textContent = '− Hide notes';
-                    // Focus the textarea
-                    const textarea = notesContainer.querySelector('textarea');
-                    if (textarea) textarea.focus();
-                } else {
-                    e.target.textContent = '+ Optional notes';
+                if (notesContainer) {
+                    notesContainer.classList.toggle('hidden');
+
+                    if (!isExpanded) {
+                        e.target.textContent = '− Hide notes';
+                        // Focus the textarea
+                        const textarea = notesContainer.querySelector('textarea');
+                        if (textarea) textarea.focus();
+                    } else {
+                        e.target.textContent = '+ Optional notes';
+                    }
                 }
             });
         });
@@ -2783,6 +2864,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.assessmentManager = assessmentManager; // Make globally accessible for bottom nav
     await assessmentManager.init();
 
+    // Initialize Reading Test Manager
+    const readingTestManager = new ReadingTestManager();
+    window.readingTestManager = readingTestManager; // Make globally accessible
+
     console.log('Application ready!');
 });
 
@@ -3235,6 +3320,11 @@ The Renaissance also marked significant advances in science and exploration. Ast
     }
 
     startTest(type) {
+        if (!this.passageSelect || !this.modal || !this.modalTitle || !this.passageContainer) {
+            console.error('Reading test elements not found');
+            return;
+        }
+
         const passageId = this.passageSelect.value;
         const passage = this.passages[passageId];
 
@@ -3267,17 +3357,19 @@ The Renaissance also marked significant advances in science and exploration. Ast
 
         if (type === 'modified') {
             // Apply modified settings
-            const fontSize = this.textSizeSelect.value;
-            const lineSpacing = this.lineSpacingSelect.value;
-            const colorScheme = this.textColorSelect.value;
+            if (this.textSizeSelect && this.lineSpacingSelect && this.textColorSelect) {
+                const fontSize = this.textSizeSelect.value;
+                const lineSpacing = this.lineSpacingSelect.value;
+                const colorScheme = this.textColorSelect.value;
 
-            this.passageContainer.classList.add('modified');
-            this.passageContainer.style.fontSize = `${fontSize}pt`;
-            this.passageContainer.style.lineHeight = lineSpacing;
+                this.passageContainer.classList.add('modified');
+                this.passageContainer.style.fontSize = `${fontSize}pt`;
+                this.passageContainer.style.lineHeight = lineSpacing;
 
-            // Apply colour scheme
-            if (colorScheme !== 'default') {
-                this.passageContainer.classList.add(`color-${colorScheme}`);
+                // Apply colour scheme
+                if (colorScheme !== 'default') {
+                    this.passageContainer.classList.add(`color-${colorScheme}`);
+                }
             }
         }
 
