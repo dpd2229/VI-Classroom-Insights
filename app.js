@@ -2937,6 +2937,120 @@ The environmental consequences of industrialization were significant. Factories 
                         correct: 1
                     }
                 ]
+            },
+            passage4: {
+                title: 'The Secret Treehouse',
+                ageRange: '7-9',
+                text: `Tom and his best friend Sarah had always wanted to build a treehouse. One Saturday morning, they gathered wood, nails, and tools from Tom's garage. With help from Tom's dad, they chose the perfect tree in the back garden - a tall oak with strong, sturdy branches.
+
+It took them all weekend to build the treehouse. They hammered planks together for the floor, built walls from old fence panels, and even made a small window. Tom's mum brought them sandwiches for lunch and lemonade when they got thirsty. By Sunday afternoon, their treehouse was finally complete!
+
+The best part of the treehouse was the rope ladder they made to climb up. Tom painted a sign that said "Secret Club - Members Only" and hung it on the door. Inside, they put cushions, blankets, and a box of their favourite books and comics.
+
+Every day after school, Tom and Sarah would climb up to their treehouse. They would read stories, play games, and watch the birds building nests in the nearby trees. Sometimes they would bring binoculars and pretend to be explorers discovering new lands. The treehouse became their special place where they could have adventures and share secrets.`,
+                questions: [
+                    {
+                        question: 'What did Tom and Sarah build?',
+                        answers: ['A den', 'A treehouse', 'A tent', 'A fort'],
+                        correct: 1
+                    },
+                    {
+                        question: 'What type of tree did they use?',
+                        answers: ['A pine tree', 'A willow tree', 'An oak tree', 'A birch tree'],
+                        correct: 2
+                    },
+                    {
+                        question: 'How long did it take to build?',
+                        answers: ['One day', 'All weekend', 'A week', 'A month'],
+                        correct: 1
+                    },
+                    {
+                        question: 'What did Tom\'s mum bring them?',
+                        answers: ['Pizza and juice', 'Sandwiches and lemonade', 'Biscuits and milk', 'Cake and water'],
+                        correct: 1
+                    },
+                    {
+                        question: 'What did they use to climb up to the treehouse?',
+                        answers: ['Stairs', 'A ladder', 'A rope ladder', 'A lift'],
+                        correct: 2
+                    }
+                ]
+            },
+            passage5: {
+                title: 'The Water Cycle',
+                ageRange: '10-12',
+                text: `The water cycle, also known as the hydrological cycle, is the continuous movement of water on, above, and below the surface of the Earth. This natural process has been occurring for billions of years and is essential for all life on our planet. Water is constantly recycling through different states and locations, from the oceans to the atmosphere and back again.
+
+The cycle begins with evaporation, when the Sun's heat causes water from oceans, lakes, and rivers to transform into water vapour and rise into the atmosphere. Plants also release water vapour through their leaves in a process called transpiration. Together, evaporation and transpiration put enormous amounts of water vapour into the air every single day.
+
+As water vapour rises, it cools and condenses around tiny particles of dust or salt in the air, forming clouds. This process is called condensation. When these water droplets become heavy enough, they fall back to Earth as precipitation - rain, snow, sleet, or hail, depending on the temperature. Most precipitation falls directly back into the oceans, but some falls on land.
+
+Water that falls on land can take several paths. Some of it flows across the surface as runoff, eventually reaching streams, rivers, and back to the ocean. Some water soaks into the ground through infiltration, where it may be absorbed by plant roots or continue deeper to become groundwater. Groundwater can stay underground for thousands of years, or it may flow out through springs and wells. Eventually, through evaporation and transpiration, the water returns to the atmosphere, and the cycle continues endlessly.`,
+                questions: [
+                    {
+                        question: 'What is another name for the water cycle?',
+                        answers: ['The rain cycle', 'The hydrological cycle', 'The weather cycle', 'The ocean cycle'],
+                        correct: 1
+                    },
+                    {
+                        question: 'What causes water to evaporate?',
+                        answers: ['Wind', 'The Moon', 'The Sun\'s heat', 'Cold air'],
+                        correct: 2
+                    },
+                    {
+                        question: 'What is the process called when plants release water vapour?',
+                        answers: ['Evaporation', 'Condensation', 'Transpiration', 'Precipitation'],
+                        correct: 2
+                    },
+                    {
+                        question: 'What happens when water vapour cools in the atmosphere?',
+                        answers: ['It disappears', 'It forms clouds', 'It freezes instantly', 'It falls as rain immediately'],
+                        correct: 1
+                    },
+                    {
+                        question: 'What is water that soaks into the ground called?',
+                        answers: ['Runoff', 'Groundwater', 'Surface water', 'Rain water'],
+                        correct: 1
+                    }
+                ]
+            },
+            passage6: {
+                title: 'The Renaissance Period',
+                ageRange: '13+',
+                text: `The Renaissance, meaning "rebirth" in French, was a cultural, artistic, and intellectual movement that began in Italy during the 14th century and spread throughout Europe over the next three centuries. This period marked a dramatic shift from the medieval worldview, characterized by a renewed interest in classical Greek and Roman learning, art, and philosophy. It represented a bridge between the Middle Ages and modern history, fundamentally reshaping European society and laying the groundwork for the modern world.
+
+The Renaissance began in the prosperous Italian city-states, particularly Florence, Venice, and Rome. Wealthy merchant families, such as the Medici in Florence, became patrons of the arts, commissioning works from talented artists and supporting scholars. This patronage system allowed artists and thinkers to dedicate themselves to their crafts without financial worry. The period produced some of history's greatest artists, including Leonardo da Vinci, Michelangelo, and Raphael, whose works exemplified the Renaissance ideals of humanism, realism, and technical mastery.
+
+Humanism, the intellectual movement at the heart of the Renaissance, emphasized the potential and achievements of human beings rather than focusing primarily on religious themes. Humanist scholars studied classical texts, promoted education, and encouraged critical thinking. The invention of the printing press by Johannes Gutenberg around 1440 revolutionized the spread of knowledge, making books more affordable and accessible. This technological advancement facilitated the rapid dissemination of new ideas and learning throughout Europe.
+
+The Renaissance also marked significant advances in science and exploration. Astronomers like Copernicus challenged the geocentric model of the universe, proposing that the Earth orbited the Sun. Explorers such as Christopher Columbus and Vasco da Gama expanded European knowledge of the world through their voyages. In medicine, Andreas Vesalius made groundbreaking discoveries about human anatomy. These developments in various fields demonstrated the Renaissance spirit of inquiry, observation, and innovation that would eventually lead to the Scientific Revolution and the Age of Enlightenment.`,
+                questions: [
+                    {
+                        question: 'When did the Renaissance begin?',
+                        answers: ['12th century', '13th century', '14th century', '15th century'],
+                        correct: 2
+                    },
+                    {
+                        question: 'Which Italian city was a major center of the Renaissance?',
+                        answers: ['Milan', 'Naples', 'Florence', 'Turin'],
+                        correct: 2
+                    },
+                    {
+                        question: 'What does "Renaissance" mean?',
+                        answers: ['Revolution', 'Rebirth', 'Reform', 'Renewal'],
+                        correct: 1
+                    },
+                    {
+                        question: 'Who invented the printing press around 1440?',
+                        answers: ['Leonardo da Vinci', 'Johannes Gutenberg', 'Michelangelo', 'Galileo Galilei'],
+                        correct: 1
+                    },
+                    {
+                        question: 'What was the intellectual movement at the heart of the Renaissance?',
+                        answers: ['Rationalism', 'Empiricism', 'Humanism', 'Realism'],
+                        correct: 2
+                    }
+                ]
             }
         };
 
@@ -3036,7 +3150,7 @@ The environmental consequences of industrialization were significant. Factories 
 
             // Apply colour scheme
             if (colorScheme !== 'default') {
-                this.passageContainer.classList.add(`colour-${colorScheme}`);
+                this.passageContainer.classList.add(`color-${colorScheme}`);
             }
         }
 
