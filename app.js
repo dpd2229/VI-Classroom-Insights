@@ -1633,6 +1633,14 @@ class AssessmentManager {
             });
         }
 
+        // Generate Quick Reference button
+        const quickRefBtn = document.getElementById('generate-quick-ref-btn');
+        if (quickRefBtn) {
+            quickRefBtn.addEventListener('click', () => {
+                this.generateQuickReferencePDF();
+            });
+        }
+
         // Reset Assessment button
         const resetBtn = document.getElementById('reset-assessment-btn');
         if (resetBtn) {
@@ -2004,6 +2012,7 @@ class AssessmentManager {
 
         // Update generate report button
         const generateBtn = document.getElementById('generate-report-btn');
+        const quickRefBtn = document.getElementById('generate-quick-ref-btn');
         const requirementsText = document.getElementById('report-requirements');
 
         if (generateBtn) {
@@ -2029,6 +2038,17 @@ class AssessmentManager {
                 if (requirementsText) {
                     requirementsText.innerHTML = `<span style="colour: var(--colour-warning);">Note:</span> Some sections incomplete`;
                 }
+            }
+        }
+
+        // Update quick reference button (same logic as generate report button)
+        if (quickRefBtn) {
+            if (studentInfoComplete && seeItComplete && findItComplete && useItComplete) {
+                quickRefBtn.disabled = false;
+                quickRefBtn.title = 'All sections complete - Click to generate quick reference';
+            } else {
+                quickRefBtn.disabled = false; // Allow PDF generation at any time
+                quickRefBtn.title = `Generate quick reference with current data`;
             }
         }
     }
@@ -3406,6 +3426,207 @@ class AssessmentManager {
         } catch (error) {
             console.error('Error generating PDF:', error);
             alert('Error generating PDF report. Please try again or contact support if the problem persists.');
+        }
+    }
+
+    generateQuickReferencePDF() {
+        try {
+            // Access jsPDF from window
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const margin = 15;
+            const contentWidth = pageWidth - (margin * 2);
+            let yPos = margin;
+
+            // Helper function to add wrapped text
+            const addWrappedText = (text, x, y, maxWidth, lineHeight = 5) => {
+                const lines = doc.splitTextToSize(text, maxWidth);
+                doc.text(lines, x, y);
+                return lines.length * lineHeight;
+            };
+
+            // ===== HEADER =====
+            doc.setFillColor(30, 64, 175);
+            doc.rect(0, 0, pageWidth, 35, 'F');
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(20);
+            doc.setFont(undefined, 'bold');
+            doc.text('QUICK REFERENCE: Intervention Summary', pageWidth / 2, 15, { align: 'center' });
+
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'normal');
+            const studentName = this.state.studentInfo.studentName || 'Student';
+            const assessmentDate = this.state.studentInfo.assessmentDate || new Date().toLocaleDateString();
+            doc.text(`Student: ${studentName}`, margin, 25);
+            doc.text(`Date: ${assessmentDate}`, pageWidth - margin, 25, { align: 'right' });
+
+            doc.setTextColor(0, 0, 0);
+            yPos = 45;
+
+            // Get findings
+            const findings = this.analyzeFindingsSeverity();
+
+            // ===== CRITICAL FINDINGS SECTION (RED) =====
+            if (findings.critical.length > 0) {
+                // Limit to max 4 findings
+                const criticalToShow = findings.critical.slice(0, 4);
+
+                doc.setFillColor(220, 38, 38);
+                const boxHeight = 8 + (criticalToShow.length * 6);
+                doc.roundedRect(margin, yPos - 3, contentWidth, boxHeight, 2, 2, 'F');
+
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(255, 255, 255);
+                doc.text('CRITICAL FINDINGS', margin + 5, yPos + 2);
+                yPos += 8;
+
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+                criticalToShow.forEach(item => {
+                    const textLines = doc.splitTextToSize(`★ ${item}`, contentWidth - 15);
+                    textLines.forEach(line => {
+                        doc.text(line, margin + 5, yPos);
+                        yPos += 5;
+                    });
+                    yPos += 1;
+                });
+
+                yPos += 5;
+                doc.setTextColor(0, 0, 0);
+            }
+
+            // ===== IMPORTANT FINDINGS SECTION (ORANGE) =====
+            if (findings.important.length > 0) {
+                // Limit to max 4 findings
+                const importantToShow = findings.important.slice(0, 4);
+
+                doc.setFillColor(237, 137, 54);
+                const boxHeight = 8 + (importantToShow.length * 6);
+                doc.roundedRect(margin, yPos - 3, contentWidth, boxHeight, 2, 2, 'F');
+
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(255, 255, 255);
+                doc.text('IMPORTANT FINDINGS', margin + 5, yPos + 2);
+                yPos += 8;
+
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+                importantToShow.forEach(item => {
+                    const textLines = doc.splitTextToSize(`▲ ${item}`, contentWidth - 15);
+                    textLines.forEach(line => {
+                        doc.text(line, margin + 5, yPos);
+                        yPos += 5;
+                    });
+                    yPos += 1;
+                });
+
+                yPos += 5;
+                doc.setTextColor(0, 0, 0);
+            }
+
+            // ===== PRIORITY STRATEGIES SECTION (BLUE) =====
+            // Get selected recommendations, limit to top 8
+            const selectedRecs = this.activeRecommendations.filter(rec =>
+                this.recommendationEngine.selectedRecommendations.has(rec.id)
+            );
+            const strategiesToShow = selectedRecs.slice(0, 8);
+
+            if (strategiesToShow.length > 0) {
+                // Calculate approximate height needed
+                const estimatedHeight = 8 + (strategiesToShow.length * 12);
+
+                doc.setFillColor(59, 130, 246);
+                const boxHeight = Math.min(estimatedHeight, pageHeight - yPos - 25); // Leave room for footer
+                doc.roundedRect(margin, yPos - 3, contentWidth, boxHeight, 2, 2, 'F');
+
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(255, 255, 255);
+                doc.text('PRIORITY STRATEGIES', margin + 5, yPos + 2);
+                yPos += 8;
+
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+
+                strategiesToShow.forEach((rec, index) => {
+                    // Check if we're running out of space
+                    if (yPos > pageHeight - 35) {
+                        return; // Skip if too close to bottom
+                    }
+
+                    // Title
+                    doc.setFont(undefined, 'bold');
+                    const titleLines = doc.splitTextToSize(`• ${rec.title}`, contentWidth - 15);
+                    titleLines.forEach(line => {
+                        if (yPos <= pageHeight - 35) {
+                            doc.text(line, margin + 5, yPos);
+                            yPos += 5;
+                        }
+                    });
+
+                    // Description (abbreviated if needed)
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(8);
+                    const descLines = doc.splitTextToSize(rec.description, contentWidth - 20);
+                    // Limit description to 2 lines max per item
+                    const limitedDescLines = descLines.slice(0, 2);
+                    limitedDescLines.forEach(line => {
+                        if (yPos <= pageHeight - 35) {
+                            doc.text(line, margin + 10, yPos);
+                            yPos += 4;
+                        }
+                    });
+
+                    yPos += 2;
+                    doc.setFontSize(9);
+                });
+
+                doc.setTextColor(0, 0, 0);
+            } else {
+                // No strategies selected
+                doc.setFillColor(59, 130, 246);
+                doc.roundedRect(margin, yPos - 3, contentWidth, 15, 2, 2, 'F');
+
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(255, 255, 255);
+                doc.text('PRIORITY STRATEGIES', margin + 5, yPos + 2);
+                yPos += 8;
+
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+                doc.text('No strategies selected. Please select recommendations in the assessment.', margin + 5, yPos);
+
+                doc.setTextColor(0, 0, 0);
+            }
+
+            // ===== FOOTER =====
+            doc.setFontSize(9);
+            doc.setTextColor(100, 100, 100);
+            doc.setFont(undefined, 'italic');
+            doc.text('For full assessment details, see comprehensive report', pageWidth / 2, pageHeight - 15, { align: 'center' });
+
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'normal');
+            doc.text(`Generated: ${new Date().toLocaleDateString()}`, margin, pageHeight - 8);
+            doc.text('© D.Downes 2025 - For Educational Use Only', pageWidth / 2, pageHeight - 8, { align: 'center' });
+
+            // Save the PDF
+            const fileName = `VI-Quick-Reference-${this.state.studentInfo.studentName.replace(/\s+/g, '-') || 'Summary'}-${new Date().toISOString().split('T')[0]}.pdf`;
+            doc.save(fileName);
+
+            alert('Quick Reference PDF Generated Successfully!\n\nA one-page intervention summary has been downloaded to your device.');
+            console.log('Quick reference PDF generated successfully');
+
+        } catch (error) {
+            console.error('Error generating quick reference PDF:', error);
+            alert('Error generating quick reference PDF. Please try again or contact support if the problem persists.');
         }
     }
 
