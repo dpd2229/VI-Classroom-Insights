@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocular Vision Assessment - Educational Tool</title>
+    <meta name="description" content="Educational ocular vision assessment tool for QTVIs">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="container">
+            <h1 class="app-title">Ocular Vision Assessment</h1>
+            <p class="app-subtitle">Educational Assessment Tool for QTVIs</p>
+        </div>
+    </header>
+
+    <!-- Navigation / Progress Indicator -->
+    <nav class="section-nav" role="navigation" aria-label="Assessment sections">
+        <div class="container">
+            <ul class="nav-list">
+                <li class="nav-item active" data-section="student-info">
+                    <span class="nav-number">1</span>
+                    <span class="nav-label">Student Info</span>
+                </li>
+                <li class="nav-item" data-section="see-it">
+                    <span class="nav-number">2</span>
+                    <span class="nav-label">See It</span>
+                </li>
+                <li class="nav-item" data-section="find-it">
+                    <span class="nav-number">3</span>
+                    <span class="nav-label">Find It</span>
+                </li>
+                <li class="nav-item" data-section="use-it">
+                    <span class="nav-number">4</span>
+                    <span class="nav-label">Use It</span>
+                </li>
+                <li class="nav-item" data-section="reading-test">
+                    <span class="nav-number">5</span>
+                    <span class="nav-label">Reading Test</span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="container">
+            <div class="content-grid">
+                <!-- Left Column - Forms -->
+                <div class="forms-column">
+
+                    <!-- Student Information Card -->
+                    <section class="card" id="student-info-section">
+                        <div class="card-header">
+                            <h2 class="card-title">Student Information</h2>
+                            <span class="completion-badge" id="student-info-badge"></span>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="student-name" class="form-label">Student Name <span class="required">*</span></label>
+                                <input
+                                    type="text"
+                                    id="student-name"
+                                    name="studentName"
+                                    class="form-input"
+                                    placeholder="Enter student's full name"
+                                    aria-required="true"
+                                    autocomplete="name"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="date-of-birth" class="form-label">Date of Birth <span class="required">*</span></label>
+                                <input
+                                    type="date"
+                                    id="date-of-birth"
+                                    name="dateOfBirth"
+                                    class="form-input"
+                                    aria-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="year-group" class="form-label">Year Group <span class="required">*</span></label>
+                                <select
+                                    id="year-group"
+                                    name="yearGroup"
+                                    class="form-select"
+                                    aria-required="true"
+                                >
+                                    <option value="">Select year group</option>
+                                    <option value="Reception">Reception</option>
+                                    <option value="Year 1">Year 1</option>
+                                    <option value="Year 2">Year 2</option>
+                                    <option value="Year 3">Year 3</option>
+                                    <option value="Year 4">Year 4</option>
+                                    <option value="Year 5">Year 5</option>
+                                    <option value="Year 6">Year 6</option>
+                                    <option value="Year 7">Year 7</option>
+                                    <option value="Year 8">Year 8</option>
+                                    <option value="Year 9">Year 9</option>
+                                    <option value="Year 10">Year 10</option>
+                                    <option value="Year 11">Year 11</option>
+                                    <option value="Year 12">Year 12</option>
+                                    <option value="Year 13">Year 13</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="assessment-date" class="form-label">Assessment Date <span class="required">*</span></label>
+                                <input
+                                    type="date"
+                                    id="assessment-date"
+                                    name="assessmentDate"
+                                    class="form-input"
+                                    aria-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="assessed-by" class="form-label">Assessed By <span class="required">*</span></label>
+                                <input
+                                    type="text"
+                                    id="assessed-by"
+                                    name="assessedBy"
+                                    class="form-input"
+                                    placeholder="Enter assessor's name"
+                                    aria-required="true"
+                                    autocomplete="name"
+                                >
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SEE IT Section -->
+                    <section class="card" id="see-it-section">
+                        <div class="card-header">
+                            <h2 class="card-title">SEE IT - Visual Clarity</h2>
+                            <span class="completion-badge" id="see-it-badge"></span>
+                        </div>
+                        <div class="card-body">
+
+                            <!-- Distance Visual Acuity -->
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <label for="distance-acuity" class="form-label">Distance Visual Acuity</label>
+                                    <span class="check-indicator" id="distance-acuity-check"></span>
+                                </div>
+                                <select
+                                    id="distance-acuity"
+                                    name="distanceAcuity"
+                                    class="form-select"
+                                >
+                                    <option value="">Select distance acuity</option>
+                                    <option value="6/6">6/6</option>
+                                    <option value="6/9">6/9</option>
+                                    <option value="6/12">6/12</option>
+                                    <option value="6/19">6/19</option>
+                                    <option value="6/24">6/24</option>
+                                    <option value="6/36">6/36</option>
+                                    <option value="6/60">6/60</option>
+                                    <option value="6/95">6/95</option>
+                                    <option value="6/120">6/120</option>
+                                    <option value="<6/120">&lt;6/120</option>
+                                    <option value="NPL">NPL (No Perception of Light)</option>
+                                </select>
+                                <button
+                                    type="button"
+                                    class="toggle-notes-btn"
+                                    data-target="distance-acuity-notes"
+                                    aria-expanded="false"
+                                    aria-controls="distance-acuity-notes"
+                                >
+                                    + Optional notes
+                                </button>
+                                <div class="notes-container hidden" id="distance-acuity-notes">
+                                    <textarea
+                                        name="distanceAcuityNotes"
+                                        class="form-textarea"
+                                        placeholder="Add any additional observations..."
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Near Visual Acuity -->
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <label for="near-acuity" class="form-label">Near Visual Acuity</label>
+                                    <span class="check-indicator" id="near-acuity-check"></span>
+                                </div>
+                                <select
+                                    id="near-acuity"
+                                    name="nearAcuity"
+                                    class="form-select"
+                                >
+                                    <option value="">Select near acuity</option>
+                                    <option value="N5">N5</option>
+                                    <option value="N6">N6</option>
+                                    <option value="N8">N8</option>
+                                    <option value="N10">N10</option>
+                                    <option value="N12">N12</option>
+                                    <option value="N14">N14</option>
+                                    <option value="N18">N18</option>
+                                    <option value="N24">N24</option>
+                                    <option value="N36">N36</option>
+                                    <option value="N48">N48</option>
+                                    <option value="Unable">Unable to assess</option>
+                                </select>
+                                <div class="form-group" style="margin-top: 12px;">
+                                    <label for="near-distance" class="form-label-inline">Tested at:</label>
+                                    <input
+                                        type="number"
+                                        id="near-distance"
+                                        name="nearDistance"
+                                        class="form-input-inline"
+                                        placeholder="30"
+                                        min="1"
+                                        max="100"
+                                        style="width: 80px;"
+                                    >
+                                    <span class="form-label-inline">cm</span>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="toggle-notes-btn"
+                                    data-target="near-acuity-notes"
+                                    aria-expanded="false"
+                                    aria-controls="near-acuity-notes"
+                                >
+                                    + Optional notes
+                                </button>
+                                <div class="notes-container hidden" id="near-acuity-notes">
+                                    <textarea
+                                        name="nearAcuityNotes"
+                                        class="form-textarea"
+                                        placeholder="Add any additional observations..."
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Contrast Sensitivity -->
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <label for="contrast-sensitivity" class="form-label">Contrast Sensitivity</label>
+                                    <span class="check-indicator" id="contrast-sensitivity-check"></span>
+                                </div>
+                                <select
+                                    id="contrast-sensitivity"
+                                    name="contrastSensitivity"
+                                    class="form-select"
+                                >
+                                    <option value="">Select contrast sensitivity</option>
+                                    <option value="Normal">Normal (1.5+ log units)</option>
+                                    <option value="Mildly reduced">Mildly reduced (1.2-1.5)</option>
+                                    <option value="Moderately reduced">Moderately reduced (0.9-1.2)</option>
+                                    <option value="Severely reduced">Severely reduced (&lt;0.9)</option>
+                                    <option value="Not assessed">Not assessed</option>
+                                </select>
+                                <button
+                                    type="button"
+                                    class="toggle-notes-btn"
+                                    data-target="contrast-sensitivity-notes"
+                                    aria-expanded="false"
+                                    aria-controls="contrast-sensitivity-notes"
+                                >
+                                    + Optional notes
+                                </button>
+                                <div class="notes-container hidden" id="contrast-sensitivity-notes">
+                                    <textarea
+                                        name="contrastSensitivityNotes"
+                                        class="form-textarea"
+                                        placeholder="Add any additional observations..."
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Light Sensitivity -->
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <label class="form-label">Light Sensitivity/Preference</label>
+                                    <span class="check-indicator" id="light-sensitivity-check"></span>
+                                </div>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="lightSensitivity"
+                                            value="Photophobic"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Photophobic (light sensitive)</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="lightSensitivity"
+                                            value="Prefers bright"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Prefers bright lighting</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="lightSensitivity"
+                                            value="Prefers dim"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Prefers dim lighting</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="lightSensitivity"
+                                            value="No preference"
+                                            class="form-checkbox"
+                                        >
+                                        <span>No preference noted</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="lightSensitivity"
+                                            value="Not assessed"
+                                            class="form-checkbox"
+                                        >
+                                        <span>Not assessed</span>
+                                    </label>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="toggle-notes-btn"
+                                    data-target="light-sensitivity-notes"
+                                    aria-expanded="false"
+                                    aria-controls="light-sensitivity-notes"
+                                >
+                                    + Optional notes
+                                </button>
+                                <div class="notes-container hidden" id="light-sensitivity-notes">
+                                    <textarea
+                                        name="lightSensitivityNotes"
+                                        class="form-textarea"
+                                        placeholder="Add any additional observations..."
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <!-- Placeholder sections for future phases -->
+                    <section class="card disabled" id="find-it-section">
+                        <div class="card-header">
+                            <h2 class="card-title">FIND IT - Visual Scanning</h2>
+                            <span class="badge-coming-soon">Coming Soon</span>
+                        </div>
+                    </section>
+
+                    <section class="card disabled" id="use-it-section">
+                        <div class="card-header">
+                            <h2 class="card-title">USE IT - Functional Vision</h2>
+                            <span class="badge-coming-soon">Coming Soon</span>
+                        </div>
+                    </section>
+
+                    <section class="card disabled" id="reading-test-section">
+                        <div class="card-header">
+                            <h2 class="card-title">Reading Test (Optional)</h2>
+                            <span class="badge-coming-soon">Coming Soon</span>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- Right Column - Live Preview -->
+                <aside class="preview-column">
+                    <div class="preview-panel card sticky">
+                        <div class="card-header">
+                            <h3 class="card-title">Assessment Preview</h3>
+                        </div>
+                        <div class="card-body">
+
+                            <!-- Student Info Preview -->
+                            <div class="preview-section">
+                                <h4 class="preview-heading">Student</h4>
+                                <p class="preview-text" id="preview-student-name">
+                                    <span class="preview-placeholder">No student name entered</span>
+                                </p>
+                                <p class="preview-meta" id="preview-student-details"></p>
+                            </div>
+
+                            <!-- Progress Indicator -->
+                            <div class="preview-section">
+                                <h4 class="preview-heading">Progress</h4>
+                                <div class="progress-list">
+                                    <div class="progress-item" id="progress-student-info">
+                                        <span class="progress-icon">○</span>
+                                        <span class="progress-label">Student Info</span>
+                                    </div>
+                                    <div class="progress-item" id="progress-see-it">
+                                        <span class="progress-icon">○</span>
+                                        <span class="progress-label">See It</span>
+                                    </div>
+                                    <div class="progress-item" id="progress-find-it">
+                                        <span class="progress-icon">○</span>
+                                        <span class="progress-label">Find It</span>
+                                    </div>
+                                    <div class="progress-item" id="progress-use-it">
+                                        <span class="progress-icon">○</span>
+                                        <span class="progress-label">Use It</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Classification Indicators -->
+                            <div class="preview-section">
+                                <h4 class="preview-heading">Classification</h4>
+                                <div class="classification-badges" id="classification-preview">
+                                    <p class="preview-placeholder">Complete assessment to see classification</p>
+                                </div>
+                            </div>
+
+                            <!-- Generate Report Button -->
+                            <div class="preview-section">
+                                <button
+                                    type="button"
+                                    id="generate-report-btn"
+                                    class="btn btn-primary btn-block"
+                                    disabled
+                                    aria-label="Generate educational report"
+                                >
+                                    <span class="btn-icon">📄</span>
+                                    Generate Report
+                                </button>
+                                <p class="help-text">Complete required fields to enable</p>
+                            </div>
+
+                            <!-- Auto-save Indicator -->
+                            <div class="autosave-indicator">
+                                <span class="autosave-icon" id="autosave-status">💾</span>
+                                <span class="autosave-text" id="autosave-text">Changes saved automatically</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="container">
+            <p class="footer-text">
+                <strong>Educational Assessment Tool</strong> - Not for medical diagnosis.
+                For use by Qualified Teachers of the Visually Impaired (QTVIs).
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
