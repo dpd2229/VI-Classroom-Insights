@@ -645,7 +645,7 @@ class RecommendationEngine {
                 'Slight restriction': [
                     {
                         title: 'Awareness Monitoring',
-                        description: 'Monitor pupil's awareness of visual environment - slight restrictions may affect peripheral awareness.'
+                        description: 'Monitor pupil\'s awareness of visual environment - slight restrictions may affect peripheral awareness.'
                     },
                     {
                         title: 'Good Lighting',
