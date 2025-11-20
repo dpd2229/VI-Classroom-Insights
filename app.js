@@ -4143,7 +4143,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 function scrollToSection(sectionId) {
     const section = document.getElementById(sectionId + '-section');
     if (section) {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Scroll with offset for visual spacing
+        const yOffset = -20;
+        const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+        window.scrollTo({
+            top: y,
+            behavior: 'smooth'
+        });
     }
 }
 
@@ -4167,8 +4174,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetSection = document.getElementById(targetId);
 
             if (targetSection) {
-                // Scroll to section with offset for fixed nav
-                const yOffset = -80; // Offset for top nav
+                // Scroll to section with small offset for visual spacing
+                const yOffset = -20; // Small offset to show section clearly
                 const y = targetSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
                 window.scrollTo({
