@@ -2744,7 +2744,7 @@ class AssessmentManager {
 
             // Helper function to add new page if needed
             const checkPageBreak = (requiredSpace) => {
-                if (yPos + requiredSpace > pageHeight - margin - 15) { // Extra space for footer
+                if (yPos + requiredSpace > pageHeight - margin - 15) {
                     doc.addPage();
                     yPos = margin;
                     return true;
@@ -2757,6 +2757,21 @@ class AssessmentManager {
                 const lines = doc.splitTextToSize(text, maxWidth);
                 doc.text(lines, x, y);
                 return lines.length * lineHeight;
+            };
+
+            // Helper function to draw section header
+            const addSectionHeader = (title, color = [30, 64, 175]) => {
+                checkPageBreak(15);
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(...color);
+                doc.text(title, margin, yPos);
+                yPos += 6;
+                doc.setDrawColor(...color);
+                doc.setLineWidth(0.8);
+                doc.line(margin, yPos, pageWidth - margin, yPos);
+                yPos += 8;
+                doc.setTextColor(0, 0, 0);
             };
 
             // Helper function to draw a colored box with text
