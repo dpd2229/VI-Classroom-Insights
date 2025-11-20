@@ -162,6 +162,10 @@ class RecommendationEngine {
                         description: 'Provide access to digital textbooks and eBooks with adjustable font sizes, allowing pupil to magnify content as needed.'
                     },
                     {
+                        title: 'Bookshare Accessible Library',
+                        description: 'Set up Bookshare account (free for students with print disabilities) for access to thousands of accessible textbooks and novels in adjustable formats.'
+                    },
+                    {
                         title: 'Enlarged Print Materials',
                         description: 'Enlarge all print materials to minimum 24-32pt font size. Consider using bold fonts for increased clarity.'
                     },
@@ -220,8 +224,12 @@ class RecommendationEngine {
                         description: 'Reduce copying tasks - provide pre-prepared materials and digital versions of all notes.'
                     },
                     {
-                        title: 'Electronic Magnifier/CCTV',
-                        description: 'Consider use of portable CCTV/electronic magnifier for detail work and reading tasks.'
+                        title: 'Video Magnifier or iPad Camera',
+                        description: 'Consider use of video magnifier or iPad camera feature for detail work and reading tasks. Modern iPads provide instant magnification with high-quality cameras.'
+                    },
+                    {
+                        title: 'Bookshare Digital Library',
+                        description: 'Provide access to Bookshare for accessible digital textbooks and reading materials in adjustable formats (font size, spacing, audio).'
                     },
                     {
                         title: 'Touch-Typing Skills',
@@ -259,7 +267,7 @@ class RecommendationEngine {
                     },
                     {
                         title: 'High-Powered Magnification',
-                        description: 'High-powered magnification technology essential - electronic magnification (CCTV) for most classroom tasks.'
+                        description: 'High-powered magnification technology essential - video magnifier or iPad with magnification apps for most classroom tasks.'
                     },
                     {
                         title: 'Large Print or Braille',
@@ -313,11 +321,15 @@ class RecommendationEngine {
                     },
                     {
                         title: 'Electronic Magnification',
-                        description: 'High-powered electronic magnification (video magnifier/CCTV) essential for any print access.'
+                        description: 'High-powered electronic magnification (video magnifier or iPad with magnification) essential for any print access.'
                     },
                     {
                         title: 'Screen Reading Technology',
-                        description: 'Screen reading technology (JAWS, NVDA, VoiceOver) for computer access and independence.'
+                        description: 'Screen reading technology for computer/device access: VoiceOver (built into iPad/iPhone/Mac), NVDA (free for Windows), or JAWS. Training essential for independence.'
+                    },
+                    {
+                        title: 'Read&Write Literacy Support',
+                        description: 'Read&Write software provides text-to-speech, word prediction, and study skills support for accessing curriculum materials.'
                     },
                     {
                         title: 'Touch-Typing and Keyboard Skills',
@@ -427,7 +439,7 @@ class RecommendationEngine {
                     },
                     {
                         title: 'Electronic Magnification',
-                        description: 'Consider electronic magnification (CCTV/video magnifier) for extended reading and writing tasks.'
+                        description: 'Consider electronic magnification (video magnifier or iPad camera) for extended reading and writing tasks.'
                     },
                     {
                         title: 'Magnification Apps',
@@ -457,7 +469,7 @@ class RecommendationEngine {
                     },
                     {
                         title: 'Electronic Magnification Priority',
-                        description: 'Electronic magnification (CCTV/video magnifier) should be primary tool for reading and writing.'
+                        description: 'Electronic magnification (video magnifier or iPad with specialized apps) should be primary tool for reading and writing.'
                     },
                     {
                         title: 'Digital Alternatives',
@@ -487,11 +499,19 @@ class RecommendationEngine {
                 'N24': [
                     {
                         title: 'Electronic Magnification Essential',
-                        description: 'Electronic magnification (CCTV) essential for any print access. Very large print (36pt+) if using print at all.'
+                        description: 'Electronic magnification (video magnifier or iPad with camera/magnification apps) essential for any print access. Very large print (36pt+) if using print at all.'
                     },
                     {
                         title: 'Screen Reading as Primary Access',
-                        description: 'Screen reading software with speech output should be primary method for accessing text.'
+                        description: 'Screen reading software with speech output should be primary method for accessing text. Use VoiceOver (iOS/Mac), NVDA (Windows), or similar.'
+                    },
+                    {
+                        title: 'Bookshare and Audiobooks',
+                        description: 'Bookshare membership essential for accessible textbooks. Supplement with Learning Ally, RNIB Bookshare, or other audio/accessible format libraries.'
+                    },
+                    {
+                        title: 'Note-Taking Technology',
+                        description: 'Digital note-taking with apps like Notability, OneNote, or Google Keep with voice recording for lectures. Reduces copying burden.'
                     },
                     {
                         title: 'Audio Books Primary Resource',
