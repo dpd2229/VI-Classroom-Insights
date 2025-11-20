@@ -286,8 +286,11 @@ button {
     background: white;
     border-bottom: 1px solid var(--color-border);
     box-shadow: var(--shadow-sm);
-    position: relative;
-    z-index: 900;
+    position: fixed;
+    top: 120px; /* Position below the header */
+    left: 0;
+    right: 0;
+    z-index: 900; /* Below header */
 }
 
 .nav-list {
@@ -358,7 +361,7 @@ button {
    MAIN CONTENT
    =================================== */
 .main-content {
-    padding-top: 140px; /* Account for fixed header (120px) + spacing */
+    padding-top: 200px; /* Account for fixed header (120px) + nav (60px) + spacing */
     padding-bottom: var(--spacing-xl);
     min-height: calc(100vh - 400px);
 }
@@ -771,9 +774,9 @@ button {
 
 .preview-panel {
     position: sticky;
-    top: 190px; /* Stick below fixed header (120px) + nav (60px) + small gap */
+    top: 200px; /* Stick below fixed header (120px) + nav (60px) + spacing (20px) */
     align-self: flex-start; /* Important for sticky to work in flex/grid */
-    max-height: calc(100vh - 210px); /* Allow internal scrolling if content is tall */
+    max-height: calc(100vh - 220px); /* Allow internal scrolling if content is tall */
     overflow-y: auto;
 }
 
