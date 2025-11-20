@@ -1066,7 +1066,13 @@ class AssessmentManager {
                 dateOfBirth: '',
                 yearGroup: '',
                 assessmentDate: this.getTodayDate(),
-                assessedBy: ''
+                assessedBy: '',
+                reasonForAssessment: '',
+                eyeCondition: '',
+                previousAssessments: '',
+                conditionType: 'stable',
+                progressionNotes: '',
+                reviewFrequency: 'annually'
             },
             seeIt: {
                 distanceAcuity: '',
@@ -1098,6 +1104,12 @@ class AssessmentManager {
                 functionalVisionNotes: '',
                 environmental: [],
                 environmentalNotes: '',
+                socialConsiderations: [],
+                socialParticipation: [],
+                seatingConsiderations: [],
+                peerAwarenessConsent: 'not-discussed',
+                peerEducationPoints: [],
+                socialConsiderationsNotes: '',
                 additionalNotes: ''
             }
         };
@@ -1317,6 +1329,61 @@ class AssessmentManager {
                 this.state.studentInfo.assessedBy = e.target.value;
                 this.debouncedSave();
                 this.updatePreview();
+            });
+        }
+
+        const reasonForAssessmentEl = document.getElementById('reason-for-assessment');
+        if (reasonForAssessmentEl) {
+            reasonForAssessmentEl.addEventListener('input', (e) => {
+                this.state.studentInfo.reasonForAssessment = e.target.value;
+                this.debouncedSave();
+            });
+        }
+
+        const eyeConditionEl = document.getElementById('eye-condition');
+        if (eyeConditionEl) {
+            eyeConditionEl.addEventListener('input', (e) => {
+                this.state.studentInfo.eyeCondition = e.target.value;
+                this.debouncedSave();
+            });
+        }
+
+        const previousAssessmentsEl = document.getElementById('previous-assessments');
+        if (previousAssessmentsEl) {
+            previousAssessmentsEl.addEventListener('input', (e) => {
+                this.state.studentInfo.previousAssessments = e.target.value;
+                this.debouncedSave();
+            });
+        }
+
+        // Progressive condition tracking
+        const conditionRadios = document.querySelectorAll('input[name="conditionType"]');
+        conditionRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                this.state.studentInfo.conditionType = e.target.value;
+                this.debouncedSave();
+
+                // Show/hide progression details
+                const progressionDetails = document.getElementById('progression-details');
+                if (progressionDetails) {
+                    progressionDetails.style.display = e.target.value === 'progressive' ? 'block' : 'none';
+                }
+            });
+        });
+
+        const progressionNotesEl = document.getElementById('progression-notes');
+        if (progressionNotesEl) {
+            progressionNotesEl.addEventListener('input', (e) => {
+                this.state.studentInfo.progressionNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
+
+        const reviewFrequencyEl = document.getElementById('review-frequency');
+        if (reviewFrequencyEl) {
+            reviewFrequencyEl.addEventListener('change', (e) => {
+                this.state.studentInfo.reviewFrequency = e.target.value;
+                this.debouncedSave();
             });
         }
 
@@ -1597,6 +1664,82 @@ class AssessmentManager {
         if (useItNotesEl) {
             useItNotesEl.addEventListener('input', (e) => {
                 this.state.useIt.additionalNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
+
+        // Social Considerations checkboxes
+        document.querySelectorAll('[name="socialConsiderations"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    this.state.useIt.socialConsiderations.push(e.target.value);
+                } else {
+                    this.state.useIt.socialConsiderations = this.state.useIt.socialConsiderations.filter(
+                        val => val !== e.target.value
+                    );
+                }
+                this.debouncedSave();
+            });
+        });
+
+        document.querySelectorAll('[name="socialParticipation"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    this.state.useIt.socialParticipation.push(e.target.value);
+                } else {
+                    this.state.useIt.socialParticipation = this.state.useIt.socialParticipation.filter(
+                        val => val !== e.target.value
+                    );
+                }
+                this.debouncedSave();
+            });
+        });
+
+        document.querySelectorAll('[name="seatingConsiderations"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    this.state.useIt.seatingConsiderations.push(e.target.value);
+                } else {
+                    this.state.useIt.seatingConsiderations = this.state.useIt.seatingConsiderations.filter(
+                        val => val !== e.target.value
+                    );
+                }
+                this.debouncedSave();
+            });
+        });
+
+        // Peer awareness consent radio buttons
+        const peerAwarenessRadios = document.querySelectorAll('[name="peerAwarenessConsent"]');
+        peerAwarenessRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                this.state.useIt.peerAwarenessConsent = e.target.value;
+                this.debouncedSave();
+
+                // Show/hide peer education points
+                const peerEducationPoints = document.getElementById('peer-education-points');
+                if (peerEducationPoints) {
+                    peerEducationPoints.style.display = e.target.value === 'consented' ? 'block' : 'none';
+                }
+            });
+        });
+
+        document.querySelectorAll('[name="peerEducationPoints"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    this.state.useIt.peerEducationPoints.push(e.target.value);
+                } else {
+                    this.state.useIt.peerEducationPoints = this.state.useIt.peerEducationPoints.filter(
+                        val => val !== e.target.value
+                    );
+                }
+                this.debouncedSave();
+            });
+        });
+
+        const socialConsiderationsNotesEl = document.getElementById('social-considerations-notes');
+        if (socialConsiderationsNotesEl) {
+            socialConsiderationsNotesEl.addEventListener('input', (e) => {
+                this.state.useIt.socialConsiderationsNotes = e.target.value;
                 this.debouncedSave();
             });
         }
@@ -4426,15 +4569,39 @@ The Renaissance also marked significant advances in science and exploration. Ast
     }
 
     calculateResults() {
+        // Validation: Ensure reading time is reasonable
+        if (this.currentTest.readingTime < 5) {
+            console.error('Reading time too short - test may not have been completed properly');
+            alert('The reading time seems too short. Please ensure the student reads the entire passage before clicking "Finish Reading".');
+            return;
+        }
+
+        // Calculate words per minute
         const wpm = Math.round((this.currentTest.wordCount / this.currentTest.readingTime) * 60);
-        const accuracy = Math.round((this.currentTest.correctAnswers / this.passages[this.currentTest.passageId].questions.length) * 100);
-        const errors = this.passages[this.currentTest.passageId].questions.length - this.currentTest.correctAnswers;
+
+        // Sanity checks for WPM
+        if (wpm > 400) {
+            console.warn(`Unusually high reading speed detected (${wpm} WPM) - please verify timer accuracy`);
+            alert(`Warning: The calculated reading speed (${wpm} WPM) is unusually high. Please verify the test was conducted correctly. Average reading speeds:\n• Age 7-9: 80-120 WPM\n• Age 10-12: 120-180 WPM\n• Age 13+: 150-250 WPM\n\nThe results have been saved, but please review them carefully.`);
+        }
+
+        if (wpm < 20 && this.currentTest.wordCount > 50) {
+            console.warn(`Unusually low reading speed detected (${wpm} WPM) - student may need different text level`);
+        }
+
+        // Calculate comprehension accuracy
+        const totalQuestions = this.passages[this.currentTest.passageId].questions.length;
+        const accuracy = Math.round((this.currentTest.correctAnswers / totalQuestions) * 100);
+        const errors = totalQuestions - this.currentTest.correctAnswers;
 
         const result = {
             time: this.currentTest.readingTime,
             wpm: wpm,
-            errors: errors,
-            accuracy: accuracy
+            errors: errors, // Comprehension errors (incorrect answers)
+            accuracy: accuracy,
+            wordCount: this.currentTest.wordCount,
+            comprehensionScore: this.currentTest.correctAnswers,
+            comprehensionTotal: totalQuestions
         };
 
         // Store result
@@ -4443,6 +4610,8 @@ The Renaissance also marked significant advances in science and exploration. Ast
         } else {
             this.results.modified = result;
         }
+
+        console.log(`Reading test results calculated:`, result);
     }
 
     displayResults() {
