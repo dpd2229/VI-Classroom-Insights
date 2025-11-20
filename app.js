@@ -162,6 +162,10 @@ class RecommendationEngine {
                         description: 'Provide access to digital textbooks and eBooks with adjustable font sizes, allowing pupil to magnify content as needed.'
                     },
                     {
+                        title: 'Bookshare Accessible Library',
+                        description: 'Set up Bookshare account (free for students with print disabilities) for access to thousands of accessible textbooks and novels in adjustable formats.'
+                    },
+                    {
                         title: 'Enlarged Print Materials',
                         description: 'Enlarge all print materials to minimum 24-32pt font size. Consider using bold fonts for increased clarity.'
                     },
@@ -220,8 +224,12 @@ class RecommendationEngine {
                         description: 'Reduce copying tasks - provide pre-prepared materials and digital versions of all notes.'
                     },
                     {
-                        title: 'Electronic Magnifier/CCTV',
-                        description: 'Consider use of portable CCTV/electronic magnifier for detail work and reading tasks.'
+                        title: 'Video Magnifier or iPad Camera',
+                        description: 'Consider use of video magnifier or iPad camera feature for detail work and reading tasks. Modern iPads provide instant magnification with high-quality cameras.'
+                    },
+                    {
+                        title: 'Bookshare Digital Library',
+                        description: 'Provide access to Bookshare for accessible digital textbooks and reading materials in adjustable formats (font size, spacing, audio).'
                     },
                     {
                         title: 'Touch-Typing Skills',
@@ -259,7 +267,7 @@ class RecommendationEngine {
                     },
                     {
                         title: 'High-Powered Magnification',
-                        description: 'High-powered magnification technology essential - electronic magnification (CCTV) for most classroom tasks.'
+                        description: 'High-powered magnification technology essential - video magnifier or iPad with magnification apps for most classroom tasks.'
                     },
                     {
                         title: 'Large Print or Braille',
@@ -313,11 +321,15 @@ class RecommendationEngine {
                     },
                     {
                         title: 'Electronic Magnification',
-                        description: 'High-powered electronic magnification (video magnifier/CCTV) essential for any print access.'
+                        description: 'High-powered electronic magnification (video magnifier or iPad with magnification) essential for any print access.'
                     },
                     {
                         title: 'Screen Reading Technology',
-                        description: 'Screen reading technology (JAWS, NVDA, VoiceOver) for computer access and independence.'
+                        description: 'Screen reading technology for computer/device access: VoiceOver (built into iPad/iPhone/Mac), NVDA (free for Windows), or JAWS. Training essential for independence.'
+                    },
+                    {
+                        title: 'Read&Write Literacy Support',
+                        description: 'Read&Write software provides text-to-speech, word prediction, and study skills support for accessing curriculum materials.'
                     },
                     {
                         title: 'Touch-Typing and Keyboard Skills',
@@ -427,7 +439,7 @@ class RecommendationEngine {
                     },
                     {
                         title: 'Electronic Magnification',
-                        description: 'Consider electronic magnification (CCTV/video magnifier) for extended reading and writing tasks.'
+                        description: 'Consider electronic magnification (video magnifier or iPad camera) for extended reading and writing tasks.'
                     },
                     {
                         title: 'Magnification Apps',
@@ -457,7 +469,7 @@ class RecommendationEngine {
                     },
                     {
                         title: 'Electronic Magnification Priority',
-                        description: 'Electronic magnification (CCTV/video magnifier) should be primary tool for reading and writing.'
+                        description: 'Electronic magnification (video magnifier or iPad with specialized apps) should be primary tool for reading and writing.'
                     },
                     {
                         title: 'Digital Alternatives',
@@ -487,11 +499,19 @@ class RecommendationEngine {
                 'N24': [
                     {
                         title: 'Electronic Magnification Essential',
-                        description: 'Electronic magnification (CCTV) essential for any print access. Very large print (36pt+) if using print at all.'
+                        description: 'Electronic magnification (video magnifier or iPad with camera/magnification apps) essential for any print access. Very large print (36pt+) if using print at all.'
                     },
                     {
                         title: 'Screen Reading as Primary Access',
-                        description: 'Screen reading software with speech output should be primary method for accessing text.'
+                        description: 'Screen reading software with speech output should be primary method for accessing text. Use VoiceOver (iOS/Mac), NVDA (Windows), or similar.'
+                    },
+                    {
+                        title: 'Bookshare and Audiobooks',
+                        description: 'Bookshare membership essential for accessible textbooks. Supplement with Learning Ally, RNIB Bookshare, or other audio/accessible format libraries.'
+                    },
+                    {
+                        title: 'Note-Taking Technology',
+                        description: 'Digital note-taking with apps like Notability, OneNote, or Google Keep with voice recording for lectures. Reduces copying burden.'
                     },
                     {
                         title: 'Audio Books Primary Resource',
@@ -1066,7 +1086,13 @@ class AssessmentManager {
                 dateOfBirth: '',
                 yearGroup: '',
                 assessmentDate: this.getTodayDate(),
-                assessedBy: ''
+                assessedBy: '',
+                reasonForAssessment: '',
+                eyeCondition: '',
+                previousAssessments: '',
+                conditionType: 'stable',
+                progressionNotes: '',
+                reviewFrequency: 'annually'
             },
             seeIt: {
                 distanceAcuity: '',
@@ -1098,6 +1124,12 @@ class AssessmentManager {
                 functionalVisionNotes: '',
                 environmental: [],
                 environmentalNotes: '',
+                socialConsiderations: [],
+                socialParticipation: [],
+                seatingConsiderations: [],
+                peerAwarenessConsent: 'not-discussed',
+                peerEducationPoints: [],
+                socialConsiderationsNotes: '',
                 additionalNotes: ''
             }
         };
@@ -1317,6 +1349,61 @@ class AssessmentManager {
                 this.state.studentInfo.assessedBy = e.target.value;
                 this.debouncedSave();
                 this.updatePreview();
+            });
+        }
+
+        const reasonForAssessmentEl = document.getElementById('reason-for-assessment');
+        if (reasonForAssessmentEl) {
+            reasonForAssessmentEl.addEventListener('input', (e) => {
+                this.state.studentInfo.reasonForAssessment = e.target.value;
+                this.debouncedSave();
+            });
+        }
+
+        const eyeConditionEl = document.getElementById('eye-condition');
+        if (eyeConditionEl) {
+            eyeConditionEl.addEventListener('input', (e) => {
+                this.state.studentInfo.eyeCondition = e.target.value;
+                this.debouncedSave();
+            });
+        }
+
+        const previousAssessmentsEl = document.getElementById('previous-assessments');
+        if (previousAssessmentsEl) {
+            previousAssessmentsEl.addEventListener('input', (e) => {
+                this.state.studentInfo.previousAssessments = e.target.value;
+                this.debouncedSave();
+            });
+        }
+
+        // Progressive condition tracking
+        const conditionRadios = document.querySelectorAll('input[name="conditionType"]');
+        conditionRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                this.state.studentInfo.conditionType = e.target.value;
+                this.debouncedSave();
+
+                // Show/hide progression details
+                const progressionDetails = document.getElementById('progression-details');
+                if (progressionDetails) {
+                    progressionDetails.style.display = e.target.value === 'progressive' ? 'block' : 'none';
+                }
+            });
+        });
+
+        const progressionNotesEl = document.getElementById('progression-notes');
+        if (progressionNotesEl) {
+            progressionNotesEl.addEventListener('input', (e) => {
+                this.state.studentInfo.progressionNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
+
+        const reviewFrequencyEl = document.getElementById('review-frequency');
+        if (reviewFrequencyEl) {
+            reviewFrequencyEl.addEventListener('change', (e) => {
+                this.state.studentInfo.reviewFrequency = e.target.value;
+                this.debouncedSave();
             });
         }
 
@@ -1597,6 +1684,82 @@ class AssessmentManager {
         if (useItNotesEl) {
             useItNotesEl.addEventListener('input', (e) => {
                 this.state.useIt.additionalNotes = e.target.value;
+                this.debouncedSave();
+            });
+        }
+
+        // Social Considerations checkboxes
+        document.querySelectorAll('[name="socialConsiderations"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    this.state.useIt.socialConsiderations.push(e.target.value);
+                } else {
+                    this.state.useIt.socialConsiderations = this.state.useIt.socialConsiderations.filter(
+                        val => val !== e.target.value
+                    );
+                }
+                this.debouncedSave();
+            });
+        });
+
+        document.querySelectorAll('[name="socialParticipation"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    this.state.useIt.socialParticipation.push(e.target.value);
+                } else {
+                    this.state.useIt.socialParticipation = this.state.useIt.socialParticipation.filter(
+                        val => val !== e.target.value
+                    );
+                }
+                this.debouncedSave();
+            });
+        });
+
+        document.querySelectorAll('[name="seatingConsiderations"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    this.state.useIt.seatingConsiderations.push(e.target.value);
+                } else {
+                    this.state.useIt.seatingConsiderations = this.state.useIt.seatingConsiderations.filter(
+                        val => val !== e.target.value
+                    );
+                }
+                this.debouncedSave();
+            });
+        });
+
+        // Peer awareness consent radio buttons
+        const peerAwarenessRadios = document.querySelectorAll('[name="peerAwarenessConsent"]');
+        peerAwarenessRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                this.state.useIt.peerAwarenessConsent = e.target.value;
+                this.debouncedSave();
+
+                // Show/hide peer education points
+                const peerEducationPoints = document.getElementById('peer-education-points');
+                if (peerEducationPoints) {
+                    peerEducationPoints.style.display = e.target.value === 'consented' ? 'block' : 'none';
+                }
+            });
+        });
+
+        document.querySelectorAll('[name="peerEducationPoints"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    this.state.useIt.peerEducationPoints.push(e.target.value);
+                } else {
+                    this.state.useIt.peerEducationPoints = this.state.useIt.peerEducationPoints.filter(
+                        val => val !== e.target.value
+                    );
+                }
+                this.debouncedSave();
+            });
+        });
+
+        const socialConsiderationsNotesEl = document.getElementById('social-considerations-notes');
+        if (socialConsiderationsNotesEl) {
+            socialConsiderationsNotesEl.addEventListener('input', (e) => {
+                this.state.useIt.socialConsiderationsNotes = e.target.value;
                 this.debouncedSave();
             });
         }
@@ -2581,7 +2744,7 @@ class AssessmentManager {
 
             // Helper function to add new page if needed
             const checkPageBreak = (requiredSpace) => {
-                if (yPos + requiredSpace > pageHeight - margin - 15) { // Extra space for footer
+                if (yPos + requiredSpace > pageHeight - margin - 15) {
                     doc.addPage();
                     yPos = margin;
                     return true;
@@ -2594,6 +2757,21 @@ class AssessmentManager {
                 const lines = doc.splitTextToSize(text, maxWidth);
                 doc.text(lines, x, y);
                 return lines.length * lineHeight;
+            };
+
+            // Helper function to draw section header
+            const addSectionHeader = (title, color = [30, 64, 175]) => {
+                checkPageBreak(15);
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(...color);
+                doc.text(title, margin, yPos);
+                yPos += 6;
+                doc.setDrawColor(...color);
+                doc.setLineWidth(0.8);
+                doc.line(margin, yPos, pageWidth - margin, yPos);
+                yPos += 8;
+                doc.setTextColor(0, 0, 0);
             };
 
             // Helper function to draw a colored box with text
@@ -4426,15 +4604,39 @@ The Renaissance also marked significant advances in science and exploration. Ast
     }
 
     calculateResults() {
+        // Validation: Ensure reading time is reasonable
+        if (this.currentTest.readingTime < 5) {
+            console.error('Reading time too short - test may not have been completed properly');
+            alert('The reading time seems too short. Please ensure the student reads the entire passage before clicking "Finish Reading".');
+            return;
+        }
+
+        // Calculate words per minute
         const wpm = Math.round((this.currentTest.wordCount / this.currentTest.readingTime) * 60);
-        const accuracy = Math.round((this.currentTest.correctAnswers / this.passages[this.currentTest.passageId].questions.length) * 100);
-        const errors = this.passages[this.currentTest.passageId].questions.length - this.currentTest.correctAnswers;
+
+        // Sanity checks for WPM
+        if (wpm > 400) {
+            console.warn(`Unusually high reading speed detected (${wpm} WPM) - please verify timer accuracy`);
+            alert(`Warning: The calculated reading speed (${wpm} WPM) is unusually high. Please verify the test was conducted correctly. Average reading speeds:\n• Age 7-9: 80-120 WPM\n• Age 10-12: 120-180 WPM\n• Age 13+: 150-250 WPM\n\nThe results have been saved, but please review them carefully.`);
+        }
+
+        if (wpm < 20 && this.currentTest.wordCount > 50) {
+            console.warn(`Unusually low reading speed detected (${wpm} WPM) - student may need different text level`);
+        }
+
+        // Calculate comprehension accuracy
+        const totalQuestions = this.passages[this.currentTest.passageId].questions.length;
+        const accuracy = Math.round((this.currentTest.correctAnswers / totalQuestions) * 100);
+        const errors = totalQuestions - this.currentTest.correctAnswers;
 
         const result = {
             time: this.currentTest.readingTime,
             wpm: wpm,
-            errors: errors,
-            accuracy: accuracy
+            errors: errors, // Comprehension errors (incorrect answers)
+            accuracy: accuracy,
+            wordCount: this.currentTest.wordCount,
+            comprehensionScore: this.currentTest.correctAnswers,
+            comprehensionTotal: totalQuestions
         };
 
         // Store result
@@ -4443,6 +4645,8 @@ The Renaissance also marked significant advances in science and exploration. Ast
         } else {
             this.results.modified = result;
         }
+
+        console.log(`Reading test results calculated:`, result);
     }
 
     displayResults() {

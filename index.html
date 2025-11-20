@@ -146,6 +146,87 @@
                                     autocomplete="name"
                                 >
                             </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Reason for Assessment</label>
+                                <textarea
+                                    id="reason-for-assessment"
+                                    name="reasonForAssessment"
+                                    class="form-input"
+                                    rows="3"
+                                    placeholder="E.g., Initial assessment, annual review, reported changes in vision, curriculum progression..."
+                                ></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Visual Condition Type</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input
+                                            type="radio"
+                                            id="condition-stable"
+                                            name="conditionType"
+                                            value="stable"
+                                            checked
+                                        >
+                                        <span>Stable condition</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input
+                                            type="radio"
+                                            id="condition-progressive"
+                                            name="conditionType"
+                                            value="progressive"
+                                        >
+                                        <span>Progressive condition (requires regular monitoring)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="progression-details" style="display: none;">
+                                <label for="progression-notes" class="form-label">Progression Notes</label>
+                                <textarea
+                                    id="progression-notes"
+                                    name="progressionNotes"
+                                    class="form-input"
+                                    rows="4"
+                                    placeholder="Describe expected progression, monitoring schedule, and specific changes to watch for..."
+                                ></textarea>
+
+                                <label class="form-label" style="margin-top: 1rem;">Recommended Review Frequency</label>
+                                <select
+                                    id="review-frequency"
+                                    name="reviewFrequency"
+                                    class="form-select"
+                                >
+                                    <option value="termly">Termly (3 times per year)</option>
+                                    <option value="bi-annually">Bi-annually (2 times per year)</option>
+                                    <option value="annually" selected>Annually</option>
+                                    <option value="as-needed">As needed</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="previous-assessments" class="form-label">Previous Assessments</label>
+                                <textarea
+                                    id="previous-assessments"
+                                    name="previousAssessments"
+                                    class="form-input"
+                                    rows="3"
+                                    placeholder="Date of last assessment and key changes since then..."
+                                ></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eye-condition" class="form-label">Eye Condition(s)</label>
+                                <textarea
+                                    id="eye-condition"
+                                    name="eyeCondition"
+                                    class="form-input"
+                                    rows="3"
+                                    placeholder="Plain language explanation of diagnosis (e.g., Albinism, Nystagmus, Retinitis Pigmentosa, etc.)..."
+                                ></textarea>
+                            </div>
                         </div>
                     </section>
 
@@ -795,6 +876,219 @@
                                         class="form-textarea"
                                         placeholder="Add any additional observations..."
                                         rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Social Considerations -->
+                            <div class="assessment-item" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--color-border-light);">
+                                <div class="assessment-header">
+                                    <h3 class="form-label" style="font-size: 1.2em; color: var(--color-primary);">Social Considerations</h3>
+                                </div>
+
+                                <!-- Peer Recognition -->
+                                <div style="margin-top: 1.5rem;">
+                                    <label class="form-label">Peer Recognition</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                name="socialConsiderations"
+                                                value="Recognizes peers at normal distances"
+                                                class="form-checkbox"
+                                            >
+                                            <span>Recognizes peers at normal distances</span>
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                name="socialConsiderations"
+                                                value="Needs to be closer to recognize faces"
+                                                class="form-checkbox"
+                                            >
+                                            <span>Needs to be closer to recognize faces</span>
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                name="socialConsiderations"
+                                                value="May not recognize peers at distance"
+                                                class="form-checkbox"
+                                            >
+                                            <span>May not recognize peers at distance</span>
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                name="socialConsiderations"
+                                                value="Uses voice/context to identify people"
+                                                class="form-checkbox"
+                                            >
+                                            <span>Uses voice/context to identify people</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Social Participation -->
+                                <div style="margin-top: 1.5rem;">
+                                    <label class="form-label">Social Participation</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                name="socialParticipation"
+                                                value="Participates fully in group activities"
+                                                class="form-checkbox"
+                                            >
+                                            <span>Participates fully in group activities</span>
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                name="socialParticipation"
+                                                value="Some difficulty with group activities"
+                                                class="form-checkbox"
+                                            >
+                                            <span>Some difficulty with group activities</span>
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                name="socialParticipation"
+                                                value="Requires modifications for full participation"
+                                                class="form-checkbox"
+                                            >
+                                            <span>Requires modifications for full participation</span>
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                name="socialParticipation"
+                                                value="May not see social cues at distance"
+                                                class="form-checkbox"
+                                            >
+                                            <span>May not see social cues (facial expressions, body language) at distance</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Seating Considerations -->
+                                <div style="margin-top: 1.5rem;">
+                                    <label class="form-label">Seating Considerations</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                name="seatingConsiderations"
+                                                value="Current seating supports academic needs"
+                                                class="form-checkbox"
+                                            >
+                                            <span>Current seating supports academic needs</span>
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                name="seatingConsiderations"
+                                                value="Seating may compromise social connections"
+                                                class="form-checkbox"
+                                            >
+                                            <span>Seating may compromise social connections</span>
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                name="seatingConsiderations"
+                                                value="Alternative arrangements needed"
+                                                class="form-checkbox"
+                                            >
+                                            <span>Alternative arrangements needed (e.g., technology solutions, rotation)</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Peer Awareness -->
+                                <div style="margin-top: 1.5rem;">
+                                    <label class="form-label">Peer Awareness (with family consent)</label>
+                                    <div class="radio-group" style="margin-bottom: 1rem;">
+                                        <label class="radio-label">
+                                            <input
+                                                type="radio"
+                                                name="peerAwarenessConsent"
+                                                value="consented"
+                                            >
+                                            <span>Family consents to peer education</span>
+                                        </label>
+                                        <label class="radio-label">
+                                            <input
+                                                type="radio"
+                                                name="peerAwarenessConsent"
+                                                value="not-consented"
+                                            >
+                                            <span>Family prefers not to raise with peers</span>
+                                        </label>
+                                        <label class="radio-label">
+                                            <input
+                                                type="radio"
+                                                name="peerAwarenessConsent"
+                                                value="not-discussed"
+                                                checked
+                                            >
+                                            <span>Not yet discussed with family</span>
+                                        </label>
+                                    </div>
+
+                                    <div id="peer-education-points" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(59, 130, 246, 0.05); border-left: 3px solid var(--color-primary); border-radius: var(--radius-md);">
+                                        <label class="form-label">Brief peers that student:</label>
+                                        <div class="checkbox-group">
+                                            <label class="checkbox-label">
+                                                <input
+                                                    type="checkbox"
+                                                    name="peerEducationPoints"
+                                                    value="Sees better close up than at distance"
+                                                    class="form-checkbox"
+                                                >
+                                                <span>Sees better close up than at distance</span>
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input
+                                                    type="checkbox"
+                                                    name="peerEducationPoints"
+                                                    value="May not wave back (can't see, not ignoring!)"
+                                                    class="form-checkbox"
+                                                >
+                                                <span>May not wave back (can't see, not ignoring!)</span>
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input
+                                                    type="checkbox"
+                                                    name="peerEducationPoints"
+                                                    value="Uses technology to access learning"
+                                                    class="form-checkbox"
+                                                >
+                                                <span>Uses technology to access learning</span>
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input
+                                                    type="checkbox"
+                                                    name="peerEducationPoints"
+                                                    value="May need help spotting things far away"
+                                                    class="form-checkbox"
+                                                >
+                                                <span>May need help spotting things far away</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Social Considerations Notes -->
+                                <div style="margin-top: 1.5rem;">
+                                    <label for="social-considerations-notes" class="form-label">Observations & Recommendations</label>
+                                    <textarea
+                                        id="social-considerations-notes"
+                                        name="socialConsiderationsNotes"
+                                        class="form-textarea"
+                                        placeholder="E.g., Student seated front row for whiteboard access but this separates from friendship group at back. Consider screen sharing to iPad so can sit with peers. May not recognize peers across playground - encourage use of names. Peers are understanding and supportive..."
+                                        rows="4"
                                     ></textarea>
                                 </div>
                             </div>
