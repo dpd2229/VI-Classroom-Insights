@@ -361,10 +361,12 @@ button {
 }
 
 .content-grid {
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: var(--spacing-lg);
-    align-items: start;
+    display: block;
+    position: relative;
+}
+
+.forms-column {
+    margin-right: 420px; /* Space for fixed sidebar (380px + gap) */
 }
 
 /* ===================================
@@ -763,15 +765,23 @@ button {
    PREVIEW PANEL (SIDEBAR)
    =================================== */
 .preview-column {
-    position: relative;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    height: 100vh;
+    z-index: 800;
+    pointer-events: none; /* Allow clicking through the container */
 }
 
 .preview-panel {
-    position: sticky;
-    top: 20px; /* Stick near top of viewport as you scroll */
-    align-self: flex-start; /* Important for sticky to work in flex/grid */
+    position: absolute;
+    top: 20px; /* Small offset from top */
+    right: 20px;
+    width: 380px;
     max-height: calc(100vh - 120px); /* Account for bottom nav + spacing */
     overflow-y: auto;
+    pointer-events: auto; /* Re-enable clicking on the panel itself */
 }
 
 .preview-section {
@@ -1690,12 +1700,12 @@ button {
    RESPONSIVE DESIGN
    =================================== */
 @media (max-width: 1024px) {
-    .content-grid {
-        grid-template-columns: 1fr;
+    .forms-column {
+        margin-right: 0; /* Remove sidebar space on smaller screens */
     }
 
-    .preview-panel {
-        position: static;
+    .preview-column {
+        display: none; /* Hide fixed sidebar on smaller screens */
     }
 }
 
