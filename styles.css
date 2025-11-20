@@ -209,9 +209,11 @@ button {
     color: white;
     padding: var(--spacing-xl) 0;
     box-shadow: var(--shadow-xl);
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 100;
+    left: 0;
+    right: 0;
+    z-index: 1000;
     animation: fadeInUp 0.6s ease-out;
 }
 
@@ -284,9 +286,11 @@ button {
     background: white;
     border-bottom: 1px solid var(--color-border);
     box-shadow: var(--shadow-sm);
-    position: sticky;
+    position: fixed;
     top: 120px; /* Position below the header */
-    z-index: 90; /* Below header */
+    left: 0;
+    right: 0;
+    z-index: 900; /* Below header */
 }
 
 .nav-list {
@@ -357,7 +361,8 @@ button {
    MAIN CONTENT
    =================================== */
 .main-content {
-    padding: var(--spacing-xl) 0;
+    padding-top: 200px; /* Account for fixed header (120px) + nav (60px) + spacing */
+    padding-bottom: var(--spacing-xl);
     min-height: calc(100vh - 400px);
 }
 
@@ -768,10 +773,7 @@ button {
 }
 
 .preview-panel {
-    position: sticky;
-    top: 180px; /* Position below header + nav */
-    max-height: calc(100vh - 200px); /* Allow scrolling within panel */
-    overflow-y: auto;
+    position: relative; /* Scroll naturally with page */
 }
 
 .preview-section {

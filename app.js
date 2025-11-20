@@ -3488,11 +3488,11 @@ class AssessmentManager {
             }
 
             // ===== RECOMMENDED STRATEGIES - ORGANIZED BY CATEGORY =====
-            const selectedRecs = this.activeRecommendations.filter(rec =>
+            const selectedRecsForCategories = this.activeRecommendations.filter(rec =>
                 this.recommendationEngine.selectedRecommendations.has(rec.id)
             );
 
-            if (selectedRecs.length > 0) {
+            if (selectedRecsForCategories.length > 0) {
                 checkPageBreak(50);
                 doc.setFontSize(16);
                 doc.setFont(undefined, 'bold');
@@ -3523,7 +3523,7 @@ class AssessmentManager {
                 };
 
                 // Categorize recommendations
-                selectedRecs.forEach(rec => {
+                selectedRecsForCategories.forEach(rec => {
                     const title = rec.title.toLowerCase();
                     if (title.includes('seating') || title.includes('lighting') || title.includes('position') || title.includes('environment')) {
                         categories['Classroom Environment'].push(rec);
