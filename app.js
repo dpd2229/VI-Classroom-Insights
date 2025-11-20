@@ -2807,53 +2807,61 @@ class AssessmentManager {
                 yPos += 5;
             };
 
-            // ===== HEADER =====
-            doc.setFillColor(30, 64, 175); // Primary colour
-            doc.rect(0, 0, pageWidth, 40, 'F');
+            // ═══════════════════════════════════════════════════════════
+            // PAGE 1: COVER, STUDENT INFO, EXECUTIVE SUMMARY & DASHBOARD
+            // ═══════════════════════════════════════════════════════════
+
+            // Header Banner
+            doc.setFillColor(30, 64, 175);
+            doc.rect(0, 0, pageWidth, 45, 'F');
 
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(24);
+            doc.setFontSize(26);
             doc.setFont(undefined, 'bold');
-            doc.text('VI Classroom Insights', margin, 20);
+            doc.text('Functional Vision Assessment', pageWidth / 2, 20, { align: 'center' });
 
-            doc.setFontSize(12);
+            doc.setFontSize(13);
             doc.setFont(undefined, 'normal');
-            doc.text('Comprehensive Ocular Vision Assessment Report', margin, 30);
+            doc.text('Comprehensive Educational Assessment Report', pageWidth / 2, 32, { align: 'center' });
 
             doc.setTextColor(0, 0, 0);
-            yPos = 50;
+            yPos = 55;
 
-            // ===== STUDENT INFORMATION =====
-            checkPageBreak(40);
-            doc.setFontSize(16);
-            doc.setFont(undefined, 'bold');
-            doc.setTextColor(30, 64, 175);
-            doc.text('Student Information', margin, yPos);
-            yPos += 8;
-
-            doc.setDrawColor(30, 64, 175);
+            // Student Information Box
+            doc.setFillColor(245, 247, 250);
+            doc.roundedRect(margin, yPos - 2, contentWidth, 40, 3, 3, 'F');
+            doc.setDrawColor(200, 200, 200);
             doc.setLineWidth(0.5);
-            doc.line(margin, yPos, pageWidth - margin, yPos);
-            yPos += 8;
+            doc.roundedRect(margin, yPos - 2, contentWidth, 40, 3, 3);
 
             doc.setFontSize(11);
-            doc.setFont(undefined, 'normal');
+            doc.setFont(undefined, 'bold');
             doc.setTextColor(0, 0, 0);
+            doc.text('Student:', margin + 5, yPos + 4);
+            doc.setFont(undefined, 'normal');
+            doc.text(this.state.studentInfo.studentName || 'Not provided', margin + 25, yPos + 4);
 
-            const studentInfo = [
-                `Name: ${this.state.studentInfo.studentName || 'Not provided'}`,
-                `Date of Birth: ${this.state.studentInfo.dateOfBirth || 'Not provided'}`,
-                `Year Group: ${this.state.studentInfo.yearGroup || 'Not provided'}`,
-                `Assessment Date: ${this.state.studentInfo.assessmentDate || 'Not provided'}`,
-                `Assessed By: ${this.state.studentInfo.assessedBy || 'Not provided'}`
-            ];
+            doc.setFont(undefined, 'bold');
+            doc.text('DOB:', margin + 5, yPos + 11);
+            doc.setFont(undefined, 'normal');
+            doc.text(this.state.studentInfo.dateOfBirth || 'Not provided', margin + 25, yPos + 11);
 
-            studentInfo.forEach(info => {
-                doc.text(info, margin, yPos);
-                yPos += 6;
-            });
+            doc.setFont(undefined, 'bold');
+            doc.text('Year:', margin + 5, yPos + 18);
+            doc.setFont(undefined, 'normal');
+            doc.text(this.state.studentInfo.yearGroup || 'Not provided', margin + 25, yPos + 18);
 
-            yPos += 10;
+            doc.setFont(undefined, 'bold');
+            doc.text('Assessment Date:', margin + 5, yPos + 25);
+            doc.setFont(undefined, 'normal');
+            doc.text(this.state.studentInfo.assessmentDate || 'Not provided', margin + 40, yPos + 25);
+
+            doc.setFont(undefined, 'bold');
+            doc.text('Assessed By:', margin + 5, yPos + 32);
+            doc.setFont(undefined, 'normal');
+            doc.text(this.state.studentInfo.assessedBy || 'Not provided', margin + 32, yPos + 32);
+
+            yPos += 48;
 
             // ===== EXECUTIVE SUMMARY =====
             const executiveSummary = this.generateExecutiveSummary();
@@ -3098,7 +3106,118 @@ class AssessmentManager {
 
             yPos += 15;
 
-            // ===== KEY FINDINGS =====
+            // ═══════════════════════════════════════════════════════════
+            // PAGE 2: BACKGROUND & CONTEXT
+            // ═══════════════════════════════════════════════════════════
+
+            doc.addPage();
+            yPos = margin;
+
+            addSectionHeader('BACKGROUND & CONTEXT');
+
+            // Reason for Assessment
+            if (this.state.studentInfo.reasonForAssessment) {
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.text('Reason for Assessment:', margin, yPos);
+                yPos += 7;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(10);
+                yPos += addWrappedText(this.state.studentInfo.reasonForAssessment, margin + 5, yPos, contentWidth - 5);
+                yPos += 8;
+            }
+
+            // Progressive Condition Warning (if applicable)
+            if (this.state.studentInfo.conditionType === 'progressive') {
+                checkPageBreak(35);
+                doc.setFillColor(255, 243, 205); // Warning yellow background
+                doc.setDrawColor(245, 158, 11); // Orange border
+                doc.setLineWidth(2);
+                doc.roundedRect(margin, yPos - 2, contentWidth, 30, 3, 3, 'FD');
+
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(146, 64, 14); // Dark orange text
+                doc.text('⚠ PROGRESSIVE CONDITION - Regular Monitoring Required', margin + 5, yPos + 5);
+
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                doc.setTextColor(0, 0, 0);
+                const reviewFreq = this.state.studentInfo.reviewFrequency || 'annually';
+                doc.text(`Recommended review frequency: ${reviewFreq}`, margin + 5, yPos + 13);
+
+                if (this.state.studentInfo.progressionNotes) {
+                    doc.setFontSize(9);
+                    const progLines = doc.splitTextToSize(this.state.studentInfo.progressionNotes, contentWidth - 15);
+                    doc.text(progLines, margin + 5, yPos + 20);
+                }
+                yPos += 38;
+            }
+
+            // Eye Condition
+            if (this.state.studentInfo.eyeCondition) {
+                checkPageBreak(30);
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(0, 0, 0);
+                doc.text('Eye Condition(s):', margin, yPos);
+                yPos += 7;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(10);
+                yPos += addWrappedText(this.state.studentInfo.eyeCondition, margin + 5, yPos, contentWidth - 5);
+                yPos += 8;
+            }
+
+            // Previous Assessments
+            if (this.state.studentInfo.previousAssessments) {
+                checkPageBreak(30);
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.text('Previous Assessments:', margin, yPos);
+                yPos += 7;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(10);
+                yPos += addWrappedText(this.state.studentInfo.previousAssessments, margin + 5, yPos, contentWidth - 5);
+                yPos += 8;
+            }
+
+            // What This Means for Learning (auto-generated)
+            checkPageBreak(40);
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'bold');
+            doc.text('What This Means for Learning:', margin, yPos);
+            yPos += 7;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(10);
+
+            let impactText = `For a student with`;
+            if (this.state.seeIt.distanceAcuity) {
+                impactText += ` distance acuity of ${this.state.seeIt.distanceAcuity}`;
+            }
+            if (this.state.seeIt.nearAcuity) {
+                impactText += ` and near acuity of ${this.state.seeIt.nearAcuity}`;
+            }
+            impactText += `, classroom materials viewed at distance will need to be significantly enlarged or provided through alternative access methods. `;
+
+            if (this.state.seeIt.contrastSensitivity && this.state.seeIt.contrastSensitivity.includes('reduced')) {
+                impactText += `Reduced contrast sensitivity means high-contrast materials are essential. `;
+            }
+
+            if (this.state.findIt.visualFields && !this.state.findIt.visualFields.includes('Full')) {
+                impactText += `Visual field restrictions impact scanning, visual search, and mobility. `;
+            }
+
+            yPos += addWrappedText(impactText, margin + 5, yPos, contentWidth - 5);
+            yPos += 12;
+
+            // ═══════════════════════════════════════════════════════════
+            // PAGE 3: KEY FINDINGS & VISUAL ACUITY SCALES
+            // ═══════════════════════════════════════════════════════════
+
+            doc.addPage();
+            yPos = margin;
+
+            addSectionHeader('KEY FINDINGS');
 
             // Critical Findings (Red)
             if (findings.critical.length > 0) {
@@ -3120,258 +3239,159 @@ class AssessmentManager {
 
             yPos += 5;
 
-            // ===== DETAILED ASSESSMENT SECTIONS =====
+            // ═══════════════════════════════════════════════════════════
+            // PAGES 4-5: FUNCTIONAL VISION ASSESSMENT (BOXED FORMAT)
+            // ═══════════════════════════════════════════════════════════
 
-            // SEE IT SECTION
-            checkPageBreak(50);
-            doc.setFontSize(16);
-            doc.setFont(undefined, 'bold');
-            doc.setTextColor(30, 64, 175);
-            doc.text('Assessment Details: See It - Visual Acuity', margin, yPos);
-            yPos += 8;
+            doc.addPage();
+            yPos = margin;
 
-            doc.setLineWidth(0.5);
-            doc.line(margin, yPos, pageWidth - margin, yPos);
-            yPos += 8;
+            addSectionHeader('FUNCTIONAL VISION ASSESSMENT');
 
-            doc.setFontSize(11);
-            doc.setFont(undefined, 'bold');
-            doc.setTextColor(0, 0, 0);
-            doc.text('Distance Acuity:', margin, yPos);
-            doc.setFont(undefined, 'normal');
-            doc.text(this.state.seeIt.distanceAcuity || 'Not assessed', margin + 40, yPos);
-            yPos += 6;
+            // Helper function to create boxed assessment with recommendations
+            const addBoxedAssessment = (title, value, notes, recommendations) => {
+                if (!value || value === 'Not assessed' || value === '') return;
 
-            if (this.state.seeIt.distanceAcuityNotes) {
-                doc.setFontSize(10);
-                doc.setTextColor(80, 80, 80);
-                yPos += addWrappedText(`Notes: ${this.state.seeIt.distanceAcuityNotes}`, margin + 5, yPos, contentWidth - 5);
-                yPos += 2;
-            }
+                checkPageBreak(80);
 
-            checkPageBreak(15);
-            doc.setFontSize(11);
-            doc.setFont(undefined, 'bold');
-            doc.setTextColor(0, 0, 0);
-            doc.text('Near Acuity:', margin, yPos);
-            doc.setFont(undefined, 'normal');
-            doc.text(this.state.seeIt.nearAcuity || 'Not assessed', margin + 40, yPos);
-            yPos += 6;
+                // Draw box
+                doc.setDrawColor(100, 100, 100);
+                doc.setLineWidth(0.5);
+                doc.rect(margin, yPos, contentWidth, 70); // Fixed height boxes
 
-            if (this.state.seeIt.nearDistance) {
-                doc.text(`Distance: ${this.state.seeIt.nearDistance}`, margin + 5, yPos);
-                yPos += 6;
-            }
+                // Title bar
+                doc.setFillColor(240, 248, 255);
+                doc.rect(margin, yPos, contentWidth, 10, 'F');
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(30, 64, 175);
+                doc.text(title, margin + 3, yPos + 7);
 
-            if (this.state.seeIt.nearAcuityNotes) {
-                doc.setFontSize(10);
-                doc.setTextColor(80, 80, 80);
-                yPos += addWrappedText(`Notes: ${this.state.seeIt.nearAcuityNotes}`, margin + 5, yPos, contentWidth - 5);
-                yPos += 2;
-            }
+                let boxY = yPos + 15;
 
-            checkPageBreak(15);
-            doc.setFontSize(11);
-            doc.setFont(undefined, 'bold');
-            doc.setTextColor(0, 0, 0);
-            doc.text('Contrast Sensitivity:', margin, yPos);
-            doc.setFont(undefined, 'normal');
-            doc.text(this.state.seeIt.contrastSensitivity || 'Not assessed', margin + 45, yPos);
-            yPos += 6;
-
-            if (this.state.seeIt.contrastSensitivityNotes) {
-                doc.setFontSize(10);
-                doc.setTextColor(80, 80, 80);
-                yPos += addWrappedText(`Notes: ${this.state.seeIt.contrastSensitivityNotes}`, margin + 5, yPos, contentWidth - 5);
-                yPos += 2;
-            }
-
-            checkPageBreak(15);
-            doc.setFontSize(11);
-            doc.setFont(undefined, 'bold');
-            doc.setTextColor(0, 0, 0);
-            doc.text('Light Sensitivity:', margin, yPos);
-            yPos += 6;
-            doc.setFont(undefined, 'normal');
-
-            if (this.state.seeIt.lightSensitivity.length > 0) {
-                this.state.seeIt.lightSensitivity.forEach(item => {
-                    checkPageBreak(8);
-                    doc.text(`• ${item}`, margin + 5, yPos);
-                    yPos += 5;
-                });
-            } else {
-                doc.text('Not assessed', margin + 5, yPos);
-                yPos += 6;
-            }
-
-            if (this.state.seeIt.lightSensitivityNotes) {
-                doc.setFontSize(10);
-                doc.setTextColor(80, 80, 80);
-                yPos += addWrappedText(`Notes: ${this.state.seeIt.lightSensitivityNotes}`, margin + 5, yPos, contentWidth - 5);
-                yPos += 2;
-            }
-
-            if (this.state.seeIt.additionalNotes) {
-                checkPageBreak(15);
+                // Measurement
                 doc.setFontSize(11);
                 doc.setFont(undefined, 'bold');
                 doc.setTextColor(0, 0, 0);
-                doc.text('Additional Notes:', margin, yPos);
-                yPos += 6;
+                doc.text('Measurement:', margin + 3, boxY);
                 doc.setFont(undefined, 'normal');
-                doc.setFontSize(10);
-                doc.setTextColor(80, 80, 80);
-                yPos += addWrappedText(this.state.seeIt.additionalNotes, margin + 5, yPos, contentWidth - 5);
-            }
+                doc.text(value, margin + 35, boxY);
+                boxY += 8;
 
-            yPos += 10;
-
-            // FIND IT SECTION
-            checkPageBreak(50);
-            doc.setFontSize(16);
-            doc.setFont(undefined, 'bold');
-            doc.setTextColor(30, 64, 175);
-            doc.text('Assessment Details: Find It - Visual Fields & Scanning', margin, yPos);
-            yPos += 8;
-
-            doc.setLineWidth(0.5);
-            doc.line(margin, yPos, pageWidth - margin, yPos);
-            yPos += 8;
-
-            const findItAssessments = [
-                { label: 'Visual Fields', value: this.state.findIt.visualFields, notes: this.state.findIt.visualFieldsNotes },
-                { label: 'Scanning Pattern', value: this.state.findIt.scanningPattern, notes: this.state.findIt.scanningPatternNotes },
-                { label: 'Tracking', value: this.state.findIt.tracking, notes: this.state.findIt.trackingNotes },
-                { label: 'Reading Position', value: this.state.findIt.readingPosition, notes: this.state.findIt.readingPositionNotes }
-            ];
-
-            findItAssessments.forEach(assessment => {
-                checkPageBreak(20);
-                doc.setFontSize(11);
-                doc.setFont(undefined, 'bold');
-                doc.setTextColor(0, 0, 0);
-                doc.text(`${assessment.label}:`, margin, yPos);
-                doc.setFont(undefined, 'normal');
-                doc.text(assessment.value || 'Not assessed', margin + 45, yPos);
-                yPos += 6;
-
-                if (assessment.notes) {
-                    doc.setFontSize(10);
+                // Notes if present
+                if (notes) {
+                    doc.setFontSize(9);
                     doc.setTextColor(80, 80, 80);
-                    yPos += addWrappedText(`Notes: ${assessment.notes}`, margin + 5, yPos, contentWidth - 5);
-                    yPos += 2;
+                    const noteLines = doc.splitTextToSize(notes, contentWidth - 10);
+                    const maxLines = 2; // Limit notes to save space
+                    noteLines.slice(0, maxLines).forEach(line => {
+                        doc.text(line, margin + 3, boxY);
+                        boxY += 4;
+                    });
+                    boxY += 2;
                 }
-            });
 
-            if (this.state.findIt.additionalNotes) {
-                checkPageBreak(15);
-                doc.setFontSize(11);
-                doc.setFont(undefined, 'bold');
-                doc.setTextColor(0, 0, 0);
-                doc.text('Additional Notes:', margin, yPos);
-                yPos += 6;
-                doc.setFont(undefined, 'normal');
-                doc.setFontSize(10);
-                doc.setTextColor(80, 80, 80);
-                yPos += addWrappedText(this.state.findIt.additionalNotes, margin + 5, yPos, contentWidth - 5);
-            }
+                // Recommended Strategies (if any selected)
+                if (recommendations && recommendations.length > 0) {
+                    doc.setFontSize(10);
+                    doc.setFont(undefined, 'bold');
+                    doc.setTextColor(0, 0, 0);
+                    doc.text('RECOMMENDED STRATEGIES:', margin + 3, boxY);
+                    boxY += 6;
 
-            yPos += 10;
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(9);
+                    recommendations.slice(0, 4).forEach(rec => { // Show max 4
+                        doc.text('•', margin + 5, boxY);
+                        const recLines = doc.splitTextToSize(rec.title, contentWidth - 15);
+                        doc.text(recLines[0], margin + 8, boxY);
+                        boxY += 4.5;
+                    });
+                }
 
-            // USE IT SECTION
-            checkPageBreak(50);
-            doc.setFontSize(16);
-            doc.setFont(undefined, 'bold');
-            doc.setTextColor(30, 64, 175);
-            doc.text('Assessment Details: Use It - Functional Vision', margin, yPos);
-            yPos += 8;
+                yPos += 75; // Move to next box
+            };
 
-            doc.setLineWidth(0.5);
-            doc.line(margin, yPos, pageWidth - margin, yPos);
-            yPos += 8;
+            // Get selected recommendations for each field
+            const selectedRecs = this.activeRecommendations.filter(rec =>
+                this.recommendationEngine.selectedRecommendations.has(rec.id)
+            );
 
-            doc.setFontSize(11);
-            doc.setFont(undefined, 'bold');
-            doc.setTextColor(0, 0, 0);
-            doc.text('Colour Vision:', margin, yPos);
-            doc.setFont(undefined, 'normal');
-            doc.text(this.state.useIt.colorVision || 'Not assessed', margin + 40, yPos);
-            yPos += 6;
+            // DISTANCE VISION BOX
+            const distanceRecs = selectedRecs.filter(r => r.assessmentType === 'distanceAcuity');
+            addBoxedAssessment(
+                'DISTANCE VISION',
+                this.state.seeIt.distanceAcuity || 'Not assessed',
+                this.state.seeIt.distanceAcuityNotes,
+                distanceRecs
+            );
 
-            if (this.state.useIt.colorVisionNotes) {
-                doc.setFontSize(10);
-                doc.setTextColor(80, 80, 80);
-                yPos += addWrappedText(`Notes: ${this.state.useIt.colorVisionNotes}`, margin + 5, yPos, contentWidth - 5);
-                yPos += 2;
-            }
+            // NEAR VISION BOX
+            const nearRecs = selectedRecs.filter(r => r.assessmentType === 'nearAcuity');
+            const nearValue = this.state.seeIt.nearAcuity ?
+                `${this.state.seeIt.nearAcuity}${this.state.seeIt.nearDistance ? ` at ${this.state.seeIt.nearDistance}` : ''}` :
+                'Not assessed';
+            addBoxedAssessment(
+                'NEAR VISION',
+                nearValue,
+                this.state.seeIt.nearAcuityNotes,
+                nearRecs
+            );
 
-            checkPageBreak(15);
-            doc.setFontSize(11);
-            doc.setFont(undefined, 'bold');
-            doc.setTextColor(0, 0, 0);
-            doc.text('Functional Vision Skills:', margin, yPos);
-            yPos += 6;
-            doc.setFont(undefined, 'normal');
+            // CONTRAST SENSITIVITY BOX
+            const contrastRecs = selectedRecs.filter(r => r.assessmentType === 'contrastSensitivity');
+            addBoxedAssessment(
+                'CONTRAST SENSITIVITY',
+                this.state.seeIt.contrastSensitivity || 'Not assessed',
+                this.state.seeIt.contrastSensitivityNotes,
+                contrastRecs
+            );
 
-            if (this.state.useIt.functionalVision.length > 0) {
-                this.state.useIt.functionalVision.forEach(item => {
-                    checkPageBreak(8);
-                    doc.text(`• ${item}`, margin + 5, yPos);
-                    yPos += 5;
-                });
-            } else {
-                doc.text('Not assessed', margin + 5, yPos);
-                yPos += 6;
-            }
+            // VISUAL FIELDS BOX
+            const fieldsRecs = selectedRecs.filter(r => r.assessmentType === 'visualFields');
+            addBoxedAssessment(
+                'VISUAL FIELDS',
+                this.state.findIt.visualFields || 'Not assessed',
+                this.state.findIt.visualFieldsNotes,
+                fieldsRecs
+            );
 
-            if (this.state.useIt.functionalVisionNotes) {
-                doc.setFontSize(10);
-                doc.setTextColor(80, 80, 80);
-                yPos += addWrappedText(`Notes: ${this.state.useIt.functionalVisionNotes}`, margin + 5, yPos, contentWidth - 5);
-                yPos += 2;
-            }
+            // SCANNING & TRACKING BOX
+            const scanningRecs = selectedRecs.filter(r => r.assessmentType === 'scanningPattern');
+            const scanningValue = this.state.findIt.scanningPattern || 'Not assessed';
+            const scanningNotes = [
+                this.state.findIt.scanningPatternNotes,
+                this.state.findIt.tracking ? `Tracking: ${this.state.findIt.tracking}` : null,
+                this.state.findIt.trackingNotes
+            ].filter(Boolean).join('. ');
+            addBoxedAssessment(
+                'SCANNING & TRACKING',
+                scanningValue,
+                scanningNotes,
+                scanningRecs
+            );
 
-            checkPageBreak(15);
-            doc.setFontSize(11);
-            doc.setFont(undefined, 'bold');
-            doc.setTextColor(0, 0, 0);
-            doc.text('Environmental Needs:', margin, yPos);
-            yPos += 6;
-            doc.setFont(undefined, 'normal');
+            // COLOUR VISION BOX
+            const colorRecs = selectedRecs.filter(r => r.assessmentType === 'colorVision');
+            addBoxedAssessment(
+                'COLOUR VISION',
+                this.state.useIt.colorVision || 'Not assessed',
+                this.state.useIt.colorVisionNotes,
+                colorRecs
+            );
 
-            if (this.state.useIt.environmental.length > 0) {
-                this.state.useIt.environmental.forEach(item => {
-                    checkPageBreak(8);
-                    doc.text(`• ${item}`, margin + 5, yPos);
-                    yPos += 5;
-                });
-            } else {
-                doc.text('Not assessed', margin + 5, yPos);
-                yPos += 6;
-            }
+            // READING POSITION BOX
+            const readingPosValue = this.state.findIt.readingPosition || 'Not assessed';
+            addBoxedAssessment(
+                'READING POSITION',
+                readingPosValue,
+                this.state.findIt.readingPositionNotes,
+                []
+            );
 
-            if (this.state.useIt.environmentalNotes) {
-                doc.setFontSize(10);
-                doc.setTextColor(80, 80, 80);
-                yPos += addWrappedText(`Notes: ${this.state.useIt.environmentalNotes}`, margin + 5, yPos, contentWidth - 5);
-                yPos += 2;
-            }
-
-            if (this.state.useIt.additionalNotes) {
-                checkPageBreak(15);
-                doc.setFontSize(11);
-                doc.setFont(undefined, 'bold');
-                doc.setTextColor(0, 0, 0);
-                doc.text('Additional Notes:', margin, yPos);
-                yPos += 6;
-                doc.setFont(undefined, 'normal');
-                doc.setFontSize(10);
-                doc.setTextColor(80, 80, 80);
-                yPos += addWrappedText(this.state.useIt.additionalNotes, margin + 5, yPos, contentWidth - 5);
-            }
-
-            yPos += 10;
+            // ═══════════════════════════════════════════════════════════
+            // PAGE 6: READING ASSESSMENT (if completed)
+            // ═══════════════════════════════════════════════════════════
 
             // ===== READING TEST RESULTS (if available) =====
             if (window.readingTestManager && (window.readingTestManager.results.standard || window.readingTestManager.results.modified)) {
@@ -3568,6 +3588,185 @@ class AssessmentManager {
                     }
                 });
             }
+
+            // ═══════════════════════════════════════════════════════════
+            // PAGE 7: SOCIAL CONSIDERATIONS
+            // ═══════════════════════════════════════════════════════════
+
+            const hasSocialData = this.state.useIt.socialConsiderations?.length > 0 ||
+                                  this.state.useIt.socialParticipation?.length > 0 ||
+                                  this.state.useIt.seatingConsiderations?.length > 0 ||
+                                  this.state.useIt.socialConsiderationsNotes;
+
+            if (hasSocialData) {
+                doc.addPage();
+                yPos = margin;
+
+                addSectionHeader('SOCIAL CONSIDERATIONS');
+
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                doc.setTextColor(0, 0, 0);
+                const introText = `Balancing academic access with social inclusion is essential for ${this.state.studentInfo.studentName || 'the student'}'s overall development and wellbeing.`;
+                yPos += addWrappedText(introText, margin, yPos, contentWidth);
+                yPos += 10;
+
+                // Peer Recognition
+                if (this.state.useIt.socialConsiderations?.length > 0) {
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Peer Recognition:', margin, yPos);
+                    yPos += 6;
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
+                    this.state.useIt.socialConsiderations.forEach(item => {
+                        doc.text(`• ${item}`, margin + 5, yPos);
+                        yPos += 5;
+                    });
+                    yPos += 6;
+                }
+
+                // Social Participation
+                if (this.state.useIt.socialParticipation?.length > 0) {
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Social Participation:', margin, yPos);
+                    yPos += 6;
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
+                    this.state.useIt.socialParticipation.forEach(item => {
+                        doc.text(`• ${item}`, margin + 5, yPos);
+                        yPos += 5;
+                    });
+                    yPos += 6;
+                }
+
+                // Seating Considerations
+                if (this.state.useIt.seatingConsiderations?.length > 0) {
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Seating Arrangements:', margin, yPos);
+                    yPos += 6;
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
+                    this.state.useIt.seatingConsiderations.forEach(item => {
+                        doc.text(`• ${item}`, margin + 5, yPos);
+                        yPos += 5;
+                    });
+                    yPos += 6;
+                }
+
+                // Peer Awareness
+                if (this.state.useIt.peerAwarenessConsent === 'consented' && this.state.useIt.peerEducationPoints?.length > 0) {
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Peer Education Points (with family consent):', margin, yPos);
+                    yPos += 6;
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
+                    doc.text(`Brief peers that ${this.state.studentInfo.studentName || 'the student'}:`, margin + 5, yPos);
+                    yPos += 5;
+                    this.state.useIt.peerEducationPoints.forEach(item => {
+                        doc.text(`• ${item}`, margin + 8, yPos);
+                        yPos += 5;
+                    });
+                    yPos += 6;
+                }
+
+                // Social Considerations Notes
+                if (this.state.useIt.socialConsiderationsNotes) {
+                    checkPageBreak(30);
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Observations & Recommendations:', margin, yPos);
+                    yPos += 6;
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
+                    yPos += addWrappedText(this.state.useIt.socialConsiderationsNotes, margin + 5, yPos, contentWidth - 5);
+                }
+            }
+
+            // ═══════════════════════════════════════════════════════════
+            // FINAL PAGE: SUMMARY & PRIORITY ACTIONS
+            // ═══════════════════════════════════════════════════════════
+
+            doc.addPage();
+            yPos = margin;
+
+            addSectionHeader('SUMMARY & PRIORITY ACTIONS');
+
+            // Technology Recommendations
+            checkPageBreak(50);
+            doc.setFontSize(12);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('TECHNOLOGY RECOMMENDATIONS', margin, yPos);
+            yPos += 8;
+
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'bold');
+            doc.text('Essential:', margin + 5, yPos);
+            yPos += 5;
+            doc.setFont(undefined, 'normal');
+            doc.text('• iPad/tablet with accessibility features and camera for magnification', margin + 8, yPos);
+            yPos += 5;
+            doc.text('• Screen sharing capability (AirPlay, Chromecast, or similar)', margin + 8, yPos);
+            yPos += 5;
+            doc.text('• Bookshare account for accessible digital reading materials', margin + 8, yPos);
+            yPos += 8;
+
+            doc.setFont(undefined, 'bold');
+            doc.text('Recommended:', margin + 5, yPos);
+            yPos += 5;
+            doc.setFont(undefined, 'normal');
+            doc.text('• Screen magnification software (built-in Magnifier, ZoomText, or similar)', margin + 8, yPos);
+            yPos += 5;
+            doc.text('• High contrast settings on all devices', margin + 8, yPos);
+            yPos += 5;
+            doc.text('• Read&Write or similar literacy support software', margin + 8, yPos);
+            yPos += 5;
+            doc.text('• Digital note-taking apps (Notability, OneNote, Google Keep)', margin + 8, yPos);
+            yPos += 10;
+
+            // Next Review
+            checkPageBreak(25);
+            doc.setFontSize(12);
+            doc.setFont(undefined, 'bold');
+            doc.text('REVIEW SCHEDULE', margin, yPos);
+            yPos += 8;
+
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            const reviewDate = new Date(this.state.studentInfo.assessmentDate || new Date());
+            reviewDate.setFullYear(reviewDate.getFullYear() + 1);
+            doc.text(`Next assessment recommended: ${reviewDate.toLocaleDateString()}`, margin + 5, yPos);
+            yPos += 6;
+
+            if (this.state.studentInfo.conditionType === 'progressive') {
+                doc.setTextColor(146, 64, 14);
+                const reviewFreq = this.state.studentInfo.reviewFrequency || 'annually';
+                doc.text(`⚠ Progressive condition: Monitor ${reviewFreq}`, margin + 5, yPos);
+                doc.setTextColor(0, 0, 0);
+                yPos += 6;
+            }
+
+            doc.text('Update strategies as curriculum demands change', margin + 5, yPos);
+            yPos += 10;
+
+            // Contact Information
+            checkPageBreak(20);
+            doc.setFontSize(12);
+            doc.setFont(undefined, 'bold');
+            doc.text('RESOURCES & SUPPORT', margin, yPos);
+            yPos += 8;
+
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            doc.text(`VI Service Contact: ${this.state.studentInfo.assessedBy || '[QTVI name]'}`, margin + 5, yPos);
+            yPos += 6;
+            doc.text('Technology training and ongoing support available', margin + 5, yPos);
+            yPos += 6;
+            doc.text('Further guidance: VI Classroom Insights', margin + 5, yPos);
 
             // ===== FOOTER ON ALL PAGES =====
             const totalPages = doc.internal.getNumberOfPages();
