@@ -285,8 +285,8 @@ button {
     border-bottom: 1px solid var(--color-border);
     box-shadow: var(--shadow-sm);
     position: sticky;
-    top: 0;
-    z-index: 100;
+    top: 120px; /* Position below the header */
+    z-index: 90; /* Below header */
 }
 
 .nav-list {
@@ -768,8 +768,10 @@ button {
 }
 
 .preview-panel {
-    position: relative;
-    max-height: none;
+    position: sticky;
+    top: 180px; /* Position below header + nav */
+    max-height: calc(100vh - 200px); /* Allow scrolling within panel */
+    overflow-y: auto;
 }
 
 .preview-section {

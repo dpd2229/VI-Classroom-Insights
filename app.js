@@ -2183,7 +2183,7 @@ class AssessmentManager {
                 generateBtn.disabled = false;
                 generateBtn.title = 'All sections complete - Click to generate report';
                 if (requirementsText) {
-                    requirementsText.innerHTML = '<span style="colour: var(--colour-success);">✓ All sections complete!</span>';
+                    requirementsText.innerHTML = '<span style="color: var(--color-success);">✓ All sections complete!</span>';
                 }
             } else {
                 generateBtn.disabled = false; // Allow PDF generation at any time
@@ -2199,7 +2199,7 @@ class AssessmentManager {
                 generateBtn.title = `Generate report with current data`;
 
                 if (requirementsText) {
-                    requirementsText.innerHTML = `<span style="colour: var(--colour-warning);">Note:</span> Some sections incomplete`;
+                    requirementsText.innerHTML = `<span style="color: var(--color-warning);">Note:</span> Some sections incomplete`;
                 }
             }
         }
